@@ -3,7 +3,7 @@
   <Profiles />
   <Settings>
     <Setting Name="BankOneDBConnection" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Projetos_DAD_TAES_IS\ProjectIS\BankOne\App_Data\BankOneDB.mdf;Integrated Security=True</Value>
+      <Value Profile="(Default)">Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\BankOneDB.mdf;Integrated Security=True</Value>
     </Setting>
   </Settings>
 </SettingsFile>

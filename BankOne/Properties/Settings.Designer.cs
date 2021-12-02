@@ -25,8 +25,8 @@ namespace BankOne.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Projetos_DAD_TAES_IS\\Proje" +
-            "ctIS\\BankOne\\App_Data\\BankOneDB.mdf;Integrated Security=True")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\\BankOneDB.mdf" +
+            ";Integrated Security=True")]
         public string BankOneDBConnection {
             get {
                 return ((string)(this["BankOneDBConnection"]));
