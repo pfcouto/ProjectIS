@@ -107,6 +107,7 @@
     <Compile Include="Models\Category.cs" />
     <Compile Include="Models\DefaultCategory.cs" />
     <Compile Include="Models\User.cs" />
+    <Compile Include="Models\UserCredentials.cs" />
     <Compile Include="Models\VCard.cs" />
     <Compile Include="Models\VCardTransaction.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

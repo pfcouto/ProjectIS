@@ -234,6 +234,86 @@ namespace BankOne.Controllers
 
         }
 
+        public IHttpActionResult PatchUser(int id, [FromBody] UserCredentials userCredentials)
+        {
+
+            SqlConnection connection = null;
+
+            try
+            {
+                connection = new SqlConnection(connectionString);
+
+
+                string sql = "UPDATE Users SET password = @password, confirmation_code = @confirmation_code WHERE id = @id";
+
+                connection.Open();
+                SqlCommand commandSearch = new SqlCommand("SELECT * FROM Users WHERE id = @id", connection);
+                commandSearch.Parameters.AddWithValue("@id", id);
+
+                SqlCommand command = new SqlCommand(sql, connection);
+                SqlDataReader reader = commandSearch.ExecuteReader();
+
+                if (!reader.Read())
+                {
+                    reader.Close();
+                    connection.Close();
+                    return NotFound();
+                }
+
+                string hashedPassword;
+                string newHashedPassword;
+                string newConfirmationCode;
+
+                using (SHA256 mySHA256 = SHA256.Create())
+                {
+                    hashedPassword =
+                        Convert.ToBase64String(mySHA256.ComputeHash(Encoding.UTF8.GetBytes(userCredentials.OldPassword)));
+                    
+                    newHashedPassword = userCredentials.Password != null ? Convert.ToBase64String(mySHA256.ComputeHash(Encoding.UTF8.GetBytes(userCredentials.Password))) : null ;
+                    newConfirmationCode = userCredentials.ConfirmationCode != null ? Convert.ToBase64String(mySHA256.ComputeHash(Encoding.UTF8.GetBytes(userCredentials.ConfirmationCode))) : null;
+                }
+
+                if (hashedPassword != (string)reader["password"])
+                {
+                    reader.Close();
+                    connection.Close();
+                    return Unauthorized();
+                }
+
+                command.Parameters.AddWithValue("@id", id);
+                command.Parameters.AddWithValue("@password", newHashedPassword ?? (string)reader["password"]);
+                command.Parameters.AddWithValue("@confirmation_code", newConfirmationCode ?? (string)reader["confirmation_code"]);
+
+                reader.Close();
+
+                int numeroRegistos = command.ExecuteNonQuery();
+
+                connection.Close();
+
+                if (numeroRegistos > 0)
+                {
+                    return Ok();
+                }
+                else
+                {
+                    return NotFound();
+                }
+
+            }
+            catch (Exception e)
+            {
+
+                if (connection.State == System.Data.ConnectionState.Open)
+                {
+
+                    connection.Close();
+                }
+
+                return InternalServerError(e);
+            }
+
+        }
+
         public IHttpActionResult Delete(int id)
         {
 
