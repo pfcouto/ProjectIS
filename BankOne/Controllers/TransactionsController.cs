@@ -124,6 +124,11 @@ namespace BankOne.Controllers
             
             if (transaction.Description != null && transaction.Description.Length > 255)
                 return Content((HttpStatusCode)422, "Invalid description (Must be smaller than 255 characters");
+            
+            if (transaction.Category_id < 0)
+            {
+                return Content((HttpStatusCode)422, "Invalid category");
+            }
 
             SqlConnection connection = null;
             SqlTransaction sqlTransaction = null;
@@ -157,6 +162,7 @@ namespace BankOne.Controllers
 
                 if (!readerUser.Read())
                 {
+                    readerUser.Close();
                     throw new Exception();
                 }
 
@@ -221,7 +227,13 @@ namespace BankOne.Controllers
                     commandInsertTransaction.Parameters.AddWithValue("@category_id", DBNull.Value);
                 }
 
-                commandInsertTransaction.Parameters.AddWithValue("@description", transaction.Description);
+                if (transaction.Description == null)
+                {
+                    commandInsertTransaction.Parameters.AddWithValue("@description", DBNull.Value);
+                } else
+                {
+                    commandInsertTransaction.Parameters.AddWithValue("@description", transaction.Description);
+                }
 
                 int numTransactionsCreated = commandInsertTransaction.ExecuteNonQuery();
 
@@ -270,6 +282,188 @@ namespace BankOne.Controllers
                 }
 
                 return InternalServerError(e);
+            }
+        }
+
+        public IHttpActionResult PatchTransaction(int id, [FromBody] VCardTransactionDetails transactionDetails)
+        {
+            if (transactionDetails == null)
+            {
+                return BadRequest();
+            }
+            
+            if (transactionDetails.Category_id < 0 && transactionDetails.GetIsChanged())
+            {
+                return Content((HttpStatusCode)422, "Invalid category");
+            }
+
+            SqlConnection connection = null;
+
+            try
+            {
+                connection = new SqlConnection(connectionString);
+
+                string sql = "UPDATE VCardTransactions SET category_id = @category_id, description = @description WHERE id = @id";
+
+                connection.Open();
+                SqlCommand commandSearchTransaction = new SqlCommand("SELECT * FROM VCardTransactions WHERE id = @id", connection);
+
+                commandSearchTransaction.Parameters.AddWithValue("@id", id);
+
+                SqlCommand command = new SqlCommand(sql, connection);
+                SqlDataReader readerTransaction = commandSearchTransaction.ExecuteReader();
+
+                if (!readerTransaction.Read())
+                {
+                    readerTransaction.Close();
+                    connection.Close();
+                    return NotFound();
+                }
+                
+                int old_category = readerTransaction["category_id"] == DBNull.Value ? 0 : (int)readerTransaction["category_id"];
+                string description = transactionDetails.Description ?? (string)readerTransaction["description"];
+
+                SqlCommand commandSearchVCard = new SqlCommand("SELECT * FROM VCards WHERE phone_number = @phone_number", connection);
+                commandSearchVCard.Parameters.AddWithValue("@phone_number", (string)readerTransaction["vcard"]);
+                readerTransaction.Close();
+                SqlDataReader readerVCard = commandSearchVCard.ExecuteReader();
+
+                if (!readerVCard.Read())
+                {
+                    readerVCard.Close();
+                    throw new Exception();
+                }
+                
+                int user_id = (int)readerVCard["user_id"];
+
+                SqlCommand commandSearchUser = new SqlCommand("SELECT * FROM Users WHERE id = @id", connection);
+                commandSearchUser.Parameters.AddWithValue("@id", (int)readerVCard["user_id"]);
+                readerVCard.Close();
+                SqlDataReader readerUser = commandSearchUser.ExecuteReader();
+
+                if (!readerUser.Read())
+                {
+                    throw new Exception();
+                }
+
+                string hashedReceivedConfirmationCode;
+
+                using (SHA256 mySHA256 = SHA256.Create())
+                {
+                    hashedReceivedConfirmationCode = Convert.ToBase64String(mySHA256.ComputeHash(Encoding.UTF8.GetBytes(transactionDetails.Confirmation_code)));
+                }
+
+                if (hashedReceivedConfirmationCode != (string)readerUser["confirmation_code"]){
+                    readerUser.Close();
+                    connection.Close();
+                    return Content((HttpStatusCode)422, "Invalid confirmation code");
+                }
+                
+                readerUser.Close();
+
+                if (transactionDetails.Category_id > 0)
+                {
+                    SqlCommand commandSearchCategory = new SqlCommand("SELECT * FROM Categories WHERE id = @id AND user_id = @user_id", connection);
+                    commandSearchCategory.Parameters.AddWithValue("@id", transactionDetails.Category_id);
+                    commandSearchCategory.Parameters.AddWithValue("@user_id", user_id);
+                    SqlDataReader readerCategory = commandSearchCategory.ExecuteReader();
+
+                    if (!readerCategory.Read())
+                    {
+                        readerCategory.Close();
+                        connection.Close();
+                        return Content((HttpStatusCode)422, "Invalid category");
+                    }
+
+                    readerCategory.Close();
+                }
+
+                command.Parameters.AddWithValue("@id", id);
+                
+                if (transactionDetails.Category_id > 0)
+                {
+                    command.Parameters.AddWithValue("@category_id", transactionDetails.Category_id);
+                } else if (transactionDetails.Category_id == 0)
+                {
+                    command.Parameters.AddWithValue("@category_id", DBNull.Value);
+                } else 
+                {
+                    if (old_category == 0)
+                    {
+                        command.Parameters.AddWithValue("@category_id", DBNull.Value);
+                    } else
+                    {
+                        command.Parameters.AddWithValue("@category_id", old_category);
+                    }
+                }
+
+                command.Parameters.AddWithValue("@description", description);
+
+                int numTransactionsUpdated = command.ExecuteNonQuery();
+
+                connection.Close();
+
+                if (numTransactionsUpdated > 0)
+                {
+                    return Ok();
+                }
+                else
+                {
+                    return InternalServerError();
+                }
+
+            }
+            catch (Exception e)
+            {
+
+                if (connection.State == System.Data.ConnectionState.Open)
+                {
+
+                    connection.Close();
+                }
+
+                return InternalServerError(e);
+            }
+
+        }
+        public IHttpActionResult Delete(int id)
+        {
+
+            SqlConnection connection = null;
+
+            try
+            {
+                connection = new SqlConnection(connectionString);
+
+                string sql = "DELETE FROM VCardTransactions WHERE Id = @id";
+
+                connection.Open();
+
+                SqlCommand command = new SqlCommand(sql, connection);
+                command.Parameters.AddWithValue("@id", id);
+
+                int numDeleted = command.ExecuteNonQuery();
+
+                connection.Close();
+
+                if (numDeleted > 0)
+                {
+                    return Ok();
+                }
+                else
+                {
+                    return NotFound();
+                }
+            }
+            catch (Exception)
+            {
+
+                if (connection.State == System.Data.ConnectionState.Open)
+                {
+
+                    connection.Close();
+                }
+                return InternalServerError();
             }
         }
     }
