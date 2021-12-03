@@ -8,6 +8,7 @@ namespace BankOne.Models
     public class VCard
     {
         public int Phone_number { get; set; }
+        public int User_id { get; set; }
         public decimal Balance { get; set; }
         public decimal Max_debit { get; set; }
         public decimal Earning_percentage { get; set; }
