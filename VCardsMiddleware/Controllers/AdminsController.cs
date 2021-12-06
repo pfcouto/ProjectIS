@@ -23,13 +23,14 @@ namespace VCardsMiddleware.Controllers
             try
             {
                 connection = new SqlConnection(connectionString);
-                string sql = "INSERT INTO Admins VALUES (@email, @password, @name)";
+                string sql = "INSERT INTO Admins VALUES (@email, @password, @name, @enabled)";
                 connection.Open();
 
                 SqlCommand command = new SqlCommand(sql, connection);
 
                 command.Parameters.AddWithValue("@name", admin.Name);
                 command.Parameters.AddWithValue("@email", admin.Email);
+                command.Parameters.AddWithValue("@enabled", '1');
                 
                 using (SHA256 mySHA256 = SHA256.Create())
                 {

@@ -12,9 +12,19 @@ namespace AdministratorConsole
 {
     public partial class Dashboard : Form
     {
-        public Dashboard()
+        public Form parentForm;
+        
+        public Dashboard(Form parentForm)
         {
             InitializeComponent();
+            this.parentForm = parentForm;
+        }
+
+        private void buttonLogout_Click(object sender, EventArgs e)
+        {
+            RestHelper.Logout();
+            parentForm.Show();
+            Close();
         }
     }
 }

@@ -23,6 +23,7 @@ namespace VCardsMiddleware
             var identity = new ClaimsIdentity(context.Options.AuthenticationType);
 
             bool correctCredentials = false;
+            bool enabled = false;
             SqlConnection conn = null;
 
             try
@@ -44,6 +45,7 @@ namespace VCardsMiddleware
                             correctCredentials = true;
                         } 
                     }
+                    enabled = Char.Parse((string)reader["enabled"]) == '1' ? true : false;
                 }
 
                 reader.Close();
@@ -57,16 +59,20 @@ namespace VCardsMiddleware
                 }
             }
 
-            if (correctCredentials)  
+            if (correctCredentials && enabled)  
             {  
                 identity.AddClaim(new Claim(ClaimTypes.Role, "admin"));  
-                identity.AddClaim(new Claim("username", "admin"));  
-                identity.AddClaim(new Claim(ClaimTypes.Name, "Hi Admin"));  
                 context.Validated(identity);  
             }  
             else  
             {  
-                context.SetError("invalid_grant", "Provided username and password is incorrect");  
+                if (!correctCredentials)
+                {
+                    context.SetError("invalid_grant", "Provided username and password is incorrect");  
+                } else
+                {
+                    context.SetError("admin_blocked", "Your admin account is not enabled");  
+                }
                 return;  
             }  
         }  

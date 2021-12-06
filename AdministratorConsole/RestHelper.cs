@@ -17,6 +17,11 @@ namespace AdministratorConsole
 
         static readonly HttpClient client = new HttpClient();
 
+        public static void Logout()
+        {
+            token = "";
+        }
+
         public static async Task<HttpStatusCode> Login(string email, string password)
         {
             try	
@@ -26,13 +31,19 @@ namespace AdministratorConsole
                 HttpResponseMessage response = await client.PostAsync(BaseUrl + "token", content);
                 string responseBody = await response.Content.ReadAsStringAsync();
 
+                JObject o = JObject.Parse(responseBody);
+                
                 if (response.StatusCode == HttpStatusCode.OK)
                 {
-                    JObject o = JObject.Parse(responseBody);
-
                     // get name token of first person and convert to a string
                     token = (string)o.SelectToken("access_token");
                 }
+
+                if (response.StatusCode == HttpStatusCode.BadRequest && (string)o.SelectToken("error") == "admin_blocked")
+                {
+                    return HttpStatusCode.Unauthorized;
+                }
+
                 return response.StatusCode;
             }
             catch(HttpRequestException)

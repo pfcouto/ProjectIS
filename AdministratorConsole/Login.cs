@@ -24,18 +24,23 @@ namespace AdministratorConsole
             
             if (responseStatusCode == HttpStatusCode.OK)
             {
-                var frm = new Dashboard
+                var frm = new Dashboard(this)
                 {
                     Location = this.Location,
-                    StartPosition = FormStartPosition.Manual
+                    StartPosition = FormStartPosition.Manual,
                 };
                 frm.Show();
                 Hide();
+                textBoxEmail.Text = "";
+                textBoxPassword.Text = "";
             } else
             {
                 if (responseStatusCode == HttpStatusCode.BadRequest)
                 {
                     MessageBox.Show("Invalid credentials");
+                } else if (responseStatusCode == HttpStatusCode.Unauthorized)
+                {
+                    MessageBox.Show("Your account has been disabled");
                 } else
                 {
                     MessageBox.Show("An error occurred");
