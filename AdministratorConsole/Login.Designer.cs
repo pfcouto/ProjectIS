@@ -75,6 +75,7 @@ namespace AdministratorConsole
             this.textBoxEmail.Name = "textBoxEmail";
             this.textBoxEmail.Size = new System.Drawing.Size(519, 22);
             this.textBoxEmail.TabIndex = 3;
+            this.textBoxEmail.Text = "samuel@mail.com";
             // 
             // label3
             // 
@@ -92,6 +93,7 @@ namespace AdministratorConsole
             this.textBoxPassword.PasswordChar = '*';
             this.textBoxPassword.Size = new System.Drawing.Size(519, 22);
             this.textBoxPassword.TabIndex = 5;
+            this.textBoxPassword.Text = "12345";
             // 
             // buttonLogin
             // 

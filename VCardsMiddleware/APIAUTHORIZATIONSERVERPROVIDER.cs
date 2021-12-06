@@ -45,8 +45,27 @@ namespace VCardsMiddleware
                             correctCredentials = true;
                         } 
                     }
-                    enabled = Char.Parse((string)reader["enabled"]) == '1' ? true : false;
+                    enabled = char.Parse((string)reader["enabled"]) == '1';
                 }
+                
+                if (correctCredentials && enabled)  
+                {  
+                    identity.AddClaim(new Claim(ClaimTypes.Role, "admin")); 
+                    identity.AddClaim(new Claim("name", (string)reader["name"]));  
+                    identity.AddClaim(new Claim("email", (string)reader["email"]));
+                    context.Validated(identity);  
+                }  
+                else  
+                {  
+                    if (!correctCredentials)
+                    {
+                        context.SetError("invalid_grant", "Provided username and password is incorrect");  
+                    } else
+                    {
+                        context.SetError("admin_blocked", "Your admin account is not enabled");  
+                    }
+                    return;  
+                }  
 
                 reader.Close();
                 conn.Close();
@@ -59,22 +78,6 @@ namespace VCardsMiddleware
                 }
             }
 
-            if (correctCredentials && enabled)  
-            {  
-                identity.AddClaim(new Claim(ClaimTypes.Role, "admin"));  
-                context.Validated(identity);  
-            }  
-            else  
-            {  
-                if (!correctCredentials)
-                {
-                    context.SetError("invalid_grant", "Provided username and password is incorrect");  
-                } else
-                {
-                    context.SetError("admin_blocked", "Your admin account is not enabled");  
-                }
-                return;  
-            }  
         }  
     }
 }

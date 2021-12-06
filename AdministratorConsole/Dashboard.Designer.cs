@@ -36,14 +36,14 @@ namespace AdministratorConsole
             this.buttonOperationsLog = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.buttonMyProfile = new System.Windows.Forms.Button();
-            this.buttonChangePassword = new System.Windows.Forms.Button();
             this.buttonLogout = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
-            this.labelLastOperation = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
+            this.buttonChangePassword = new System.Windows.Forms.Button();
+            this.buttonMyProfile = new System.Windows.Forms.Button();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.labelNumberOfVcards = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.labelLastOperation = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -111,6 +111,35 @@ namespace AdministratorConsole
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Profile";
             // 
+            // buttonLogout
+            // 
+            this.buttonLogout.Location = new System.Drawing.Point(29, 238);
+            this.buttonLogout.Name = "buttonLogout";
+            this.buttonLogout.Size = new System.Drawing.Size(372, 46);
+            this.buttonLogout.TabIndex = 2;
+            this.buttonLogout.Text = "Logout";
+            this.buttonLogout.UseVisualStyleBackColor = true;
+            this.buttonLogout.Click += new System.EventHandler(this.buttonLogout_Click);
+            // 
+            // buttonChangePassword
+            // 
+            this.buttonChangePassword.Location = new System.Drawing.Point(29, 155);
+            this.buttonChangePassword.Name = "buttonChangePassword";
+            this.buttonChangePassword.Size = new System.Drawing.Size(372, 47);
+            this.buttonChangePassword.TabIndex = 1;
+            this.buttonChangePassword.Text = "Change Password";
+            this.buttonChangePassword.UseVisualStyleBackColor = true;
+            // 
+            // buttonMyProfile
+            // 
+            this.buttonMyProfile.Location = new System.Drawing.Point(29, 73);
+            this.buttonMyProfile.Name = "buttonMyProfile";
+            this.buttonMyProfile.Size = new System.Drawing.Size(372, 47);
+            this.buttonMyProfile.TabIndex = 0;
+            this.buttonMyProfile.Text = "My profile";
+            this.buttonMyProfile.UseVisualStyleBackColor = true;
+            this.buttonMyProfile.Click += new System.EventHandler(this.buttonMyProfile_Click);
+            // 
             // groupBox3
             // 
             this.groupBox3.Controls.Add(this.labelNumberOfVcards);
@@ -124,53 +153,15 @@ namespace AdministratorConsole
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Statistics";
             // 
-            // buttonMyProfile
+            // labelNumberOfVcards
             // 
-            this.buttonMyProfile.Location = new System.Drawing.Point(29, 73);
-            this.buttonMyProfile.Name = "buttonMyProfile";
-            this.buttonMyProfile.Size = new System.Drawing.Size(372, 47);
-            this.buttonMyProfile.TabIndex = 0;
-            this.buttonMyProfile.Text = "My profile";
-            this.buttonMyProfile.UseVisualStyleBackColor = true;
-            // 
-            // buttonChangePassword
-            // 
-            this.buttonChangePassword.Location = new System.Drawing.Point(29, 155);
-            this.buttonChangePassword.Name = "buttonChangePassword";
-            this.buttonChangePassword.Size = new System.Drawing.Size(372, 47);
-            this.buttonChangePassword.TabIndex = 1;
-            this.buttonChangePassword.Text = "Change Password";
-            this.buttonChangePassword.UseVisualStyleBackColor = true;
-            // 
-            // buttonLogout
-            // 
-            this.buttonLogout.Location = new System.Drawing.Point(29, 238);
-            this.buttonLogout.Name = "buttonLogout";
-            this.buttonLogout.Size = new System.Drawing.Size(372, 46);
-            this.buttonLogout.TabIndex = 2;
-            this.buttonLogout.Text = "Logout";
-            this.buttonLogout.UseVisualStyleBackColor = true;
-            this.buttonLogout.Click += new System.EventHandler(this.buttonLogout_Click);
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(40, 168);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(170, 29);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Last Operation";
-            // 
-            // labelLastOperation
-            // 
-            this.labelLastOperation.AutoSize = true;
-            this.labelLastOperation.Font = new System.Drawing.Font("Modern No. 20", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelLastOperation.Location = new System.Drawing.Point(44, 215);
-            this.labelLastOperation.Name = "labelLastOperation";
-            this.labelLastOperation.Size = new System.Drawing.Size(437, 22);
-            this.labelLastOperation.TabIndex = 1;
-            this.labelLastOperation.Text = "Transaction of 20€ between 910000002 and 910000001";
+            this.labelNumberOfVcards.AutoSize = true;
+            this.labelNumberOfVcards.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelNumberOfVcards.Location = new System.Drawing.Point(43, 118);
+            this.labelNumberOfVcards.Name = "labelNumberOfVcards";
+            this.labelNumberOfVcards.Size = new System.Drawing.Size(255, 29);
+            this.labelNumberOfVcards.TabIndex = 3;
+            this.labelNumberOfVcards.Text = "VCards Registered: 10";
             // 
             // label2
             // 
@@ -182,15 +173,25 @@ namespace AdministratorConsole
             this.label2.TabIndex = 2;
             this.label2.Text = "Number of transactions: 200";
             // 
-            // labelNumberOfVcards
+            // labelLastOperation
             // 
-            this.labelNumberOfVcards.AutoSize = true;
-            this.labelNumberOfVcards.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelNumberOfVcards.Location = new System.Drawing.Point(43, 118);
-            this.labelNumberOfVcards.Name = "labelNumberOfVcards";
-            this.labelNumberOfVcards.Size = new System.Drawing.Size(255, 29);
-            this.labelNumberOfVcards.TabIndex = 3;
-            this.labelNumberOfVcards.Text = "VCards Registered: 10";
+            this.labelLastOperation.AutoSize = true;
+            this.labelLastOperation.Font = new System.Drawing.Font("Modern No. 20", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelLastOperation.Location = new System.Drawing.Point(44, 215);
+            this.labelLastOperation.Name = "labelLastOperation";
+            this.labelLastOperation.Size = new System.Drawing.Size(437, 22);
+            this.labelLastOperation.TabIndex = 1;
+            this.labelLastOperation.Text = "Transaction of 20€ between 910000002 and 910000001";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(40, 168);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(170, 29);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "Last Operation";
             // 
             // Dashboard
             // 

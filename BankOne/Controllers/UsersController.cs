@@ -66,10 +66,7 @@ namespace BankOne.Controllers
 
         public IHttpActionResult GetById(int id)
         {
-            List<User> users = new List<User>();
-
             SqlConnection conn = null;
-
 
             try
             {
@@ -301,16 +298,15 @@ namespace BankOne.Controllers
                 }
 
             }
-            catch (Exception e)
+            catch (Exception)
             {
-
                 if (connection.State == System.Data.ConnectionState.Open)
                 {
 
                     connection.Close();
                 }
 
-                return InternalServerError(e);
+                return InternalServerError();
             }
 
         }
