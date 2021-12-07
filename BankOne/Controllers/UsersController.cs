@@ -66,10 +66,7 @@ namespace BankOne.Controllers
 
         public IHttpActionResult GetById(int id)
         {
-            List<User> users = new List<User>();
-
             SqlConnection conn = null;
-
 
             try
             {
@@ -120,6 +117,7 @@ namespace BankOne.Controllers
             }
 
         }
+        
         public IHttpActionResult PostUser([FromBody] User user)
         {
             SqlConnection connection = null;
@@ -135,11 +133,11 @@ namespace BankOne.Controllers
 
                 command.Parameters.AddWithValue("@name", user.Name);
                 command.Parameters.AddWithValue("@email", user.Email);
+                
                 using (SHA256 mySHA256 = SHA256.Create())
                 {
                     command.Parameters.AddWithValue("@password", Convert.ToBase64String(mySHA256.ComputeHash(Encoding.UTF8.GetBytes(user.Password))));
                     command.Parameters.AddWithValue("@confirmation_code", Convert.ToBase64String(mySHA256.ComputeHash(Encoding.UTF8.GetBytes(user.Confirmation_code))));
-
                 }
 
                 command.Parameters.AddWithValue("@photo_url", user.Photo_url ?? "");
@@ -300,16 +298,15 @@ namespace BankOne.Controllers
                 }
 
             }
-            catch (Exception e)
+            catch (Exception)
             {
-
                 if (connection.State == System.Data.ConnectionState.Open)
                 {
 
                     connection.Close();
                 }
 
-                return InternalServerError(e);
+                return InternalServerError();
             }
 
         }

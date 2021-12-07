@@ -100,8 +100,8 @@
   <ItemGroup>
     <Compile Include="App_Start\SwaggerConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Compile Include="Controllers\CategoriesController.cs" />
-    <Compile Include="Controllers\DefaultCategoriesController.cs" />
+    <Compile Include="Controllers\StatusController.cs" />
+    <Compile Include="Controllers\TransactionsController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Controllers\VCardsController.cs" />
     <Compile Include="Global.asax.cs">
@@ -109,6 +109,7 @@
     </Compile>
     <Compile Include="Models\Category.cs" />
     <Compile Include="Models\DefaultCategory.cs" />
+    <Compile Include="Models\VCardTransactionDetails.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\UserCredentials.cs" />
     <Compile Include="Models\VCard.cs" />

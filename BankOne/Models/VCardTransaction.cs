@@ -5,8 +5,12 @@ using System.Web;
 
 namespace BankOne.Models
 {
-    public class VCardTransaction
-    {
+    public class VCardTransaction {
+        public VCardTransaction()
+        {
+            Category_id = 0;
+        }
+
         public int Id { get; set; }
         public string VCard { get; set; }
         public DateTime Date { get; set; }
