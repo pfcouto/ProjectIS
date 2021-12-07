@@ -43,6 +43,7 @@ namespace AdministratorConsole
             this.label2 = new System.Windows.Forms.Label();
             this.labelLastOperation = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
+            this.buttonTransactions = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -65,6 +66,7 @@ namespace AdministratorConsole
             this.buttonExternalEntities.TabIndex = 1;
             this.buttonExternalEntities.Text = "External Entities";
             this.buttonExternalEntities.UseVisualStyleBackColor = true;
+            this.buttonExternalEntities.Click += new System.EventHandler(this.buttonExternalEntities_Click);
             // 
             // buttonAdmins
             // 
@@ -79,17 +81,17 @@ namespace AdministratorConsole
             // 
             // buttonOperationsLog
             // 
-            this.buttonOperationsLog.Location = new System.Drawing.Point(242, 204);
+            this.buttonOperationsLog.Location = new System.Drawing.Point(622, 168);
             this.buttonOperationsLog.Name = "buttonOperationsLog";
-            this.buttonOperationsLog.Size = new System.Drawing.Size(155, 80);
+            this.buttonOperationsLog.Size = new System.Drawing.Size(219, 69);
             this.buttonOperationsLog.TabIndex = 3;
             this.buttonOperationsLog.Text = "Operations Log";
             this.buttonOperationsLog.UseVisualStyleBackColor = true;
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.buttonTransactions);
             this.groupBox1.Controls.Add(this.buttonAdmins);
-            this.groupBox1.Controls.Add(this.buttonOperationsLog);
             this.groupBox1.Controls.Add(this.buttonUsers);
             this.groupBox1.Controls.Add(this.buttonExternalEntities);
             this.groupBox1.Location = new System.Drawing.Point(47, 36);
@@ -133,6 +135,7 @@ namespace AdministratorConsole
             // groupBox3
             // 
             this.groupBox3.Controls.Add(this.labelNumberOfVcards);
+            this.groupBox3.Controls.Add(this.buttonOperationsLog);
             this.groupBox3.Controls.Add(this.label2);
             this.groupBox3.Controls.Add(this.labelLastOperation);
             this.groupBox3.Controls.Add(this.label1);
@@ -183,6 +186,15 @@ namespace AdministratorConsole
             this.label1.TabIndex = 0;
             this.label1.Text = "Last Operation";
             // 
+            // buttonTransactions
+            // 
+            this.buttonTransactions.Location = new System.Drawing.Point(242, 205);
+            this.buttonTransactions.Name = "buttonTransactions";
+            this.buttonTransactions.Size = new System.Drawing.Size(155, 79);
+            this.buttonTransactions.TabIndex = 3;
+            this.buttonTransactions.Text = "Transactions";
+            this.buttonTransactions.UseVisualStyleBackColor = true;
+            // 
             // Dashboard
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -220,5 +232,6 @@ namespace AdministratorConsole
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label labelLastOperation;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button buttonTransactions;
     }
 }

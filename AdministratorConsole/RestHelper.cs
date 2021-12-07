@@ -56,6 +56,21 @@ namespace AdministratorConsole
                 return HttpStatusCode.InternalServerError;
             }
         }
+        
+        public static async Task<HttpStatusCode> DeleteExternalEntity(int id)
+        {
+            try
+            {
+                HttpResponseMessage response = await client.DeleteAsync(BaseUrl + "api/externalentities/" + id);
+                string responseBody = await response.Content.ReadAsStringAsync();
+                
+                return response.StatusCode;
+            }
+            catch (HttpRequestException)
+            {
+                return HttpStatusCode.InternalServerError;
+            }
+        }
 
         public static async Task<(HttpStatusCode, List<Admin>)> GetAdmins()
         {
@@ -70,6 +85,19 @@ namespace AdministratorConsole
             return (response.StatusCode, admins);
         }
 
+        public static async Task<(HttpStatusCode, List<ExternalEntity>)> GetExternalEntities()
+        {
+            HttpResponseMessage response = await client.GetAsync(BaseUrl + "api/externalentities");
+            string responseBody = await response.Content.ReadAsStringAsync();
+
+            List<ExternalEntity> externalEntities = null;
+
+            if (response.StatusCode == HttpStatusCode.OK)
+                externalEntities = JsonConvert.DeserializeObject<List<ExternalEntity>>(responseBody);
+
+            return (response.StatusCode, externalEntities);
+        }
+        
         public static async Task<(HttpStatusCode, string, string)> GetAdminInfo()
         {
             try	
@@ -134,6 +162,30 @@ namespace AdministratorConsole
                 }
 
                 return (response.StatusCode, admin);
+            }
+            catch(HttpRequestException)
+            {
+                return (HttpStatusCode.InternalServerError, null);
+            }
+        }
+
+        public static async Task<(HttpStatusCode, ExternalEntity)> CreateExternalEntity(string name, string endpoint)
+        {
+            try	
+            {
+                var payload = "{\"Name\": \"" + name + "\",\"Endpoint\": \"" + endpoint + "\"}";
+                HttpContent content = new StringContent(payload, Encoding.UTF8, "application/json");
+                HttpResponseMessage response = await client.PostAsync(BaseUrl + "api/externalentities", content);
+                string responseBody = await response.Content.ReadAsStringAsync();
+
+                ExternalEntity externalEntity = null;
+
+                if (response.StatusCode == HttpStatusCode.OK)
+                {
+                    externalEntity = JsonConvert.DeserializeObject<ExternalEntity>(responseBody);
+                }
+
+                return (response.StatusCode, externalEntity);
             }
             catch(HttpRequestException)
             {

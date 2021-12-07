@@ -40,7 +40,7 @@ namespace AdministratorConsole
             this.textBoxPassword = new System.Windows.Forms.TextBox();
             this.buttonAddAdmin = new System.Windows.Forms.Button();
             this.dataGridViewAdmins = new System.Windows.Forms.DataGridView();
-            this.Name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.NameColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Email = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Enabled = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewAdmins)).BeginInit();
@@ -133,7 +133,7 @@ namespace AdministratorConsole
             this.dataGridViewAdmins.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dataGridViewAdmins.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridViewAdmins.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.Name,
+            this.NameColumn,
             this.Email,
             this.Enabled});
             this.dataGridViewAdmins.Location = new System.Drawing.Point(58, 112);
@@ -145,12 +145,12 @@ namespace AdministratorConsole
             this.dataGridViewAdmins.Size = new System.Drawing.Size(664, 204);
             this.dataGridViewAdmins.TabIndex = 10;
             // 
-            // Name
+            // NameColumn
             // 
-            this.Name.HeaderText = "Name";
-            this.Name.MinimumWidth = 6;
-            this.Name.Name = "Name";
-            this.Name.ReadOnly = true;
+            this.NameColumn.HeaderText = "Name";
+            this.NameColumn.MinimumWidth = 6;
+            this.NameColumn.Name = "NameColumn";
+            this.NameColumn.ReadOnly = true;
             // 
             // Email
             // 
@@ -182,7 +182,9 @@ namespace AdministratorConsole
             this.Controls.Add(this.buttonEnableDisable);
             this.Controls.Add(this.label1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Name.Name = "Admins";
+            this.MaximumSize = new System.Drawing.Size(801, 583);
+            this.MinimumSize = new System.Drawing.Size(801, 583);
+            this.Name = "Admins";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Admins";
             this.Load += new System.EventHandler(this.Admins_Load);
@@ -203,7 +205,7 @@ namespace AdministratorConsole
         private System.Windows.Forms.TextBox textBoxPassword;
         private System.Windows.Forms.Button buttonAddAdmin;
         private System.Windows.Forms.DataGridView dataGridViewAdmins;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Name;
+        private System.Windows.Forms.DataGridViewTextBoxColumn NameColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn Email;
         private System.Windows.Forms.DataGridViewTextBoxColumn Enabled;
     }

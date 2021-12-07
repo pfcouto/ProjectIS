@@ -66,6 +66,14 @@
     <Compile Include="Dashboard.Designer.cs">
       <DependentUpon>Dashboard.cs</DependentUpon>
     </Compile>
+    <Compile Include="ExternalEntities.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ExternalEntities.Designer.cs">
+      <DependentUpon>ExternalEntities.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ExternalEntity.cs" />
+    <Compile Include="ImageHandler.cs" />
     <Compile Include="Login.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -86,6 +94,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Dashboard.resx">
       <DependentUpon>Dashboard.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ExternalEntities.resx">
+      <DependentUpon>ExternalEntities.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Login.resx">
       <DependentUpon>Login.cs</DependentUpon>
