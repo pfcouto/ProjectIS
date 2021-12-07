@@ -41,5 +41,11 @@ namespace AdministratorConsole
                 MessageBox.Show("An error occurred");
             }
         }
+
+        private void buttonAdmins_Click(object sender, EventArgs e)
+        {
+            var frm = new Admins();
+            frm.Show();
+        }
     }
 }

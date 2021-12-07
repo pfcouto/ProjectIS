@@ -15,6 +15,49 @@ namespace VCardsMiddleware.Controllers
     public class AdminsController : ApiController
     {
         string connectionString = Properties.Settings.Default.DBConnString;
+        
+        [Authorize(Roles = "admin")]
+        public IHttpActionResult GetAllAdmins()
+        {
+            List<Admin> admins = new List<Admin>();
+
+            SqlConnection conn = null;
+
+            try
+            {
+                conn = new SqlConnection(connectionString);
+                conn.Open();
+
+                SqlCommand command = new SqlCommand("SELECT * FROM Admins", conn);
+                SqlDataReader reader = command.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    Admin admin = new Admin
+                    {
+                        Name = (string)reader["name"],
+                        Email = (string)reader["email"],
+                        Enabled = char.Parse((string)reader["enabled"])
+                    };
+                    admins.Add(admin);
+                }
+
+                reader.Close();
+
+                conn.Close();
+            }
+            catch (Exception)
+            {
+                if (conn.State == System.Data.ConnectionState.Open)
+                {
+                    conn.Close();
+                }
+                return InternalServerError();
+
+
+            }
+            return Ok(admins);
+        }
        
         [Authorize(Roles = "admin")]
         [Route("api/admins/me")]
@@ -108,10 +151,72 @@ namespace VCardsMiddleware.Controllers
                 return InternalServerError();
             }
         }
+
+        [Authorize(Roles = "admin")]
+        [Route("api/admins/{email}/enabled")]
+        public IHttpActionResult PatchEnabled(string email, [FromBody] string enabled)
+        {
+            SqlConnection connection = null;
+            try
+            {
+                connection = new SqlConnection(connectionString);
+
+                string sql = "UPDATE Admins SET enabled = @enabled WHERE email = @email";
+
+                connection.Open();
+                SqlCommand commandSearch = new SqlCommand("SELECT * FROM Admins WHERE email = @email", connection);
+                commandSearch.Parameters.AddWithValue("@email", email);
+
+                SqlCommand command = new SqlCommand(sql, connection);
+                SqlDataReader reader = commandSearch.ExecuteReader();
+
+                if (!reader.Read())
+                {
+                    reader.Close();
+                    connection.Close();
+                    return NotFound();
+                }
+
+                command.Parameters.AddWithValue("@email", email);
+                command.Parameters.AddWithValue("@enabled", char.Parse(enabled));
+
+                reader.Close();
+
+                int numeroRegistos = command.ExecuteNonQuery();
+
+                connection.Close();
+
+                if (numeroRegistos > 0)
+                {
+                    return Ok();
+                }
+                else
+                {
+                    return NotFound();
+                }
+
+            }
+            catch (Exception e)
+            {
+
+                if (connection.State == System.Data.ConnectionState.Open)
+                {
+
+                    connection.Close();
+                }
+
+                return InternalServerError(e);
+            }
+        }
         
         [Authorize(Roles = "admin")]  
-        public IHttpActionResult PostUser([FromBody] Admin admin)
+        public IHttpActionResult PostAdmin([FromBody] Admin admin)
         {
+            if (admin == null)
+            {
+                return BadRequest();
+            }
+
             SqlConnection connection = null;
 
             try
@@ -137,7 +242,8 @@ namespace VCardsMiddleware.Controllers
 
                 if (numeroRegistos > 0)
                 {
-                    return Ok();
+                    admin.Enabled = '1';
+                    return Ok(admin);
                 }
                 else
                 {

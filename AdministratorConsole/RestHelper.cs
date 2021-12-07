@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,13 +24,50 @@ namespace AdministratorConsole
 
         public static async Task<HttpStatusCode> ChangePassword(string oldPassword, string newPassword)
         {
-            var payload = "{\"OldPassword\": " + oldPassword + ",\"NewPassword\": " + newPassword + "}";
-            var request = new HttpRequestMessage(new HttpMethod("PATCH"), BaseUrl + "api/admins/me");
-            request.Content = new StringContent(payload, Encoding.UTF8, "application/json");
-            HttpResponseMessage response = await client.SendAsync(request);
+            try
+            {
+                var payload = "{\"OldPassword\": \"" + oldPassword + "\",\"NewPassword\": \"" + newPassword + "\"}";
+                var request = new HttpRequestMessage(new HttpMethod("PATCH"), BaseUrl + "api/admins/me");
+                request.Content = new StringContent(payload, Encoding.UTF8, "application/json");
+                HttpResponseMessage response = await client.SendAsync(request);
+                string responseBody = await response.Content.ReadAsStringAsync();
+                
+                return response.StatusCode;
+            }
+            catch (HttpRequestException)
+            {
+                return HttpStatusCode.InternalServerError;
+            }
+        }
+
+        public static async Task<HttpStatusCode> ChangeAdminEnabled(string email, string enabled)
+        {
+            try
+            {
+                var request = new HttpRequestMessage(new HttpMethod("PATCH"), BaseUrl + "api/admins/" + email + "/enabled");
+                request.Content = new StringContent(enabled, Encoding.UTF8, "application/json");
+                HttpResponseMessage response = await client.SendAsync(request);
+                string responseBody = await response.Content.ReadAsStringAsync();
+                
+                return response.StatusCode;
+            }
+            catch (HttpRequestException)
+            {
+                return HttpStatusCode.InternalServerError;
+            }
+        }
+
+        public static async Task<(HttpStatusCode, List<Admin>)> GetAdmins()
+        {
+            HttpResponseMessage response = await client.GetAsync(BaseUrl + "api/admins");
             string responseBody = await response.Content.ReadAsStringAsync();
-            
-            return response.StatusCode;
+
+            List<Admin> admins = null;
+
+            if (response.StatusCode == HttpStatusCode.OK)
+                admins = JsonConvert.DeserializeObject<List<Admin>>(responseBody);
+
+            return (response.StatusCode, admins);
         }
 
         public static async Task<(HttpStatusCode, string, string)> GetAdminInfo()
@@ -76,6 +114,30 @@ namespace AdministratorConsole
             catch(HttpRequestException)
             {
                 return HttpStatusCode.InternalServerError;
+            }
+        }
+        
+        public static async Task<(HttpStatusCode, Admin)> CreateAdmin(string name, string email, string password)
+        {
+            try	
+            {
+                var payload = "{\"Name\": \"" + name + "\",\"Email\": \"" + email + "\",\"Password\": \"" + password + "\"}";
+                HttpContent content = new StringContent(payload, Encoding.UTF8, "application/json");
+                HttpResponseMessage response = await client.PostAsync(BaseUrl + "api/admins", content);
+                string responseBody = await response.Content.ReadAsStringAsync();
+
+                Admin admin = null;
+
+                if (response.StatusCode == HttpStatusCode.OK)
+                {
+                    admin = JsonConvert.DeserializeObject<Admin>(responseBody);
+                }
+
+                return (response.StatusCode, admin);
+            }
+            catch(HttpRequestException)
+            {
+                return (HttpStatusCode.InternalServerError, null);
             }
         }
     }

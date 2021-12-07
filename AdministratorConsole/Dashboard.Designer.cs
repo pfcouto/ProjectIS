@@ -37,7 +37,6 @@ namespace AdministratorConsole
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.buttonLogout = new System.Windows.Forms.Button();
-            this.buttonChangePassword = new System.Windows.Forms.Button();
             this.buttonMyProfile = new System.Windows.Forms.Button();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.labelNumberOfVcards = new System.Windows.Forms.Label();
@@ -76,6 +75,7 @@ namespace AdministratorConsole
             this.buttonAdmins.TabIndex = 2;
             this.buttonAdmins.Text = "Admins";
             this.buttonAdmins.UseVisualStyleBackColor = true;
+            this.buttonAdmins.Click += new System.EventHandler(this.buttonAdmins_Click);
             // 
             // buttonOperationsLog
             // 
@@ -102,7 +102,6 @@ namespace AdministratorConsole
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.buttonLogout);
-            this.groupBox2.Controls.Add(this.buttonChangePassword);
             this.groupBox2.Controls.Add(this.buttonMyProfile);
             this.groupBox2.Location = new System.Drawing.Point(526, 36);
             this.groupBox2.Name = "groupBox2";
@@ -113,7 +112,7 @@ namespace AdministratorConsole
             // 
             // buttonLogout
             // 
-            this.buttonLogout.Location = new System.Drawing.Point(29, 238);
+            this.buttonLogout.Location = new System.Drawing.Point(29, 183);
             this.buttonLogout.Name = "buttonLogout";
             this.buttonLogout.Size = new System.Drawing.Size(372, 46);
             this.buttonLogout.TabIndex = 2;
@@ -121,18 +120,9 @@ namespace AdministratorConsole
             this.buttonLogout.UseVisualStyleBackColor = true;
             this.buttonLogout.Click += new System.EventHandler(this.buttonLogout_Click);
             // 
-            // buttonChangePassword
-            // 
-            this.buttonChangePassword.Location = new System.Drawing.Point(29, 155);
-            this.buttonChangePassword.Name = "buttonChangePassword";
-            this.buttonChangePassword.Size = new System.Drawing.Size(372, 47);
-            this.buttonChangePassword.TabIndex = 1;
-            this.buttonChangePassword.Text = "Change Password";
-            this.buttonChangePassword.UseVisualStyleBackColor = true;
-            // 
             // buttonMyProfile
             // 
-            this.buttonMyProfile.Location = new System.Drawing.Point(29, 73);
+            this.buttonMyProfile.Location = new System.Drawing.Point(29, 106);
             this.buttonMyProfile.Name = "buttonMyProfile";
             this.buttonMyProfile.Size = new System.Drawing.Size(372, 47);
             this.buttonMyProfile.TabIndex = 0;
@@ -224,7 +214,6 @@ namespace AdministratorConsole
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Button buttonLogout;
-        private System.Windows.Forms.Button buttonChangePassword;
         private System.Windows.Forms.Button buttonMyProfile;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.Label labelNumberOfVcards;
