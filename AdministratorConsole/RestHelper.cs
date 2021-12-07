@@ -192,5 +192,17 @@ namespace AdministratorConsole
                 return (HttpStatusCode.InternalServerError, null);
             }
         }
+        public static async Task<(HttpStatusCode, List<UserExternalEntity>)> GetUsers()
+        {
+            HttpResponseMessage response = await client.GetAsync(BaseUrl + "api/users");
+            string responseBody = await response.Content.ReadAsStringAsync();
+
+            List<UserExternalEntity> users = null;
+
+            if (response.StatusCode == HttpStatusCode.OK)
+                users = JsonConvert.DeserializeObject<List<UserExternalEntity>>(responseBody);
+
+            return (response.StatusCode, users);
+        }
     }
 }

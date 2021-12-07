@@ -53,5 +53,11 @@ namespace AdministratorConsole
             var frm = new ExternalEntities();
             frm.Show();
         }
+
+        private void buttonUsers_Click(object sender, EventArgs e)
+        {
+            var frm = new Users();
+            frm.Show();
+        }
     }
 }

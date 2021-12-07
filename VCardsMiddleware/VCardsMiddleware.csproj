@@ -128,9 +128,11 @@
     <Compile Include="AuthenticationStartup.cs" />
     <Compile Include="Controllers\AdminsController.cs" />
     <Compile Include="Controllers\ExternalEntitiesController.cs" />
+    <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\UserExternalEntity.cs" />
     <Compile Include="Models\Admin.cs" />
     <Compile Include="Models\AdminPassword.cs" />
     <Compile Include="Models\ExternalEntity.cs" />
