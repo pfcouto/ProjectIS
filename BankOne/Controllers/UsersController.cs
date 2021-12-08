@@ -124,7 +124,7 @@ namespace BankOne.Controllers
 
             try
             {
-
+                
                 connection = new SqlConnection(connectionString);
                 string sql = "INSERT INTO Users VALUES (@name, @email, @password, @photo_url, @confirmation_code, @phone_number)";
                 connection.Open();

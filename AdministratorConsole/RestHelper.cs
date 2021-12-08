@@ -8,6 +8,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace AdministratorConsole
 {
@@ -31,7 +32,7 @@ namespace AdministratorConsole
                 request.Content = new StringContent(payload, Encoding.UTF8, "application/json");
                 HttpResponseMessage response = await client.SendAsync(request);
                 string responseBody = await response.Content.ReadAsStringAsync();
-                
+
                 return response.StatusCode;
             }
             catch (HttpRequestException)
@@ -48,7 +49,7 @@ namespace AdministratorConsole
                 request.Content = new StringContent(enabled, Encoding.UTF8, "application/json");
                 HttpResponseMessage response = await client.SendAsync(request);
                 string responseBody = await response.Content.ReadAsStringAsync();
-                
+
                 return response.StatusCode;
             }
             catch (HttpRequestException)
@@ -56,14 +57,14 @@ namespace AdministratorConsole
                 return HttpStatusCode.InternalServerError;
             }
         }
-        
+
         public static async Task<HttpStatusCode> DeleteExternalEntity(int id)
         {
             try
             {
                 HttpResponseMessage response = await client.DeleteAsync(BaseUrl + "api/externalentities/" + id);
                 string responseBody = await response.Content.ReadAsStringAsync();
-                
+
                 return response.StatusCode;
             }
             catch (HttpRequestException)
@@ -97,10 +98,10 @@ namespace AdministratorConsole
 
             return (response.StatusCode, externalEntities);
         }
-        
+
         public static async Task<(HttpStatusCode, string, string)> GetAdminInfo()
         {
-            try	
+            try
             {
                 HttpResponseMessage response = await client.GetAsync(BaseUrl + "api/admins/me");
                 string responseBody = await response.Content.ReadAsStringAsync();
@@ -109,7 +110,7 @@ namespace AdministratorConsole
 
                 return (response.StatusCode, (string)o.SelectToken("Name"), (string)o.SelectToken("Email"));
             }
-            catch(HttpRequestException)
+            catch (HttpRequestException)
             {
                 return (HttpStatusCode.InternalServerError, null, null);
             }
@@ -117,7 +118,7 @@ namespace AdministratorConsole
 
         public static async Task<HttpStatusCode> Login(string email, string password)
         {
-            try	
+            try
             {
                 var payload = "username=" + email + "&password=" + password + "&grant_type=password";
                 HttpContent content = new StringContent(payload, Encoding.UTF8, "application/x-www-form-urlencoded");
@@ -125,7 +126,7 @@ namespace AdministratorConsole
                 string responseBody = await response.Content.ReadAsStringAsync();
 
                 JObject o = JObject.Parse(responseBody);
-                
+
                 if (response.StatusCode == HttpStatusCode.OK)
                 {
                     // get name token of first person and convert to a string
@@ -139,15 +140,15 @@ namespace AdministratorConsole
 
                 return response.StatusCode;
             }
-            catch(HttpRequestException)
+            catch (HttpRequestException)
             {
                 return HttpStatusCode.InternalServerError;
             }
         }
-        
+
         public static async Task<(HttpStatusCode, Admin)> CreateAdmin(string name, string email, string password)
         {
-            try	
+            try
             {
                 var payload = "{\"Name\": \"" + name + "\",\"Email\": \"" + email + "\",\"Password\": \"" + password + "\"}";
                 HttpContent content = new StringContent(payload, Encoding.UTF8, "application/json");
@@ -163,7 +164,7 @@ namespace AdministratorConsole
 
                 return (response.StatusCode, admin);
             }
-            catch(HttpRequestException)
+            catch (HttpRequestException)
             {
                 return (HttpStatusCode.InternalServerError, null);
             }
@@ -171,7 +172,7 @@ namespace AdministratorConsole
 
         public static async Task<(HttpStatusCode, ExternalEntity)> CreateExternalEntity(string name, string endpoint)
         {
-            try	
+            try
             {
                 var payload = "{\"Name\": \"" + name + "\",\"Endpoint\": \"" + endpoint + "\"}";
                 HttpContent content = new StringContent(payload, Encoding.UTF8, "application/json");
@@ -187,22 +188,52 @@ namespace AdministratorConsole
 
                 return (response.StatusCode, externalEntity);
             }
-            catch(HttpRequestException)
+            catch (HttpRequestException)
             {
                 return (HttpStatusCode.InternalServerError, null);
             }
         }
-        public static async Task<(HttpStatusCode, List<UserExternalEntity>)> GetUsers()
+
+        public static async Task<(HttpStatusCode, List<VCardExternalEntity>)> GetVCards()
         {
-            HttpResponseMessage response = await client.GetAsync(BaseUrl + "api/users");
+            HttpResponseMessage response = await client.GetAsync(BaseUrl + "api/vcards");
             string responseBody = await response.Content.ReadAsStringAsync();
 
-            List<UserExternalEntity> users = null;
+            List<VCardExternalEntity> users = null;
 
             if (response.StatusCode == HttpStatusCode.OK)
-                users = JsonConvert.DeserializeObject<List<UserExternalEntity>>(responseBody);
+                users = JsonConvert.DeserializeObject<List<VCardExternalEntity>>(responseBody);
 
             return (response.StatusCode, users);
+        }
+
+        //public static async Task<(HttpStatusCode, VCardExternalEntity)> GetUserByEmail(string email)
+        //{
+        //    HttpResponseMessage response = await client.GetAsync(BaseUrl + "api/users/" + email);
+        //    string responseBody = await response.Content.ReadAsStringAsync();
+
+        //    VCardExternalEntity user = null;
+
+        //    if (response.StatusCode == HttpStatusCode.OK)
+        //        user = JsonConvert.DeserializeObject<VCardExternalEntity>(responseBody);
+
+        //    return (response.StatusCode, user);
+        //}
+
+        public static async Task<HttpStatusCode> CreateUser(int externalEntityId, string name, string email, string phoneNumber, string password, string confirmationCode)
+        {
+            try
+            {
+                var payload = "{\"External_entity_id\": " + externalEntityId + ",\"Name\": \"" + name + "\",\"Email\": \"" + email + "\",\"Phone_number\": \"" + phoneNumber + "\",\"Password\": \"" + password + "\",\"Confirmation_code\": \"" + confirmationCode + "\"}";
+                HttpContent content = new StringContent(payload, Encoding.UTF8, "application/json");
+                HttpResponseMessage response = await client.PostAsync(BaseUrl + "api/users", content);
+                string responseBody = await response.Content.ReadAsStringAsync();
+                return response.StatusCode;
+            }
+            catch (HttpRequestException)
+            {
+                return (HttpStatusCode.InternalServerError);
+            }
         }
     }
 }

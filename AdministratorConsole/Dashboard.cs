@@ -54,6 +54,12 @@ namespace AdministratorConsole
             frm.Show();
         }
 
+        private void buttonVCards_Click(object sender, EventArgs e)
+        {
+            var frm = new VCards();
+            frm.Show();
+        }
+
         private void buttonUsers_Click(object sender, EventArgs e)
         {
             var frm = new Users();

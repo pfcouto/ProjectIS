@@ -30,7 +30,7 @@ namespace AdministratorConsole
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Dashboard));
-            this.buttonUsers = new System.Windows.Forms.Button();
+            this.buttonVCards = new System.Windows.Forms.Button();
             this.buttonExternalEntities = new System.Windows.Forms.Button();
             this.buttonAdmins = new System.Windows.Forms.Button();
             this.buttonOperationsLog = new System.Windows.Forms.Button();
@@ -40,6 +40,7 @@ namespace AdministratorConsole
             this.buttonLogout = new System.Windows.Forms.Button();
             this.buttonMyProfile = new System.Windows.Forms.Button();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.buttonUsers = new System.Windows.Forms.Button();
             this.labelNumberOfVcards = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.labelLastOperation = new System.Windows.Forms.Label();
@@ -49,21 +50,21 @@ namespace AdministratorConsole
             this.groupBox3.SuspendLayout();
             this.SuspendLayout();
             // 
-            // buttonUsers
+            // buttonVCards
             // 
-            this.buttonUsers.Location = new System.Drawing.Point(182, 59);
-            this.buttonUsers.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.buttonUsers.Name = "buttonUsers";
-            this.buttonUsers.Size = new System.Drawing.Size(116, 65);
-            this.buttonUsers.TabIndex = 0;
-            this.buttonUsers.Text = "Users";
-            this.buttonUsers.UseVisualStyleBackColor = true;
-            this.buttonUsers.Click += new System.EventHandler(this.buttonUsers_Click);
+            this.buttonVCards.Location = new System.Drawing.Point(182, 59);
+            this.buttonVCards.Margin = new System.Windows.Forms.Padding(2);
+            this.buttonVCards.Name = "buttonVCards";
+            this.buttonVCards.Size = new System.Drawing.Size(116, 65);
+            this.buttonVCards.TabIndex = 0;
+            this.buttonVCards.Text = "VCards";
+            this.buttonVCards.UseVisualStyleBackColor = true;
+            this.buttonVCards.Click += new System.EventHandler(this.buttonVCards_Click);
             // 
             // buttonExternalEntities
             // 
             this.buttonExternalEntities.Location = new System.Drawing.Point(37, 166);
-            this.buttonExternalEntities.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.buttonExternalEntities.Margin = new System.Windows.Forms.Padding(2);
             this.buttonExternalEntities.Name = "buttonExternalEntities";
             this.buttonExternalEntities.Size = new System.Drawing.Size(116, 65);
             this.buttonExternalEntities.TabIndex = 1;
@@ -75,7 +76,7 @@ namespace AdministratorConsole
             // 
             this.buttonAdmins.ForeColor = System.Drawing.SystemColors.ControlText;
             this.buttonAdmins.Location = new System.Drawing.Point(37, 59);
-            this.buttonAdmins.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.buttonAdmins.Margin = new System.Windows.Forms.Padding(2);
             this.buttonAdmins.Name = "buttonAdmins";
             this.buttonAdmins.Size = new System.Drawing.Size(116, 65);
             this.buttonAdmins.TabIndex = 2;
@@ -85,24 +86,24 @@ namespace AdministratorConsole
             // 
             // buttonOperationsLog
             // 
-            this.buttonOperationsLog.Location = new System.Drawing.Point(466, 136);
-            this.buttonOperationsLog.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.buttonOperationsLog.Location = new System.Drawing.Point(466, 127);
+            this.buttonOperationsLog.Margin = new System.Windows.Forms.Padding(2);
             this.buttonOperationsLog.Name = "buttonOperationsLog";
-            this.buttonOperationsLog.Size = new System.Drawing.Size(164, 56);
+            this.buttonOperationsLog.Size = new System.Drawing.Size(164, 66);
             this.buttonOperationsLog.TabIndex = 3;
             this.buttonOperationsLog.Text = "Operations Log";
             this.buttonOperationsLog.UseVisualStyleBackColor = true;
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.buttonTransactions);
-            this.groupBox1.Controls.Add(this.buttonAdmins);
             this.groupBox1.Controls.Add(this.buttonUsers);
+            this.groupBox1.Controls.Add(this.buttonAdmins);
+            this.groupBox1.Controls.Add(this.buttonVCards);
             this.groupBox1.Controls.Add(this.buttonExternalEntities);
             this.groupBox1.Location = new System.Drawing.Point(35, 29);
-            this.groupBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(2);
             this.groupBox1.Size = new System.Drawing.Size(326, 267);
             this.groupBox1.TabIndex = 4;
             this.groupBox1.TabStop = false;
@@ -110,10 +111,10 @@ namespace AdministratorConsole
             // 
             // buttonTransactions
             // 
-            this.buttonTransactions.Location = new System.Drawing.Point(182, 167);
-            this.buttonTransactions.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.buttonTransactions.Location = new System.Drawing.Point(466, 34);
+            this.buttonTransactions.Margin = new System.Windows.Forms.Padding(2);
             this.buttonTransactions.Name = "buttonTransactions";
-            this.buttonTransactions.Size = new System.Drawing.Size(116, 64);
+            this.buttonTransactions.Size = new System.Drawing.Size(164, 66);
             this.buttonTransactions.TabIndex = 3;
             this.buttonTransactions.Text = "Transactions";
             this.buttonTransactions.UseVisualStyleBackColor = true;
@@ -123,9 +124,9 @@ namespace AdministratorConsole
             this.groupBox2.Controls.Add(this.buttonLogout);
             this.groupBox2.Controls.Add(this.buttonMyProfile);
             this.groupBox2.Location = new System.Drawing.Point(394, 29);
-            this.groupBox2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox2.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox2.Padding = new System.Windows.Forms.Padding(2);
             this.groupBox2.Size = new System.Drawing.Size(326, 267);
             this.groupBox2.TabIndex = 5;
             this.groupBox2.TabStop = false;
@@ -134,7 +135,7 @@ namespace AdministratorConsole
             // buttonLogout
             // 
             this.buttonLogout.Location = new System.Drawing.Point(22, 149);
-            this.buttonLogout.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.buttonLogout.Margin = new System.Windows.Forms.Padding(2);
             this.buttonLogout.Name = "buttonLogout";
             this.buttonLogout.Size = new System.Drawing.Size(279, 37);
             this.buttonLogout.TabIndex = 2;
@@ -145,7 +146,7 @@ namespace AdministratorConsole
             // buttonMyProfile
             // 
             this.buttonMyProfile.Location = new System.Drawing.Point(22, 86);
-            this.buttonMyProfile.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.buttonMyProfile.Margin = new System.Windows.Forms.Padding(2);
             this.buttonMyProfile.Name = "buttonMyProfile";
             this.buttonMyProfile.Size = new System.Drawing.Size(279, 38);
             this.buttonMyProfile.TabIndex = 0;
@@ -156,18 +157,30 @@ namespace AdministratorConsole
             // groupBox3
             // 
             this.groupBox3.Controls.Add(this.labelNumberOfVcards);
+            this.groupBox3.Controls.Add(this.buttonTransactions);
             this.groupBox3.Controls.Add(this.buttonOperationsLog);
             this.groupBox3.Controls.Add(this.label2);
             this.groupBox3.Controls.Add(this.labelLastOperation);
             this.groupBox3.Controls.Add(this.label1);
             this.groupBox3.Location = new System.Drawing.Point(35, 324);
-            this.groupBox3.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox3.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox3.Padding = new System.Windows.Forms.Padding(2);
             this.groupBox3.Size = new System.Drawing.Size(685, 236);
             this.groupBox3.TabIndex = 6;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Statistics";
+            // 
+            // buttonUsers
+            // 
+            this.buttonUsers.Location = new System.Drawing.Point(182, 166);
+            this.buttonUsers.Margin = new System.Windows.Forms.Padding(2);
+            this.buttonUsers.Name = "buttonUsers";
+            this.buttonUsers.Size = new System.Drawing.Size(116, 65);
+            this.buttonUsers.TabIndex = 4;
+            this.buttonUsers.Text = "Users";
+            this.buttonUsers.UseVisualStyleBackColor = true;
+            this.buttonUsers.Click += new System.EventHandler(this.buttonUsers_Click);
             // 
             // labelNumberOfVcards
             // 
@@ -222,7 +235,7 @@ namespace AdministratorConsole
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.MaximumSize = new System.Drawing.Size(772, 631);
             this.MinimumSize = new System.Drawing.Size(772, 631);
             this.Name = "Dashboard";
@@ -238,7 +251,7 @@ namespace AdministratorConsole
 
         #endregion
 
-        private System.Windows.Forms.Button buttonUsers;
+        private System.Windows.Forms.Button buttonVCards;
         private System.Windows.Forms.Button buttonExternalEntities;
         private System.Windows.Forms.Button buttonAdmins;
         private System.Windows.Forms.Button buttonOperationsLog;
@@ -252,5 +265,6 @@ namespace AdministratorConsole
         private System.Windows.Forms.Label labelLastOperation;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button buttonTransactions;
+        private System.Windows.Forms.Button buttonUsers;
     }
 }

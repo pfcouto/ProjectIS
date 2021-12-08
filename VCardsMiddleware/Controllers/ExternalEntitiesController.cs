@@ -56,7 +56,7 @@ namespace VCardsMiddleware.Controllers
             return Ok(externalEntities);
         }
 
-        [Authorize(Roles = "admin")]  
+        [Authorize(Roles = "admin")]
         public async Task<IHttpActionResult> PostExternalEntity([FromBody] ExternalEntity externalEntity)
         {
             if (externalEntity == null)
