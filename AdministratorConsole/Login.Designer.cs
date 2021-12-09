@@ -43,9 +43,10 @@ namespace AdministratorConsole
             // pictureBox1
             // 
             this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(244, 87);
+            this.pictureBox1.Location = new System.Drawing.Point(142, 32);
+            this.pictureBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(297, 278);
+            this.pictureBox1.Size = new System.Drawing.Size(318, 276);
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
             // 
@@ -54,52 +55,58 @@ namespace AdministratorConsole
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Gadugi", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.SystemColors.Highlight;
-            this.label1.Location = new System.Drawing.Point(112, 414);
+            this.label1.Location = new System.Drawing.Point(56, 334);
+            this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(577, 36);
+            this.label1.Size = new System.Drawing.Size(470, 28);
             this.label1.TabIndex = 1;
             this.label1.Text = "Welcome to the administration console!";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(136, 517);
+            this.label2.Location = new System.Drawing.Point(102, 420);
+            this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(42, 17);
+            this.label2.Size = new System.Drawing.Size(32, 13);
             this.label2.TabIndex = 2;
             this.label2.Text = "Email";
             // 
             // textBoxEmail
             // 
-            this.textBoxEmail.Location = new System.Drawing.Point(139, 551);
+            this.textBoxEmail.Location = new System.Drawing.Point(104, 448);
+            this.textBoxEmail.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.textBoxEmail.Name = "textBoxEmail";
-            this.textBoxEmail.Size = new System.Drawing.Size(519, 22);
+            this.textBoxEmail.Size = new System.Drawing.Size(390, 20);
             this.textBoxEmail.TabIndex = 3;
             this.textBoxEmail.Text = "samuel@mail.com";
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(136, 590);
+            this.label3.Location = new System.Drawing.Point(102, 479);
+            this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(69, 17);
+            this.label3.Size = new System.Drawing.Size(53, 13);
             this.label3.TabIndex = 4;
             this.label3.Text = "Password";
             // 
             // textBoxPassword
             // 
-            this.textBoxPassword.Location = new System.Drawing.Point(139, 627);
+            this.textBoxPassword.Location = new System.Drawing.Point(104, 509);
+            this.textBoxPassword.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.textBoxPassword.Name = "textBoxPassword";
             this.textBoxPassword.PasswordChar = '*';
-            this.textBoxPassword.Size = new System.Drawing.Size(519, 22);
+            this.textBoxPassword.Size = new System.Drawing.Size(390, 20);
             this.textBoxPassword.TabIndex = 5;
             this.textBoxPassword.Text = "12345";
             // 
             // buttonLogin
             // 
-            this.buttonLogin.Location = new System.Drawing.Point(531, 717);
+            this.buttonLogin.Location = new System.Drawing.Point(398, 583);
+            this.buttonLogin.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.buttonLogin.Name = "buttonLogin";
-            this.buttonLogin.Size = new System.Drawing.Size(127, 45);
+            this.buttonLogin.Size = new System.Drawing.Size(95, 37);
             this.buttonLogin.TabIndex = 6;
             this.buttonLogin.Text = "Login";
             this.buttonLogin.UseVisualStyleBackColor = true;
@@ -107,9 +114,9 @@ namespace AdministratorConsole
             // 
             // Login
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(782, 913);
+            this.ClientSize = new System.Drawing.Size(588, 748);
             this.Controls.Add(this.buttonLogin);
             this.Controls.Add(this.textBoxPassword);
             this.Controls.Add(this.label3);
@@ -118,8 +125,9 @@ namespace AdministratorConsole
             this.Controls.Add(this.label1);
             this.Controls.Add(this.pictureBox1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.MaximumSize = new System.Drawing.Size(800, 960);
-            this.MinimumSize = new System.Drawing.Size(800, 960);
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.MaximumSize = new System.Drawing.Size(604, 787);
+            this.MinimumSize = new System.Drawing.Size(604, 787);
             this.Name = "Login";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Administrator Console";
