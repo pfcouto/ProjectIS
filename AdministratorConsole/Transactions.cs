@@ -14,6 +14,8 @@ namespace AdministratorConsole
     public partial class Transactions : Form
     {
         private List<string> types;
+        private List<Transaction> transactions;
+        private int numberOfTransactions;
 
         public Transactions()
         {
@@ -26,6 +28,9 @@ namespace AdministratorConsole
 
         private async void Transactions_Load(object sender, EventArgs e)
         {
+            buttonExportExcel.Enabled = false;
+            buttonExportXML.Enabled = false;
+
             dateTimePickerOrigin.Value = DateTime.Today;
             dateTimePickerTo.Value = DateTime.Now;
 
@@ -82,6 +87,19 @@ namespace AdministratorConsole
             var response = await RestHelper.GetTransactions(comboBoxType.GetItemText(comboBoxType.SelectedItem), id, dateTimePickerOrigin.Value.ToString("yyyy/MM/dd HH:mm:ss"), dateTimePickerTo.Value.ToString("yyyy/MM/dd HH:mm:ss"));
             if (response.Item1 == HttpStatusCode.OK)
             {
+                transactions = response.Item2;
+
+                if (response.Item2.Count > 0)
+                {
+                    buttonExportExcel.Enabled = true;
+                    buttonExportXML.Enabled = true;
+                }
+                else
+                {
+                    buttonExportExcel.Enabled = false;
+                    buttonExportXML.Enabled = false;
+                }
+
                 labelCounter.Text = response.Item2.Count + " Transaction(s)";
                 LoadDataGridTransactions(response.Item2);
             }
@@ -96,6 +114,13 @@ namespace AdministratorConsole
         private void buttonFilter_Click(object sender, EventArgs e)
         {
             fetchTransactions();
+        }
+
+        private void buttonExportExcel_Click(object sender, EventArgs e)
+        {
+            string filename = "Transactions.xlsx";
+            ExcelHandler.OutputToExcel(filename, transactions);
+            MessageBox.Show("sucesso");
         }
     }
 }

@@ -182,6 +182,7 @@ namespace AdministratorConsole
             this.buttonExportExcel.TabIndex = 9;
             this.buttonExportExcel.Text = "Export to Excel";
             this.buttonExportExcel.UseVisualStyleBackColor = true;
+            this.buttonExportExcel.Click += new System.EventHandler(this.buttonExportExcel_Click);
             // 
             // buttonExportXML
             // 
