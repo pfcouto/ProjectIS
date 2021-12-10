@@ -254,11 +254,11 @@ namespace AdministratorConsole
             {
                 if (!string.IsNullOrEmpty(type))
                 {
-                    endpoint += "&dateFrom=" + dateFrom + "&dateTo" + dateTo;
+                    endpoint += "&dateFrom=" + dateFrom + "&dateTo=" + dateTo;
                 }
                 else
                 {
-                    endpoint += "dateFrom=" + dateFrom + "&dateTo" + dateTo;
+                    endpoint += "dateFrom=" + dateFrom + "&dateTo=" + dateTo;
                 }
 
             }

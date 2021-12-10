@@ -79,7 +79,7 @@ namespace AdministratorConsole
         private async void fetchTransactions()
         {
             int id = comboBoxExternalEntity.SelectedIndex >= 0 ? Convert.ToInt32(comboBoxExternalEntity.SelectedValue.ToString()) : -1;
-            var response = await RestHelper.GetTransactions(comboBoxType.GetItemText(comboBoxType.SelectedItem), id);
+            var response = await RestHelper.GetTransactions(comboBoxType.GetItemText(comboBoxType.SelectedItem), id, dateTimePickerOrigin.Value.ToString("yyyy/MM/dd HH:mm:ss"), dateTimePickerTo.Value.ToString("yyyy/MM/dd HH:mm:ss"));
             if (response.Item1 == HttpStatusCode.OK)
             {
                 labelCounter.Text = response.Item2.Count + " Transaction(s)";

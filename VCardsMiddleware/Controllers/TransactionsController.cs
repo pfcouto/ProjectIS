@@ -60,11 +60,11 @@ namespace VCardsMiddleware.Controllers
                 {
                     if (!string.IsNullOrEmpty(type))
                     {
-                        endpointIncrement += "&dateFrom=" + dateFrom + "&dateTo" + dateTo;
+                        endpointIncrement += "&dateFrom=" + dateFrom + "&dateTo=" + dateTo;
                     }
                     else
                     {
-                        endpointIncrement += "dateFrom=" + dateFrom + "&dateTo" + dateTo;
+                        endpointIncrement += "dateFrom=" + dateFrom + "&dateTo=" + dateTo;
                     }
                 }
 
