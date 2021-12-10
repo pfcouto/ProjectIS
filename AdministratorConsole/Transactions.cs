@@ -32,12 +32,20 @@ namespace AdministratorConsole
             var externalEntities = await RestHelper.GetExternalEntities();
             if (externalEntities.Item1 == HttpStatusCode.OK)
             {
-                if (externalEntities.Item2.Count <= 0)
+                List<ExternalEntity> externalEntitiesReceived = externalEntities.Item2;
+                if (externalEntitiesReceived.Count <= 0)
                 {
                     MessageBox.Show("No external entities registered yet");
                     Dispose();
                 }
-                comboBoxExternalEntity.DataSource = externalEntities.Item2;
+
+                var all = new ExternalEntity()
+                {
+                    Id = -1,
+                    Name = ""
+                };
+                externalEntitiesReceived.Insert(0, all);
+                comboBoxExternalEntity.DataSource = externalEntitiesReceived;
                 comboBoxExternalEntity.DisplayMember = "Name";
                 comboBoxExternalEntity.ValueMember = "Id";
             }
@@ -49,24 +57,7 @@ namespace AdministratorConsole
 
             comboBoxType.DataSource = types;
 
-            var response = await RestHelper.GetTransactions();
-            if (response.Item1 == HttpStatusCode.OK)
-            {
-                LoadDataGridTransactions(response.Item2);
-            }
-        }
-
-        private async void comboBoxExternalEntity_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            var response = await RestHelper.GetTransactions();
-            if (response.Item1 == HttpStatusCode.OK)
-            {
-                LoadDataGridTransactions(response.Item2);
-            }
-            else
-            {
-                MessageBox.Show("Some error occured while fetching transactions");
-            }
+            fetchTransactions();
         }
 
         private void LoadDataGridTransactions(List<Transaction> transactions)
@@ -85,34 +76,26 @@ namespace AdministratorConsole
             }
         }
 
-        private async void comboBoxType_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            fetchTransactions();
-
-        }
-
-        private void dateTimePickerOrigin_ValueChanged(object sender, EventArgs e)
-        {
-            fetchTransactions();
-        }
-
-        private void dateTimePickerTo_ValueChanged(object sender, EventArgs e)
-        {
-            fetchTransactions();
-        }
-
         private async void fetchTransactions()
         {
-            var type = comboBoxType.SelectedValue != null ? comboBoxType.SelectedValue.ToString() : "";
-            var response = await RestHelper.GetTransactions(type);
+            int id = comboBoxExternalEntity.SelectedIndex >= 0 ? Convert.ToInt32(comboBoxExternalEntity.SelectedValue.ToString()) : -1;
+            var response = await RestHelper.GetTransactions(comboBoxType.GetItemText(comboBoxType.SelectedItem), id);
             if (response.Item1 == HttpStatusCode.OK)
             {
+                labelCounter.Text = response.Item2.Count + " Transaction(s)";
                 LoadDataGridTransactions(response.Item2);
             }
             else
             {
                 MessageBox.Show("Some error occured while fetching transactions");
+                labelCounter.Text = response.Item2.Count + " Transaction(s)";
+                dataGridViewTransactions.Rows.Clear();
             }
+        }
+
+        private void buttonFilter_Click(object sender, EventArgs e)
+        {
+            fetchTransactions();
         }
     }
 }

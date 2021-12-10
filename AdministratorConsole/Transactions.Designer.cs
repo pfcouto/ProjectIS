@@ -46,6 +46,8 @@ namespace AdministratorConsole
             this.label4 = new System.Windows.Forms.Label();
             this.buttonExportExcel = new System.Windows.Forms.Button();
             this.buttonExportXML = new System.Windows.Forms.Button();
+            this.buttonFilter = new System.Windows.Forms.Button();
+            this.labelCounter = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewTransactions)).BeginInit();
             this.SuspendLayout();
             // 
@@ -56,33 +58,29 @@ namespace AdministratorConsole
             this.comboBoxExternalEntity.Name = "comboBoxExternalEntity";
             this.comboBoxExternalEntity.Size = new System.Drawing.Size(121, 21);
             this.comboBoxExternalEntity.TabIndex = 0;
-            this.comboBoxExternalEntity.SelectedIndexChanged += new System.EventHandler(this.comboBoxExternalEntity_SelectedIndexChanged);
             // 
             // comboBoxType
             // 
             this.comboBoxType.FormattingEnabled = true;
-            this.comboBoxType.Location = new System.Drawing.Point(237, 40);
+            this.comboBoxType.Location = new System.Drawing.Point(207, 39);
             this.comboBoxType.Name = "comboBoxType";
-            this.comboBoxType.Size = new System.Drawing.Size(121, 21);
+            this.comboBoxType.Size = new System.Drawing.Size(61, 21);
             this.comboBoxType.TabIndex = 1;
-            this.comboBoxType.SelectedIndexChanged += new System.EventHandler(this.comboBoxType_SelectedIndexChanged);
             // 
             // dateTimePickerOrigin
             // 
-            this.dateTimePickerOrigin.Location = new System.Drawing.Point(447, 40);
+            this.dateTimePickerOrigin.Location = new System.Drawing.Point(312, 41);
             this.dateTimePickerOrigin.Name = "dateTimePickerOrigin";
             this.dateTimePickerOrigin.Size = new System.Drawing.Size(200, 20);
             this.dateTimePickerOrigin.TabIndex = 2;
             this.dateTimePickerOrigin.Value = new System.DateTime(2021, 12, 9, 17, 38, 19, 0);
-            this.dateTimePickerOrigin.ValueChanged += new System.EventHandler(this.dateTimePickerOrigin_ValueChanged);
             // 
             // dateTimePickerTo
             // 
-            this.dateTimePickerTo.Location = new System.Drawing.Point(685, 40);
+            this.dateTimePickerTo.Location = new System.Drawing.Point(550, 41);
             this.dateTimePickerTo.Name = "dateTimePickerTo";
             this.dateTimePickerTo.Size = new System.Drawing.Size(200, 20);
             this.dateTimePickerTo.TabIndex = 3;
-            this.dateTimePickerTo.ValueChanged += new System.EventHandler(this.dateTimePickerTo_ValueChanged);
             // 
             // dataGridViewTransactions
             // 
@@ -152,7 +150,7 @@ namespace AdministratorConsole
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(234, 24);
+            this.label2.Location = new System.Drawing.Point(204, 23);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(31, 13);
             this.label2.TabIndex = 6;
@@ -161,7 +159,7 @@ namespace AdministratorConsole
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(444, 24);
+            this.label3.Location = new System.Drawing.Point(309, 25);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(30, 13);
             this.label3.TabIndex = 7;
@@ -170,7 +168,7 @@ namespace AdministratorConsole
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(682, 24);
+            this.label4.Location = new System.Drawing.Point(547, 25);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(20, 13);
             this.label4.TabIndex = 8;
@@ -194,11 +192,31 @@ namespace AdministratorConsole
             this.buttonExportXML.Text = "Export to XML";
             this.buttonExportXML.UseVisualStyleBackColor = true;
             // 
+            // buttonFilter
+            // 
+            this.buttonFilter.Location = new System.Drawing.Point(796, 30);
+            this.buttonFilter.Name = "buttonFilter";
+            this.buttonFilter.Size = new System.Drawing.Size(89, 37);
+            this.buttonFilter.TabIndex = 11;
+            this.buttonFilter.Text = "Filter";
+            this.buttonFilter.UseVisualStyleBackColor = true;
+            this.buttonFilter.Click += new System.EventHandler(this.buttonFilter_Click);
+            // 
+            // labelCounter
+            // 
+            this.labelCounter.AutoSize = true;
+            this.labelCounter.Location = new System.Drawing.Point(51, 408);
+            this.labelCounter.Name = "labelCounter";
+            this.labelCounter.Size = new System.Drawing.Size(0, 13);
+            this.labelCounter.TabIndex = 12;
+            // 
             // Transactions
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(933, 497);
+            this.Controls.Add(this.labelCounter);
+            this.Controls.Add(this.buttonFilter);
             this.Controls.Add(this.buttonExportXML);
             this.Controls.Add(this.buttonExportExcel);
             this.Controls.Add(this.label4);
@@ -241,5 +259,7 @@ namespace AdministratorConsole
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Button buttonExportExcel;
         private System.Windows.Forms.Button buttonExportXML;
+        private System.Windows.Forms.Button buttonFilter;
+        private System.Windows.Forms.Label labelCounter;
     }
 }

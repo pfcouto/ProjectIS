@@ -236,11 +236,11 @@ namespace AdministratorConsole
             }
         }
 
-        public static async Task<(HttpStatusCode, List<Transaction>)> GetTransactions(string type = null, string dateFrom = null, string dateTo = null)
+        public static async Task<(HttpStatusCode, List<Transaction>)> GetTransactions(string type = null, int externalEntityId = -1, string dateFrom = null, string dateTo = null)
         {
             string endpoint = BaseUrl + "api/transactions";
 
-            if (!string.IsNullOrEmpty(type) || !string.IsNullOrEmpty(dateFrom) || !string.IsNullOrEmpty(dateTo))
+            if (!string.IsNullOrEmpty(type) || !string.IsNullOrEmpty(dateFrom) || !string.IsNullOrEmpty(dateTo) || externalEntityId >= 0)
             {
                 endpoint += '?';
             }
@@ -252,10 +252,28 @@ namespace AdministratorConsole
 
             if (!string.IsNullOrEmpty(dateFrom) && !string.IsNullOrEmpty(dateTo))
             {
-                if (!type.Equals(null))
+                if (!string.IsNullOrEmpty(type))
                 {
                     endpoint += "&dateFrom=" + dateFrom + "&dateTo" + dateTo;
                 }
+                else
+                {
+                    endpoint += "dateFrom=" + dateFrom + "&dateTo" + dateTo;
+                }
+
+            }
+
+            if (externalEntityId >= 0)
+            {
+                if (!string.IsNullOrEmpty(type) || (!string.IsNullOrEmpty(dateFrom) && !string.IsNullOrEmpty(dateTo)))
+                {
+                    endpoint += "&externalEntityId=" + externalEntityId;
+                }
+                else
+                {
+                    endpoint += "externalEntityId=" + externalEntityId;
+                }
+
             }
 
             HttpResponseMessage response = await client.GetAsync(endpoint);
