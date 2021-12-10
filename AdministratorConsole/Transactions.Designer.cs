@@ -56,6 +56,7 @@ namespace AdministratorConsole
             this.comboBoxExternalEntity.Name = "comboBoxExternalEntity";
             this.comboBoxExternalEntity.Size = new System.Drawing.Size(121, 21);
             this.comboBoxExternalEntity.TabIndex = 0;
+            this.comboBoxExternalEntity.SelectedIndexChanged += new System.EventHandler(this.comboBoxExternalEntity_SelectedIndexChanged);
             // 
             // comboBoxType
             // 
@@ -64,6 +65,7 @@ namespace AdministratorConsole
             this.comboBoxType.Name = "comboBoxType";
             this.comboBoxType.Size = new System.Drawing.Size(121, 21);
             this.comboBoxType.TabIndex = 1;
+            this.comboBoxType.SelectedIndexChanged += new System.EventHandler(this.comboBoxType_SelectedIndexChanged);
             // 
             // dateTimePickerOrigin
             // 
@@ -72,6 +74,7 @@ namespace AdministratorConsole
             this.dateTimePickerOrigin.Size = new System.Drawing.Size(200, 20);
             this.dateTimePickerOrigin.TabIndex = 2;
             this.dateTimePickerOrigin.Value = new System.DateTime(2021, 12, 9, 17, 38, 19, 0);
+            this.dateTimePickerOrigin.ValueChanged += new System.EventHandler(this.dateTimePickerOrigin_ValueChanged);
             // 
             // dateTimePickerTo
             // 
@@ -79,6 +82,7 @@ namespace AdministratorConsole
             this.dateTimePickerTo.Name = "dateTimePickerTo";
             this.dateTimePickerTo.Size = new System.Drawing.Size(200, 20);
             this.dateTimePickerTo.TabIndex = 3;
+            this.dateTimePickerTo.ValueChanged += new System.EventHandler(this.dateTimePickerTo_ValueChanged);
             // 
             // dataGridViewTransactions
             // 
@@ -206,6 +210,8 @@ namespace AdministratorConsole
             this.Controls.Add(this.dateTimePickerOrigin);
             this.Controls.Add(this.comboBoxType);
             this.Controls.Add(this.comboBoxExternalEntity);
+            this.MaximumSize = new System.Drawing.Size(949, 536);
+            this.MinimumSize = new System.Drawing.Size(949, 536);
             this.Name = "Transactions";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Transactions";

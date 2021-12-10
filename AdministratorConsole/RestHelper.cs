@@ -235,5 +235,38 @@ namespace AdministratorConsole
                 return (HttpStatusCode.InternalServerError);
             }
         }
+
+        public static async Task<(HttpStatusCode, List<Transaction>)> GetTransactions(string type = null, string dateFrom = null, string dateTo = null)
+        {
+            string endpoint = BaseUrl + "api/transactions";
+
+            if (!string.IsNullOrEmpty(type) || !string.IsNullOrEmpty(dateFrom) || !string.IsNullOrEmpty(dateTo))
+            {
+                endpoint += '?';
+            }
+
+            if (!string.IsNullOrEmpty(type))
+            {
+                endpoint += "type=" + type;
+            }
+
+            if (!string.IsNullOrEmpty(dateFrom) && !string.IsNullOrEmpty(dateTo))
+            {
+                if (!type.Equals(null))
+                {
+                    endpoint += "&dateFrom=" + dateFrom + "&dateTo" + dateTo;
+                }
+            }
+
+            HttpResponseMessage response = await client.GetAsync(endpoint);
+            string responseBody = await response.Content.ReadAsStringAsync();
+
+            List<Transaction> transactions = null;
+
+            if (response.StatusCode == HttpStatusCode.OK)
+                transactions = JsonConvert.DeserializeObject<List<Transaction>>(responseBody);
+
+            return (response.StatusCode, transactions);
+        }
     }
 }

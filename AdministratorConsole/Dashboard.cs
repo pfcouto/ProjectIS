@@ -65,5 +65,11 @@ namespace AdministratorConsole
             var frm = new Users();
             frm.Show();
         }
+
+        private void buttonTransactions_Click(object sender, EventArgs e)
+        {
+            var frm = new Transactions();
+            frm.Show();
+        }
     }
 }

@@ -35,12 +35,12 @@ namespace AdministratorConsole
             this.buttonAdmins = new System.Windows.Forms.Button();
             this.buttonOperationsLog = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.buttonUsers = new System.Windows.Forms.Button();
             this.buttonTransactions = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.buttonLogout = new System.Windows.Forms.Button();
             this.buttonMyProfile = new System.Windows.Forms.Button();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.buttonUsers = new System.Windows.Forms.Button();
             this.labelNumberOfVcards = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.labelLastOperation = new System.Windows.Forms.Label();
@@ -109,6 +109,17 @@ namespace AdministratorConsole
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Administration Tools";
             // 
+            // buttonUsers
+            // 
+            this.buttonUsers.Location = new System.Drawing.Point(182, 166);
+            this.buttonUsers.Margin = new System.Windows.Forms.Padding(2);
+            this.buttonUsers.Name = "buttonUsers";
+            this.buttonUsers.Size = new System.Drawing.Size(116, 65);
+            this.buttonUsers.TabIndex = 4;
+            this.buttonUsers.Text = "Users";
+            this.buttonUsers.UseVisualStyleBackColor = true;
+            this.buttonUsers.Click += new System.EventHandler(this.buttonUsers_Click);
+            // 
             // buttonTransactions
             // 
             this.buttonTransactions.Location = new System.Drawing.Point(466, 34);
@@ -118,6 +129,7 @@ namespace AdministratorConsole
             this.buttonTransactions.TabIndex = 3;
             this.buttonTransactions.Text = "Transactions";
             this.buttonTransactions.UseVisualStyleBackColor = true;
+            this.buttonTransactions.Click += new System.EventHandler(this.buttonTransactions_Click);
             // 
             // groupBox2
             // 
@@ -170,17 +182,6 @@ namespace AdministratorConsole
             this.groupBox3.TabIndex = 6;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Statistics";
-            // 
-            // buttonUsers
-            // 
-            this.buttonUsers.Location = new System.Drawing.Point(182, 166);
-            this.buttonUsers.Margin = new System.Windows.Forms.Padding(2);
-            this.buttonUsers.Name = "buttonUsers";
-            this.buttonUsers.Size = new System.Drawing.Size(116, 65);
-            this.buttonUsers.TabIndex = 4;
-            this.buttonUsers.Text = "Users";
-            this.buttonUsers.UseVisualStyleBackColor = true;
-            this.buttonUsers.Click += new System.EventHandler(this.buttonUsers_Click);
             // 
             // labelNumberOfVcards
             // 
