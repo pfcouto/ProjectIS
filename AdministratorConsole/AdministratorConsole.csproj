@@ -112,6 +112,7 @@
     <Compile Include="VCards.Designer.cs">
       <DependentUpon>VCards.cs</DependentUpon>
     </Compile>
+    <Compile Include="XmlHandler.cs" />
     <EmbeddedResource Include="Admins.resx">
       <DependentUpon>Admins.cs</DependentUpon>
     </EmbeddedResource>

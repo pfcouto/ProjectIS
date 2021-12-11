@@ -192,6 +192,7 @@ namespace AdministratorConsole
             this.buttonExportXML.TabIndex = 10;
             this.buttonExportXML.Text = "Export to XML";
             this.buttonExportXML.UseVisualStyleBackColor = true;
+            this.buttonExportXML.Click += new System.EventHandler(this.buttonExportXML_Click);
             // 
             // buttonFilter
             // 

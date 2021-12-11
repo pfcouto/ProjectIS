@@ -41,7 +41,7 @@ namespace AdministratorConsole
                 excelWorksheet.Cells[counter, 2].Value = transaction.Type.ToString();
                 excelWorksheet.Cells[counter, 3].Value = "origin";
                 excelWorksheet.Cells[counter, 4].Value = "destiny";
-                excelWorksheet.Cells[counter, 5].Value = transaction.Date.ToString("dd-MM-yyyy HH-mm-ss");
+                excelWorksheet.Cells[counter, 5].Value = transaction.Date.ToString("dd-MM-yyyy HH:mm:ss");
                 excelWorksheet.Cells[counter, 6].Value = transaction.Value.ToString() + "€";
                 counter++;
             }

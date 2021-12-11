@@ -118,9 +118,21 @@ namespace AdministratorConsole
 
         private void buttonExportExcel_Click(object sender, EventArgs e)
         {
-            string filename = "Transactions.xlsx";
+            string filename = "TransactionsExported.xlsx";
+            Cursor.Current = Cursors.WaitCursor;
             ExcelHandler.OutputToExcel(filename, transactions);
-            MessageBox.Show("sucesso");
+            Cursor.Current = Cursors.Default;
+            MessageBox.Show("Transactions exported with sucess");
+        }
+
+        private void buttonExportXML_Click(object sender, EventArgs e)
+        {
+            string filename = "TransactionsExported.xml";
+            Cursor.Current = Cursors.WaitCursor;
+            XmlHandler.OutputTXml(filename,transactions);
+            Cursor.Current = Cursors.Default;
+            MessageBox.Show("Transactions exported with sucess");
+
         }
     }
 }
