@@ -410,5 +410,45 @@ namespace BankOne.Controllers
                 return InternalServerError(e);
             }
         }
+
+        [Route("api/vcards/balance")]
+        public IHttpActionResult GetVCardBalance(string phoneNumber)
+        {
+            SqlConnection conn = null;
+            decimal balance;
+
+            try
+            {
+                conn = new SqlConnection(connectionString);
+                conn.Open();
+
+                SqlCommand command = new SqlCommand("SELECT balance FROM VCards WHERE phone_number = @phone_number", conn);
+                command.Parameters.AddWithValue("@phone_number", phoneNumber);
+                SqlDataReader reader = command.ExecuteReader();
+
+                if (reader.Read())
+                {
+                    balance = reader.GetDecimal(0);
+                }
+                else
+                {
+                    throw new Exception();
+                }
+
+                reader.Close();
+                conn.Close();
+
+            }
+            catch (Exception)
+            {
+                if (conn.State == System.Data.ConnectionState.Open)
+                {
+                    conn.Close();
+                }
+                return BadRequest();
+            }
+
+            return Ok(balance);
+        }
     }
 }

@@ -4,6 +4,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Threading.Tasks;
 using System.Web.Http;
 using VCardsMiddleware.Models;
 
@@ -48,11 +49,90 @@ namespace VCardsMiddleware.Controllers
                 {
                     conn.Close();
                 }
+
                 return InternalServerError();
 
 
             }
+
             return Ok(users);
         }
+
+
+        [Authorize(Roles = "admin")]
+        [Route("api/VCards/balance")]
+        public async Task<IHttpActionResult> GetBalance(string phoneNumber)
+        {
+            SqlConnection conn = null;
+            decimal balance = 0;
+            string endpoint = null;
+
+
+            try
+            {
+                conn = new SqlConnection(connectionString);
+                conn.Open();
+
+                SqlCommand command = new SqlCommand("SELECT * FROM VCards WHERE phone_number = @phoneNumber", conn);
+                command.Parameters.AddWithValue("@phoneNumber", phoneNumber);
+                SqlDataReader reader = command.ExecuteReader();
+                int id;
+                if (reader.Read())
+                {
+                    id = (int)reader["external_entity_id"];
+                }
+                else
+                {
+                    throw new Exception();
+                }
+
+                reader.Close();
+
+
+                //get endpoint
+                conn = new SqlConnection(connectionString);
+                conn.Open();
+
+                command = new SqlCommand("SELECT endpoint FROM ExternalEntities WHERE Id = @Id", conn);
+                command.Parameters.AddWithValue("@Id", id);
+                reader = command.ExecuteReader();
+                if (reader.Read())
+                {
+                    endpoint = (string)reader["endpoint"];
+                }
+                else
+                {
+                    throw new Exception();
+                }
+
+                reader.Close();
+
+
+                conn.Close();
+            }
+            catch (Exception)
+            {
+                if (conn.State == System.Data.ConnectionState.Open)
+                {
+                    conn.Close();
+                }
+
+                return InternalServerError();
+            }
+
+
+            //request balance from entity
+            HttpClient client = new HttpClient();
+            HttpResponseMessage response = await client.GetAsync(endpoint + "api/vcards/balance?phoneNumber=" + phoneNumber);
+
+            if (response.StatusCode != HttpStatusCode.OK)
+            {
+                return InternalServerError();
+            }
+
+            balance = Convert.ToDecimal(await response.Content.ReadAsStringAsync());
+            return Ok(balance);
+        }
+
     }
 }
