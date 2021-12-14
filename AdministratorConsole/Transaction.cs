@@ -20,5 +20,6 @@ namespace AdministratorConsole
         public decimal Value { get; set; }
         public int Category_id { get; set; }
         public string Description { get; set; }
+        public string Payment_reference { get; set; }
     }
 }

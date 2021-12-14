@@ -71,6 +71,7 @@ namespace BankOne.Controllers
                         Value = reader.GetDecimal(4),
                         Category_id = reader["category_id"] == DBNull.Value ? 0 : (int)reader["category_id"],
                         Description = reader["description"] == DBNull.Value ? null : (string)reader["description"],
+                        Payment_reference = (string)reader["payment_reference"],
                     };
 
                     transactions.Add(transaction);
@@ -119,6 +120,7 @@ namespace BankOne.Controllers
                         Value = reader.GetDecimal(4),
                         Category_id = reader["category_id"] == DBNull.Value ? 0 : (int)reader["category_id"],
                         Description = reader["description"] == DBNull.Value ? null : (string)reader["description"],
+                        Payment_reference = (string)reader["payment_reference"],
                     };
 
                     transactions.Add(transaction);
@@ -167,6 +169,7 @@ namespace BankOne.Controllers
                         Value = reader.GetDecimal(4),
                         Category_id = reader["category_id"] == DBNull.Value ? 0 : (int)reader["category_id"],
                         Description = reader["description"] == DBNull.Value ? null : (string)reader["description"],
+                        Payment_reference = (string)reader["payment_reference"],
                     };
 
                     transactions.Add(transaction);
@@ -188,10 +191,16 @@ namespace BankOne.Controllers
             return Ok(transactions);
         }
 
-        public IHttpActionResult PostTransaction(string confirmation_code, [FromBody] VCardTransaction transaction)
+        [Route("api/transactions")]
+        public IHttpActionResult PostTransaction([FromBody] VCardTransactionPost transaction)
         {
             if (transaction == null)
                 return BadRequest();
+
+            if (transaction.Payment_reference == null)
+            {
+                return Content((HttpStatusCode)422, "Invalid payment_reference");
+            }
 
             if (transaction.Value <= 0)
                 return Content((HttpStatusCode)422, "Invalid transaction value");
@@ -247,7 +256,7 @@ namespace BankOne.Controllers
 
                 using (SHA256 mySHA256 = SHA256.Create())
                 {
-                    hashedReceivedConfirmationCode = Convert.ToBase64String(mySHA256.ComputeHash(Encoding.UTF8.GetBytes(confirmation_code)));
+                    hashedReceivedConfirmationCode = Convert.ToBase64String(mySHA256.ComputeHash(Encoding.UTF8.GetBytes(transaction.Confirmation_code)));
                 }
 
                 if (hashedReceivedConfirmationCode != (string)readerUser["confirmation_code"])
@@ -290,13 +299,14 @@ namespace BankOne.Controllers
 
                 sqlTransaction = connection.BeginTransaction();
 
-                string sql = "INSERT INTO VCardTransactions VALUES (@vcard, @date, @type, @value, @category_id, @description)";
+                string sql = "INSERT INTO VCardTransactions VALUES (@vcard, @date, @type, @value, @category_id, @description, @payment_reference)";
                 SqlCommand commandInsertTransaction = new SqlCommand(sql, connection, sqlTransaction);
 
                 commandInsertTransaction.Parameters.AddWithValue("@vcard", transaction.VCard);
                 commandInsertTransaction.Parameters.AddWithValue("@date", DateTime.Now);
                 commandInsertTransaction.Parameters.AddWithValue("@type", transaction.Type);
                 commandInsertTransaction.Parameters.AddWithValue("@value", transaction.Value);
+                commandInsertTransaction.Parameters.AddWithValue("@payment_reference", transaction.Payment_reference);
 
                 if (transaction.Category_id != 0)
                 {
@@ -366,11 +376,17 @@ namespace BankOne.Controllers
             }
         }
 
+        [Route("api/transactions/{id:int}")]
         public IHttpActionResult PatchTransaction(int id, [FromBody] VCardTransactionDetails transactionDetails)
         {
             if (transactionDetails == null)
             {
                 return BadRequest();
+            }
+
+            if (transactionDetails.Confirmation_code == null)
+            {
+                return Content((HttpStatusCode)422, "Invalid confirmation code");
             }
 
             if (transactionDetails.Category_id < 0 && transactionDetails.GetIsChanged())
@@ -511,6 +527,8 @@ namespace BankOne.Controllers
             }
 
         }
+
+        [Route("api/transactions/{id:int}")]
         public IHttpActionResult Delete(int id)
         {
 

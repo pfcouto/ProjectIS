@@ -65,14 +65,7 @@ namespace AdministratorConsole
             dataGridViewTransactions.BeginInvoke((MethodInvoker)delegate { dataGridViewTransactions.Rows.Clear(); });
             foreach (Transaction transaction in transactions)
             {
-                if (transaction.Type == 'C')
-                {
-                    dataGridViewTransactions.BeginInvoke((MethodInvoker)delegate { dataGridViewTransactions.Rows.Add(transaction.Id, transaction.Type, null, transaction.VCard, transaction.Date, transaction.Value); });
-                }
-                else
-                {
-                    dataGridViewTransactions.BeginInvoke((MethodInvoker)delegate { dataGridViewTransactions.Rows.Add(transaction.Id, transaction.Type, transaction.VCard, null, transaction.Date, transaction.Value); });
-                }
+                dataGridViewTransactions.BeginInvoke((MethodInvoker)delegate { dataGridViewTransactions.Rows.Add(transaction.Id, transaction.Type, transaction.VCard, transaction.Payment_reference, transaction.Date, transaction.Value); });
             }
         }
 

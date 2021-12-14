@@ -14,7 +14,7 @@ namespace VCardsMiddleware.Controllers
         string connectionString = Properties.Settings.Default.DBConnString;
 
         [Authorize(Roles = "admin")]
-        public IHttpActionResult GetAllUsers()
+        public IHttpActionResult GetAllVCards()
         {
             List<VCardExternalEntity> users = new List<VCardExternalEntity>();
 
