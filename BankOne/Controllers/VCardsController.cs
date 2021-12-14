@@ -411,7 +411,7 @@ namespace BankOne.Controllers
             }
         }
 
-        [Route("api/vcards/balance")]
+        [Route("api/vcards/{phoneNumber}/balance")]
         public IHttpActionResult GetVCardBalance(string phoneNumber)
         {
             SqlConnection conn = null;

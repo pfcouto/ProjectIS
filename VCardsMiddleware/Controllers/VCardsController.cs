@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -60,7 +61,7 @@ namespace VCardsMiddleware.Controllers
 
 
         [Authorize(Roles = "admin")]
-        [Route("api/VCards/balance")]
+        [Route("api/VCards/{phoneNumber}/balance")]
         public async Task<IHttpActionResult> GetBalance(string phoneNumber)
         {
             SqlConnection conn = null;
@@ -123,15 +124,17 @@ namespace VCardsMiddleware.Controllers
 
             //request balance from entity
             HttpClient client = new HttpClient();
-            HttpResponseMessage response = await client.GetAsync(endpoint + "api/vcards/balance?phoneNumber=" + phoneNumber);
+            HttpResponseMessage response = await client.GetAsync(endpoint + "api/vcards/" + phoneNumber + "/balance");
 
             if (response.StatusCode != HttpStatusCode.OK)
             {
                 return InternalServerError();
             }
 
-            balance = Convert.ToDecimal(await response.Content.ReadAsStringAsync());
-            return Ok(balance);
+            var content = await response.Content.ReadAsStringAsync();
+            
+            //return Ok(content);
+            return Ok(Decimal.Parse(content, NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture));
         }
 
     }

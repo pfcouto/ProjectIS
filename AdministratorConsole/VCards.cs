@@ -40,6 +40,40 @@ namespace AdministratorConsole
             var selectedRowsCount = dataGridViewVCards.SelectedRows.Count;
             if (selectedRowsCount < 1)
             {
+                fetchBalance(false);
+            }
+            else
+            {
+                fetchBalance(true);
+            }
+        }
+
+        private async void fetchBalance(Boolean all)
+        {
+            var selectedRowsCount = 0;
+            var counter = 0;
+            DataGridViewRowCollection rows = null;
+            DataGridViewSelectedRowCollection rowsSelected = null;
+
+            if (!all)
+            {
+                selectedRowsCount = dataGridViewVCards.SelectedRows.Count;
+                foreach (DataGridViewRow selectedRow in dataGridViewVCards.SelectedRows)
+                {
+                    selectedRow.Cells[0].Value.ToString();
+                    var response = await RestHelper.GetBalanceOfVCard(selectedRow.Cells[0].Value.ToString());
+
+                    if (response.Item1 == HttpStatusCode.OK)
+                    {
+                        counter++;
+                        selectedRow.Cells["Balance"].Value = response.Item2;
+                    }
+
+                }
+            }
+            else
+            {
+                selectedRowsCount = dataGridViewVCards.Rows.Count;
                 foreach (DataGridViewRow selectedRow in dataGridViewVCards.Rows)
                 {
                     selectedRow.Cells[0].Value.ToString();
@@ -47,25 +81,15 @@ namespace AdministratorConsole
 
                     if (response.Item1 == HttpStatusCode.OK)
                     {
-                        selectedRow.Cells[2].Value = response.Item2;
-                        return;
+                        counter++;
+                        selectedRow.Cells["Balance"].Value = response.Item2;
                     }
 
                 }
-                return;
             }
 
-            foreach (DataGridViewRow selectedRow in dataGridViewVCards.SelectedRows)
-            {
-                var response = await RestHelper.GetBalanceOfVCard(selectedRow.Cells[0].Value.ToString());
-
-                if (response.Item1 == HttpStatusCode.OK)
-                {
-                    selectedRow.Cells[2].Value = response.Item2;
-                    return;
-                }
-
-            }
+            MessageBox.Show("Fetched " + counter + "/" + selectedRowsCount + " with success");
         }
+
     }
 }
