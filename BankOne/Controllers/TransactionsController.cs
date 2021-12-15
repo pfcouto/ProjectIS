@@ -252,18 +252,21 @@ namespace BankOne.Controllers
                     throw new Exception();
                 }
 
-                string hashedReceivedConfirmationCode;
-
-                using (SHA256 mySHA256 = SHA256.Create())
+                if (transaction.Type == 'D')
                 {
-                    hashedReceivedConfirmationCode = Convert.ToBase64String(mySHA256.ComputeHash(Encoding.UTF8.GetBytes(transaction.Confirmation_code)));
-                }
+                    string hashedReceivedConfirmationCode;
 
-                if (hashedReceivedConfirmationCode != (string)readerUser["confirmation_code"])
-                {
-                    readerUser.Close();
-                    connection.Close();
-                    return Content((HttpStatusCode)422, "Invalid confirmation code");
+                    using (SHA256 mySHA256 = SHA256.Create())
+                    {
+                        hashedReceivedConfirmationCode = Convert.ToBase64String(mySHA256.ComputeHash(Encoding.UTF8.GetBytes(transaction.Confirmation_code)));
+                    }
+
+                    if (hashedReceivedConfirmationCode != (string)readerUser["confirmation_code"])
+                    {
+                        readerUser.Close();
+                        connection.Close();
+                        return Content((HttpStatusCode)422, "Invalid confirmation code");
+                    }
                 }
 
                 readerUser.Close();

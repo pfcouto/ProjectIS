@@ -110,7 +110,6 @@ namespace VCardsMiddleware.Controllers
             }
         }
 
-        [Authorize(Roles = "admin")]
         public async Task<IHttpActionResult> PostTansaction([FromBody] TransactionPost transaction)
         {
             if (transaction == null)
@@ -140,87 +139,121 @@ namespace VCardsMiddleware.Controllers
             try
             {
                 connection = new SqlConnection(connectionString);
-                string sql = "SELECT endpoint FROM ExternalEntities";
 
-                SqlCommand command = new SqlCommand(null, connection);
+                SqlCommand commandSearchVCard1 = new SqlCommand("SELECT * FROM VCards WHERE phone_number=@phone_number", connection);
+                commandSearchVCard1.Parameters.AddWithValue("@phone_number", transaction.VCard);
+                SqlCommand commandSearchVCard2 = new SqlCommand("SELECT * FROM VCards WHERE phone_number=@phone_number", connection);
+                commandSearchVCard2.Parameters.AddWithValue("@phone_number", transaction.Payment_reference);
 
-                if (externalEntityId >= 0)
-                {
-                    sql += " WHERE id = @id";
-                    command.Parameters.AddWithValue("@id", externalEntityId);
-                }
                 connection.Open();
 
-                command.CommandText = sql;
+                SqlDataReader readerCard1 = commandSearchVCard1.ExecuteReader();
 
-                SqlDataReader reader = command.ExecuteReader();
+                int externalEntitySource;
 
-                string endpoint;
-
-                HttpClient client = new HttpClient();
-
-                string endpointIncrement = "";
-                if (!string.IsNullOrEmpty(type) || !string.IsNullOrEmpty(dateFrom) || !string.IsNullOrEmpty(dateTo) || externalEntityId >= 0)
+                if (!readerCard1.Read())
                 {
-                    endpointIncrement += '?';
+                    readerCard1.Close();
+                    connection.Close();
+                    return Content((HttpStatusCode)422, "Source VCard doesn't exist");
                 }
 
-                if (!string.IsNullOrEmpty(type))
+                externalEntitySource = (int)readerCard1["external_entity_id"];
+
+                readerCard1.Close();
+
+                SqlDataReader readerCard2 = commandSearchVCard2.ExecuteReader();
+
+                int externalEntityDestiny;
+
+                if (!readerCard2.Read())
                 {
-                    endpointIncrement += "type=" + type;
+                    readerCard2.Close();
+                    connection.Close();
+                    return Content((HttpStatusCode)422, "Destiny VCard doesn't exist");
                 }
 
-                if (!string.IsNullOrEmpty(dateFrom) && !string.IsNullOrEmpty(dateTo))
+                externalEntityDestiny = (int)readerCard2["external_entity_id"];
+
+                readerCard2.Close();
+
+                SqlCommand commandGetEndpointSource = new SqlCommand("SELECT * FROM ExternalEntities WHERE id=@id", connection);
+                commandGetEndpointSource.Parameters.AddWithValue("@id", externalEntitySource);
+                SqlCommand commandGetEndpointDestiny = new SqlCommand("SELECT * FROM ExternalEntities WHERE id=@id", connection);
+                commandGetEndpointDestiny.Parameters.AddWithValue("@id", externalEntityDestiny);
+                
+                SqlDataReader readerEntitySource = commandGetEndpointSource.ExecuteReader();
+
+                string endpointSource;
+
+                if (!readerEntitySource.Read())
                 {
-                    if (!string.IsNullOrEmpty(type))
+                    readerEntitySource.Close();
+                    connection.Close();
+                    return Content((HttpStatusCode)422, "Error finding Source Financial Entity endpoint");
+                }
+
+                endpointSource = (string)readerEntitySource["endpoint"];
+
+                readerEntitySource.Close();
+
+                SqlDataReader readerEntityDestiny = commandGetEndpointDestiny.ExecuteReader();
+
+                string endpointDestiny;
+
+                if (!readerEntityDestiny.Read())
+                {
+                    readerEntityDestiny.Close();
+                    connection.Close();
+                    return Content((HttpStatusCode)422, "Error finding Destiny Financial Entity endpoint");
+                }
+
+                endpointDestiny = (string)readerEntityDestiny["endpoint"];
+
+                readerEntityDestiny.Close();
+
+                using (HttpClient client = new HttpClient())
+                {
+                    HttpContent contentSource = new StringContent(JsonConvert.SerializeObject(transaction), Encoding.UTF8, "application/json");
+                    HttpResponseMessage responseSource = await client.PostAsync(endpointSource + "api/transactions", contentSource);
+                    string responseSourceMessage = await responseSource.Content.ReadAsStringAsync();
+
+                    if (responseSource.StatusCode != HttpStatusCode.OK)
                     {
-                        endpointIncrement += "&dateFrom=" + dateFrom + "&dateTo=" + dateTo;
+                        connection.Close();
+                        return Content((HttpStatusCode)responseSource.StatusCode, "An error occurred in the external entity associated with the transaction creator vcard: " + responseSourceMessage);
                     }
-                    else
+
+                    TransactionPost transactionPair = new TransactionPost()
                     {
-                        endpointIncrement += "dateFrom=" + dateFrom + "&dateTo=" + dateTo;
+                        VCard = transaction.Payment_reference,
+                        Value = transaction.Value,
+                        Type = transaction.Type == 'C' ? 'D' : 'C',
+                        Category_id = 0,
+                        Description = null,
+                        Payment_reference = transaction.VCard,
+                    };
+
+                    HttpContent contentDestiny = new StringContent(JsonConvert.SerializeObject(transactionPair), Encoding.UTF8, "application/json");
+                    HttpResponseMessage responseDestiny = await client.PostAsync(endpointDestiny + "api/transactions", contentDestiny);
+                    string responseDestinyMessage = await responseDestiny.Content.ReadAsStringAsync();
+                    
+                    if (responseDestiny.StatusCode != HttpStatusCode.OK)
+                    {
+                        connection.Close();
+                        return Content((HttpStatusCode)responseDestiny.StatusCode, "An error occurred in the external entity associated with the transaction receiver vcard: " + responseDestinyMessage);
                     }
                 }
 
-                if (externalEntityId >= 0)
-                {
-                    if (!string.IsNullOrEmpty(type) || (!string.IsNullOrEmpty(dateFrom) && !string.IsNullOrEmpty(dateTo)))
-                    {
-                        endpointIncrement += "&externalEntityId=" + externalEntityId;
-                    }
-                    else
-                    {
-                        endpointIncrement += "externalEntityId=" + externalEntityId;
-                    }
-
-                }
-
-                while (reader.Read())
-                {
-                    endpoint = (string)reader["endpoint"];
-                    endpoint += "api/transactions" + endpointIncrement;
-
-
-                    HttpResponseMessage response = await client.GetAsync(endpoint);
-                    string responseBody = await response.Content.ReadAsStringAsync();
-
-                    if (response.StatusCode == HttpStatusCode.OK)
-                    {
-                        transactions = JsonConvert.DeserializeObject<List<Transaction>>(responseBody);
-                    }
-                    fullTransactions.AddRange(transactions);
-                }
-
-                return Ok(fullTransactions);
-
+                return Ok(transaction);
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 if (connection.State == System.Data.ConnectionState.Open)
                 {
                     connection.Close();
                 }
-                return InternalServerError();
+                return InternalServerError(e);
             }
         }
     }
