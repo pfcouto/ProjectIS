@@ -5,13 +5,13 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
-using BankOne.Models;
+using BankTwo.Models;
 
-namespace BankOne.Controllers
+namespace BankTwo.Controllers
 {
     public class CategoriesController : ApiController
     {
-        string connectionString = Properties.Settings.Default.BankOneDBConnection;
+        string connectionString = Properties.Settings.Default.BankTwoDBConnection;
 
         public IHttpActionResult GetAllCategories()
         {

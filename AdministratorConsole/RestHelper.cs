@@ -2,6 +2,7 @@
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -277,14 +278,30 @@ namespace AdministratorConsole
             }
 
             HttpResponseMessage response = await client.GetAsync(endpoint);
-            string responseBody = await response.Content.ReadAsStringAsync();
 
             List<Transaction> transactions = null;
 
             if (response.StatusCode == HttpStatusCode.OK)
+            {
+                string responseBody = await response.Content.ReadAsStringAsync();
                 transactions = JsonConvert.DeserializeObject<List<Transaction>>(responseBody);
+            }
 
             return (response.StatusCode, transactions);
         }
+
+        public static async Task<(HttpStatusCode, Decimal)> GetBalanceOfVCard(string phoneNumber)
+        {
+            string endpoint = BaseUrl + "api/vcards/" + phoneNumber + "/balance";
+
+            HttpResponseMessage response = await client.GetAsync(endpoint);
+            if (response.StatusCode == HttpStatusCode.OK)
+            {
+                string responseBody = await response.Content.ReadAsStringAsync();
+                return (response.StatusCode, Decimal.Parse(responseBody, NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture));
+            }
+            return (response.StatusCode, 0);
+        }
+
     }
 }

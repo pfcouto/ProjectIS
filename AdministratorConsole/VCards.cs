@@ -26,7 +26,7 @@ namespace AdministratorConsole
             {
                 foreach (VCardExternalEntity user in response.Item2)
                 {
-                    dataGridViewVCards.BeginInvoke((MethodInvoker)delegate { dataGridViewVCards.Rows.Add(user.PhoneNumber, user.ExternalEntityId); });
+                    dataGridViewVCards.BeginInvoke((MethodInvoker)delegate { dataGridViewVCards.Rows.Add(user.PhoneNumber, user.ExternalEntityId, null); });
                 }
             }
             else
@@ -34,5 +34,62 @@ namespace AdministratorConsole
                 MessageBox.Show("An error occurred while loading users");
             }
         }
+
+        private async void buttonRefreshBalance_Click(object sender, EventArgs e)
+        {
+            var selectedRowsCount = dataGridViewVCards.SelectedRows.Count;
+            if (selectedRowsCount < 1)
+            {
+                fetchBalance(false);
+            }
+            else
+            {
+                fetchBalance(true);
+            }
+        }
+
+        private async void fetchBalance(Boolean all)
+        {
+            var selectedRowsCount = 0;
+            var counter = 0;
+            DataGridViewRowCollection rows = null;
+            DataGridViewSelectedRowCollection rowsSelected = null;
+
+            if (!all)
+            {
+                selectedRowsCount = dataGridViewVCards.SelectedRows.Count;
+                foreach (DataGridViewRow selectedRow in dataGridViewVCards.SelectedRows)
+                {
+                    selectedRow.Cells[0].Value.ToString();
+                    var response = await RestHelper.GetBalanceOfVCard(selectedRow.Cells[0].Value.ToString());
+
+                    if (response.Item1 == HttpStatusCode.OK)
+                    {
+                        counter++;
+                        selectedRow.Cells["Balance"].Value = response.Item2;
+                    }
+
+                }
+            }
+            else
+            {
+                selectedRowsCount = dataGridViewVCards.Rows.Count;
+                foreach (DataGridViewRow selectedRow in dataGridViewVCards.Rows)
+                {
+                    selectedRow.Cells[0].Value.ToString();
+                    var response = await RestHelper.GetBalanceOfVCard(selectedRow.Cells[0].Value.ToString());
+
+                    if (response.Item1 == HttpStatusCode.OK)
+                    {
+                        counter++;
+                        selectedRow.Cells["Balance"].Value = response.Item2;
+                    }
+
+                }
+            }
+
+            MessageBox.Show("Fetched " + counter + "/" + selectedRowsCount + " with success");
+        }
+
     }
 }

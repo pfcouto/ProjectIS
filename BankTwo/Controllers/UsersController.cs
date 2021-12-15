@@ -1,4 +1,4 @@
-﻿using BankOne.Models;
+﻿using BankTwo.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -10,11 +10,11 @@ using System.Web.Http;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace BankOne.Controllers
+namespace BankTwo.Controllers
 {
     public class UsersController : ApiController
     {
-        string connectionString = Properties.Settings.Default.BankOneDBConnection;
+        string connectionString = Properties.Settings.Default.BankTwoDBConnection;
 
 
         public IHttpActionResult GetAllUsers()

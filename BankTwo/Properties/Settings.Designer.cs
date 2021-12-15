@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace BankOne.Properties {
+namespace BankTwo.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
@@ -27,9 +27,9 @@ namespace BankOne.Properties {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\\BankTwoDB.mdf" +
             ";Integrated Security=True")]
-        public string BankOneDBConnection {
+        public string BankTwoDBConnection {
             get {
-                return ((string)(this["BankOneDBConnection"]));
+                return ((string)(this["BankTwoDBConnection"]));
             }
         }
     }

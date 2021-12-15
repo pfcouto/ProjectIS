@@ -5,15 +5,15 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using System.Data.SqlClient;
-using BankOne.Models;
+using BankTwo.Models;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace BankOne.Controllers
+namespace BankTwo.Controllers
 {
     public class TransactionsController : ApiController
     {
-        readonly string connectionString = Properties.Settings.Default.BankOneDBConnection;
+        readonly string connectionString = Properties.Settings.Default.BankTwoDBConnection;
 
         [Route("api/transactions")]
         public IHttpActionResult GetTransactions(string type = null, string dateFrom = null, string dateTo = null)

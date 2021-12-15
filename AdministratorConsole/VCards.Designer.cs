@@ -33,6 +33,8 @@ namespace AdministratorConsole
             this.PhoneNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ExternalEntity = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label1 = new System.Windows.Forms.Label();
+            this.buttonRefreshBalance = new System.Windows.Forms.Button();
+            this.Balance = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewVCards)).BeginInit();
             this.SuspendLayout();
             // 
@@ -44,7 +46,8 @@ namespace AdministratorConsole
             this.dataGridViewVCards.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridViewVCards.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.PhoneNumber,
-            this.ExternalEntity});
+            this.ExternalEntity,
+            this.Balance});
             this.dataGridViewVCards.Location = new System.Drawing.Point(32, 56);
             this.dataGridViewVCards.Name = "dataGridViewVCards";
             this.dataGridViewVCards.ReadOnly = true;
@@ -73,11 +76,28 @@ namespace AdministratorConsole
             this.label1.TabIndex = 1;
             this.label1.Text = "VCards";
             // 
+            // buttonRefreshBalance
+            // 
+            this.buttonRefreshBalance.Location = new System.Drawing.Point(635, 249);
+            this.buttonRefreshBalance.Name = "buttonRefreshBalance";
+            this.buttonRefreshBalance.Size = new System.Drawing.Size(126, 38);
+            this.buttonRefreshBalance.TabIndex = 2;
+            this.buttonRefreshBalance.Text = "Refresh Balance";
+            this.buttonRefreshBalance.UseVisualStyleBackColor = true;
+            this.buttonRefreshBalance.Click += new System.EventHandler(this.buttonRefreshBalance_Click);
+            // 
+            // Balance
+            // 
+            this.Balance.HeaderText = "Balance";
+            this.Balance.Name = "Balance";
+            this.Balance.ReadOnly = true;
+            // 
             // VCards
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.buttonRefreshBalance);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.dataGridViewVCards);
             this.MaximumSize = new System.Drawing.Size(816, 489);
@@ -98,5 +118,7 @@ namespace AdministratorConsole
         private System.Windows.Forms.DataGridViewTextBoxColumn PhoneNumber;
         private System.Windows.Forms.DataGridViewTextBoxColumn ExternalEntity;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button buttonRefreshBalance;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Balance;
     }
 }

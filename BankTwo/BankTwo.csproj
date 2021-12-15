@@ -117,6 +117,7 @@
     <Compile Include="Models\UserCredentials.cs" />
     <Compile Include="Models\VCard.cs" />
     <Compile Include="Models\VCardTransaction.cs" />
+    <Compile Include="Models\VCardUserPassword.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>

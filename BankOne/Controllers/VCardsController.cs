@@ -149,12 +149,11 @@ namespace BankOne.Controllers
 
             return Ok(vCards);
         }
-        public IHttpActionResult PostVCard([FromBody] VCard vCard)
+        public IHttpActionResult PostVCard([FromBody] VCardUserPassword vCard)
         {
 
-            if (vCard == null || 
-                //(!vCard.Balance.Equals(null) && vCard.Balance < 0) || 
-                (!vCard.Max_debit.Equals(null) && vCard.Max_debit < 0) || 
+            if (vCard == null ||
+                (!vCard.Max_debit.Equals(null) && vCard.Max_debit < 0) ||
                 (!vCard.Earning_percentage.Equals(null) && vCard.Earning_percentage < 0))
             {
                 return BadRequest();
@@ -164,17 +163,51 @@ namespace BankOne.Controllers
 
             try
             {
+                //verify user and password
                 connection = new SqlConnection(connectionString);
-                string sql = "INSERT INTO VCards VALUES (@phone_number, @balance, @max_debit, @earning_percentage, @user_id)";
                 connection.Open();
-
+                string sql = "SELECT password FROM Users WHERE Id = @Id";
                 SqlCommand command = new SqlCommand(sql, connection);
+                command.Parameters.AddWithValue("@Id", vCard.User_id);
+
+                SqlDataReader reader = command.ExecuteReader();
+
+                if (reader.Read())
+                {
+                    string passwordHash = (string)reader[0];
+                    byte[] byteNewPasswordHash;
+                    string newPasswordHash;
+                    using (var sha = new SHA256CryptoServiceProvider())
+                    {
+                        byteNewPasswordHash = sha.ComputeHash(Encoding.UTF8.GetBytes(vCard.User_password));
+                        newPasswordHash = Convert.ToBase64String(byteNewPasswordHash);
+                    }
+
+                    if (passwordHash != newPasswordHash)
+                    {
+                        throw new Exception();
+                    }
+                }
+                else
+                {
+                    connection.Close();
+                    return BadRequest();
+                }
+
+                connection.Close();
+                
+
+                connection = new SqlConnection(connectionString);
+                connection.Open();
+                sql = "INSERT INTO VCards VALUES (@phone_number, @balance, @max_debit, @earning_percentage, @user_id)";
+
+                command = new SqlCommand(sql, connection);
 
                 command.Parameters.AddWithValue("@phone_number", vCard.Phone_number);
                 command.Parameters.AddWithValue("@user_id", vCard.User_id);
-                command.Parameters.AddWithValue("@balance",  0);
-                command.Parameters.AddWithValue("@max_debit", vCard.Max_debit.Equals(null) ? vCard.Balance : 0);
-                command.Parameters.AddWithValue("@earning_percentage", vCard.Earning_percentage.Equals(null) ? vCard.Balance : 0);
+                command.Parameters.AddWithValue("@balance", 0);
+                command.Parameters.AddWithValue("@max_debit", vCard.Max_debit.Equals(null) ? 0 : vCard.Max_debit);
+                command.Parameters.AddWithValue("@earning_percentage", vCard.Earning_percentage.Equals(null) ? 0 : vCard.Earning_percentage);
 
                 int nRegistos = command.ExecuteNonQuery();
                 connection.Close();
@@ -409,6 +442,46 @@ namespace BankOne.Controllers
                 }
                 return InternalServerError(e);
             }
+        }
+
+        [Route("api/vcards/{phoneNumber}/balance")]
+        public IHttpActionResult GetVCardBalance(string phoneNumber)
+        {
+            SqlConnection conn = null;
+            decimal balance;
+
+            try
+            {
+                conn = new SqlConnection(connectionString);
+                conn.Open();
+
+                SqlCommand command = new SqlCommand("SELECT balance FROM VCards WHERE phone_number = @phone_number", conn);
+                command.Parameters.AddWithValue("@phone_number", phoneNumber);
+                SqlDataReader reader = command.ExecuteReader();
+
+                if (reader.Read())
+                {
+                    balance = reader.GetDecimal(0);
+                }
+                else
+                {
+                    throw new Exception();
+                }
+
+                reader.Close();
+                conn.Close();
+
+            }
+            catch (Exception)
+            {
+                if (conn.State == System.Data.ConnectionState.Open)
+                {
+                    conn.Close();
+                }
+                return BadRequest();
+            }
+
+            return Ok(balance);
         }
     }
 }

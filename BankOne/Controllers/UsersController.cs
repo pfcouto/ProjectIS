@@ -56,8 +56,6 @@ namespace BankOne.Controllers
                     conn.Close();
                 }
                 return InternalServerError();
-
-
             }
 
             return Ok(users);
@@ -105,7 +103,7 @@ namespace BankOne.Controllers
             }
             catch (Exception)
             {
-                
+
                 if (conn.State == System.Data.ConnectionState.Open)
                 {
 
@@ -117,14 +115,14 @@ namespace BankOne.Controllers
             }
 
         }
-        
+
         public IHttpActionResult PostUser([FromBody] User user)
         {
             SqlConnection connection = null;
 
             try
             {
-                
+
                 connection = new SqlConnection(connectionString);
                 string sql = "INSERT INTO Users VALUES (@name, @email, @password, @photo_url, @confirmation_code, @phone_number)";
                 connection.Open();
@@ -133,7 +131,7 @@ namespace BankOne.Controllers
 
                 command.Parameters.AddWithValue("@name", user.Name);
                 command.Parameters.AddWithValue("@email", user.Email);
-                
+
                 using (SHA256 mySHA256 = SHA256.Create())
                 {
                     command.Parameters.AddWithValue("@password", Convert.ToBase64String(mySHA256.ComputeHash(Encoding.UTF8.GetBytes(user.Password))));
@@ -152,10 +150,8 @@ namespace BankOne.Controllers
                 {
                     return Ok();
                 }
-                else
-                {
-                    return BadRequest();
-                }
+                return BadRequest();
+
 
             }
             catch (Exception)
@@ -266,8 +262,8 @@ namespace BankOne.Controllers
                 {
                     hashedPassword =
                         Convert.ToBase64String(mySHA256.ComputeHash(Encoding.UTF8.GetBytes(userCredentials.OldPassword)));
-                    
-                    newHashedPassword = userCredentials.Password != null ? Convert.ToBase64String(mySHA256.ComputeHash(Encoding.UTF8.GetBytes(userCredentials.Password))) : null ;
+
+                    newHashedPassword = userCredentials.Password != null ? Convert.ToBase64String(mySHA256.ComputeHash(Encoding.UTF8.GetBytes(userCredentials.Password))) : null;
                     newConfirmationCode = userCredentials.ConfirmationCode != null ? Convert.ToBase64String(mySHA256.ComputeHash(Encoding.UTF8.GetBytes(userCredentials.ConfirmationCode))) : null;
                 }
 
