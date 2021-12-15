@@ -51,7 +51,7 @@ namespace VCardsMiddleware.Controllers
                 }
 
                 HttpClient client = new HttpClient();
-                var payload = "{\"Name\": \"" + user.Name + "\",\"Email\": \"" + user.Email + "\",\"Phone_number\": \"" + user.Phone_number + "\",\"Password\": \"" + user.Password + "\",\"Confirmation_code\": \"" + user.Confirmation_code + "\"}";
+                var payload = "{\"Name\": \"" + user.Name + "\",\"Email\": \"" + user.Email + "\",\"Phone_number\": \"" + user.Phone_number + "\",\"Password\": \"" + user.Password + "\",\"Confirmation_code\": \"" + user.Confirmation_code + "\",\"Photo\": \"" + user.Photo + "\"}";
                 HttpContent content = new StringContent(payload, Encoding.UTF8, "application/json");
                 HttpResponseMessage response = await client.PostAsync(endpoint + "api/users", content);
 
@@ -61,7 +61,7 @@ namespace VCardsMiddleware.Controllers
                 }
 
                 return BadRequest();
-                
+
             }
             catch (Exception)
             {

@@ -221,11 +221,11 @@ namespace AdministratorConsole
         //    return (response.StatusCode, user);
         //}
 
-        public static async Task<HttpStatusCode> CreateUser(int externalEntityId, string name, string email, string phoneNumber, string password, string confirmationCode)
+        public static async Task<HttpStatusCode> CreateUser(int externalEntityId, string name, string email, string phoneNumber, string password, string confirmationCode, string base64Picture)
         {
             try
             {
-                var payload = "{\"External_entity_id\": " + externalEntityId + ",\"Name\": \"" + name + "\",\"Email\": \"" + email + "\",\"Phone_number\": \"" + phoneNumber + "\",\"Password\": \"" + password + "\",\"Confirmation_code\": \"" + confirmationCode + "\"}";
+                var payload = "{\"External_entity_id\": " + externalEntityId + ",\"Name\": \"" + name + "\",\"Email\": \"" + email + "\",\"Phone_number\": \"" + phoneNumber + "\",\"Password\": \"" + password + "\",\"Confirmation_code\": \"" + confirmationCode + "\",\"Photo\": \"" + base64Picture + "\"}";
                 HttpContent content = new StringContent(payload, Encoding.UTF8, "application/json");
                 HttpResponseMessage response = await client.PostAsync(BaseUrl + "api/users", content);
                 string responseBody = await response.Content.ReadAsStringAsync();

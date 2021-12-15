@@ -1,7 +1,10 @@
 ﻿using BankTwo.Models;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data.SqlClient;
+using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -37,7 +40,7 @@ namespace BankTwo.Controllers
                     {
                         Id = (int)reader["Id"],
                         Name = (string)reader["name"],
-                        Photo_url = reader["photo_url"] == DBNull.Value ? "" : (string)reader["photo_url"],
+                        Photo = reader["photo_url"] == DBNull.Value ? "" : (string)reader["photo_url"],
                         Password = (string)reader["password"],
                         Confirmation_code = (string)reader["confirmation_code"],
                         Phone_number = (string)reader["phone_number"]
@@ -85,7 +88,7 @@ namespace BankTwo.Controllers
                         Id = (int)reader["Id"],
                         Name = (string)reader["name"],
                         Email = (string)reader["email"],
-                        Photo_url = reader["photo_url"] == DBNull.Value ? "" : (string)reader["photo_url"],
+                        Photo = reader["photo_url"] == DBNull.Value ? "" : (string)reader["photo_url"],
                         Phone_number = (string)reader["phone_number"]
                     };
                 }
@@ -140,8 +143,9 @@ namespace BankTwo.Controllers
                     command.Parameters.AddWithValue("@confirmation_code", Convert.ToBase64String(mySHA256.ComputeHash(Encoding.UTF8.GetBytes(user.Confirmation_code))));
                 }
 
-                command.Parameters.AddWithValue("@photo_url", user.Photo_url ?? "");
+                command.Parameters.AddWithValue("@photo_url",  null);
                 command.Parameters.AddWithValue("@phone_number", user.Phone_number);
+
 
 
                 int numeroRegistos = command.ExecuteNonQuery();
@@ -199,7 +203,7 @@ namespace BankTwo.Controllers
                 command.Parameters.AddWithValue("@id", id);
                 command.Parameters.AddWithValue("@name", user.Name ?? (string)reader["name"]);
                 command.Parameters.AddWithValue("@email", user.Email ?? (string)reader["email"]);
-                command.Parameters.AddWithValue("@photo_url", user.Photo_url ?? (string)reader["photo_url"]);
+                command.Parameters.AddWithValue("@photo_url", user.Photo ?? (string)reader["photo_url"]);
                 command.Parameters.AddWithValue("@phone_number", user.Phone_number ?? (string)reader["phone_number"]);
 
                 reader.Close();

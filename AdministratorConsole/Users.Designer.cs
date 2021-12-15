@@ -31,8 +31,9 @@ namespace AdministratorConsole
         {
             this.buttonCreateUser = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.buttonChoosePicture = new System.Windows.Forms.Button();
             this.label7 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.textBoxPicture = new System.Windows.Forms.TextBox();
             this.textBoxPhoneNumber = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
             this.pictureBoxPhoto = new System.Windows.Forms.PictureBox();
@@ -46,6 +47,7 @@ namespace AdministratorConsole
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.comboBoxExternalEntity = new System.Windows.Forms.ComboBox();
+            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPhoto)).BeginInit();
             this.SuspendLayout();
@@ -62,8 +64,9 @@ namespace AdministratorConsole
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.buttonChoosePicture);
             this.groupBox1.Controls.Add(this.label7);
-            this.groupBox1.Controls.Add(this.textBox1);
+            this.groupBox1.Controls.Add(this.textBoxPicture);
             this.groupBox1.Controls.Add(this.textBoxPhoneNumber);
             this.groupBox1.Controls.Add(this.label6);
             this.groupBox1.Controls.Add(this.pictureBoxPhoto);
@@ -85,6 +88,16 @@ namespace AdministratorConsole
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Register User";
             // 
+            // buttonChoosePicture
+            // 
+            this.buttonChoosePicture.Location = new System.Drawing.Point(351, 244);
+            this.buttonChoosePicture.Name = "buttonChoosePicture";
+            this.buttonChoosePicture.Size = new System.Drawing.Size(130, 23);
+            this.buttonChoosePicture.TabIndex = 17;
+            this.buttonChoosePicture.Text = "Choose Picture";
+            this.buttonChoosePicture.UseVisualStyleBackColor = true;
+            this.buttonChoosePicture.Click += new System.EventHandler(this.buttonChoosePicture_Click);
+            // 
             // label7
             // 
             this.label7.AutoSize = true;
@@ -94,12 +107,13 @@ namespace AdministratorConsole
             this.label7.TabIndex = 16;
             this.label7.Text = "Profile Picture";
             // 
-            // textBox1
+            // textBoxPicture
             // 
-            this.textBox1.Location = new System.Drawing.Point(351, 213);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(130, 20);
-            this.textBox1.TabIndex = 15;
+            this.textBoxPicture.Enabled = false;
+            this.textBoxPicture.Location = new System.Drawing.Point(351, 213);
+            this.textBoxPicture.Name = "textBoxPicture";
+            this.textBoxPicture.Size = new System.Drawing.Size(130, 20);
+            this.textBoxPicture.TabIndex = 15;
             // 
             // textBoxPhoneNumber
             // 
@@ -122,6 +136,7 @@ namespace AdministratorConsole
             this.pictureBoxPhoto.Location = new System.Drawing.Point(351, 33);
             this.pictureBoxPhoto.Name = "pictureBoxPhoto";
             this.pictureBoxPhoto.Size = new System.Drawing.Size(130, 130);
+            this.pictureBoxPhoto.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBoxPhoto.TabIndex = 12;
             this.pictureBoxPhoto.TabStop = false;
             // 
@@ -208,14 +223,19 @@ namespace AdministratorConsole
             this.comboBoxExternalEntity.Size = new System.Drawing.Size(216, 21);
             this.comboBoxExternalEntity.TabIndex = 2;
             // 
+            // openFileDialog1
+            // 
+            this.openFileDialog1.FileName = "openFileDialog1";
+            this.openFileDialog1.Filter = "\"Image Files(*.jpg; *.jpeg; *.gif; *.bmp)|*.jpg; *.jpeg; *.gif; *.bmp\"";
+            // 
             // Users
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(534, 450);
             this.Controls.Add(this.groupBox1);
-            this.MaximumSize = new System.Drawing.Size(816, 489);
-            this.MinimumSize = new System.Drawing.Size(816, 489);
+            this.MaximumSize = new System.Drawing.Size(550, 489);
+            this.MinimumSize = new System.Drawing.Size(550, 489);
             this.Name = "Users";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Users";
@@ -245,6 +265,8 @@ namespace AdministratorConsole
         private System.Windows.Forms.TextBox textBoxPhoneNumber;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox textBoxPicture;
+        private System.Windows.Forms.Button buttonChoosePicture;
+        private System.Windows.Forms.OpenFileDialog openFileDialog1;
     }
 }
