@@ -7,6 +7,7 @@ using System.Linq;
 using System.Net;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -64,9 +65,21 @@ namespace AdministratorConsole
                 MessageBox.Show("Please insert an Email");
                 return;
             }
+            var regexEmail = new Regex(@"^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$");
+            if (!regexEmail.IsMatch(textBoxEmail.Text))
+            {
+                MessageBox.Show("Email has an invalid format");
+                return;
+            }
             if (textBoxPhoneNumber.Text.Length < 1)
             {
                 MessageBox.Show("Please insert a Phone Number");
+                return;
+            }
+            var phoneRegex = new Regex(@"^[9]{1}([1]|[2]|[3]|[6]){1}[0 - 9]{7}$");
+            if (!phoneRegex.IsMatch(textBoxPhoneNumber.Text))
+            {
+                MessageBox.Show("The Phone Number has an invalid format");
                 return;
             }
             if (textBoxPassword.Text.Length < 1)
@@ -74,6 +87,7 @@ namespace AdministratorConsole
                 MessageBox.Show("Password cannot be empty");
                 return;
             }
+            
             if (textBoxConfirmationCode.Text.Length < 1)
             {
                 MessageBox.Show("Confirmation Code cannot be empty");
