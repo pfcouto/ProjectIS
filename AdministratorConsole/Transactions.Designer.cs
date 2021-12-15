@@ -55,7 +55,7 @@ namespace AdministratorConsole
             // 
             this.comboBoxExternalEntity.FormattingEnabled = true;
             this.comboBoxExternalEntity.Location = new System.Drawing.Point(72, 49);
-            this.comboBoxExternalEntity.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.comboBoxExternalEntity.Margin = new System.Windows.Forms.Padding(4);
             this.comboBoxExternalEntity.Name = "comboBoxExternalEntity";
             this.comboBoxExternalEntity.Size = new System.Drawing.Size(160, 24);
             this.comboBoxExternalEntity.TabIndex = 0;
@@ -64,7 +64,7 @@ namespace AdministratorConsole
             // 
             this.comboBoxType.FormattingEnabled = true;
             this.comboBoxType.Location = new System.Drawing.Point(276, 48);
-            this.comboBoxType.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.comboBoxType.Margin = new System.Windows.Forms.Padding(4);
             this.comboBoxType.Name = "comboBoxType";
             this.comboBoxType.Size = new System.Drawing.Size(80, 24);
             this.comboBoxType.TabIndex = 1;
@@ -72,7 +72,7 @@ namespace AdministratorConsole
             // dateTimePickerOrigin
             // 
             this.dateTimePickerOrigin.Location = new System.Drawing.Point(416, 50);
-            this.dateTimePickerOrigin.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.dateTimePickerOrigin.Margin = new System.Windows.Forms.Padding(4);
             this.dateTimePickerOrigin.Name = "dateTimePickerOrigin";
             this.dateTimePickerOrigin.Size = new System.Drawing.Size(265, 22);
             this.dateTimePickerOrigin.TabIndex = 2;
@@ -81,7 +81,7 @@ namespace AdministratorConsole
             // dateTimePickerTo
             // 
             this.dateTimePickerTo.Location = new System.Drawing.Point(733, 50);
-            this.dateTimePickerTo.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.dateTimePickerTo.Margin = new System.Windows.Forms.Padding(4);
             this.dateTimePickerTo.Name = "dateTimePickerTo";
             this.dateTimePickerTo.Size = new System.Drawing.Size(265, 22);
             this.dateTimePickerTo.TabIndex = 3;
@@ -100,7 +100,7 @@ namespace AdministratorConsole
             this.Date,
             this.Value});
             this.dataGridViewTransactions.Location = new System.Drawing.Point(72, 107);
-            this.dataGridViewTransactions.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.dataGridViewTransactions.Margin = new System.Windows.Forms.Padding(4);
             this.dataGridViewTransactions.Name = "dataGridViewTransactions";
             this.dataGridViewTransactions.ReadOnly = true;
             this.dataGridViewTransactions.RowHeadersWidth = 51;
@@ -193,27 +193,29 @@ namespace AdministratorConsole
             // buttonExportExcel
             // 
             this.buttonExportExcel.Location = new System.Drawing.Point(811, 530);
-            this.buttonExportExcel.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.buttonExportExcel.Margin = new System.Windows.Forms.Padding(4);
             this.buttonExportExcel.Name = "buttonExportExcel";
             this.buttonExportExcel.Size = new System.Drawing.Size(155, 48);
             this.buttonExportExcel.TabIndex = 9;
             this.buttonExportExcel.Text = "Export to Excel";
             this.buttonExportExcel.UseVisualStyleBackColor = true;
+            this.buttonExportExcel.Click += new System.EventHandler(this.buttonExportExcel_Click);
             // 
             // buttonExportXML
             // 
             this.buttonExportXML.Location = new System.Drawing.Point(1025, 530);
-            this.buttonExportXML.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.buttonExportXML.Margin = new System.Windows.Forms.Padding(4);
             this.buttonExportXML.Name = "buttonExportXML";
             this.buttonExportXML.Size = new System.Drawing.Size(155, 48);
             this.buttonExportXML.TabIndex = 10;
             this.buttonExportXML.Text = "Export to XML";
             this.buttonExportXML.UseVisualStyleBackColor = true;
+            this.buttonExportXML.Click += new System.EventHandler(this.buttonExportXML_Click);
             // 
             // buttonFilter
             // 
             this.buttonFilter.Location = new System.Drawing.Point(1061, 37);
-            this.buttonFilter.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.buttonFilter.Margin = new System.Windows.Forms.Padding(4);
             this.buttonFilter.Name = "buttonFilter";
             this.buttonFilter.Size = new System.Drawing.Size(119, 46);
             this.buttonFilter.TabIndex = 11;
@@ -248,7 +250,7 @@ namespace AdministratorConsole
             this.Controls.Add(this.dateTimePickerOrigin);
             this.Controls.Add(this.comboBoxType);
             this.Controls.Add(this.comboBoxExternalEntity);
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.MaximumSize = new System.Drawing.Size(1259, 649);
             this.MinimumSize = new System.Drawing.Size(1259, 649);
             this.Name = "Transactions";
