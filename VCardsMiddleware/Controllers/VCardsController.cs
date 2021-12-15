@@ -5,8 +5,10 @@ using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
+using BankOne.Models;
 using VCardsMiddleware.Models;
 
 namespace VCardsMiddleware.Controllers
@@ -132,10 +134,98 @@ namespace VCardsMiddleware.Controllers
             }
 
             var content = await response.Content.ReadAsStringAsync();
-            
+
             //return Ok(content);
             return Ok(Decimal.Parse(content, NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture));
         }
 
+        public async Task<IHttpActionResult> PostVCard([FromBody] VCardUserPassword vCard)
+        {
+            if (vCard == null)
+            {
+                return BadRequest();
+            }
+
+            SqlConnection connection = null;
+
+            try
+            {
+                connection = new SqlConnection(connectionString);
+                string sql = "SELECT endpoint FROM ExternalEntities WHERE id = @id";
+                connection.Open();
+
+                SqlCommand command = new SqlCommand(sql, connection);
+
+                command.Parameters.AddWithValue("@id", vCard.External_entity_id);
+
+                SqlDataReader reader = command.ExecuteReader();
+                string endpoint;
+
+                if (reader.Read())
+                {
+                    endpoint = (string)reader["endpoint"];
+                }
+                else
+                {
+                    connection.Close();
+                    return BadRequest();
+                }
+
+                HttpClient client = new HttpClient();
+                var payload = "{\"Phone_number\": \"" + vCard.Phone_number + "\",\"User_password\": \"" + vCard.User_password + "\",\"User_id\": \"" + vCard.User_id + "\",\"Max_debit\": \"" + vCard.Max_debit.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture) + "\",\"Earning_percentage\": \"" + vCard.Earning_percentage.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture) + "\"}";
+                HttpContent content = new StringContent(payload, Encoding.UTF8, "application/json");
+                HttpResponseMessage response = await client.PostAsync(endpoint + "api/vcards", content);
+
+                if (response.StatusCode == HttpStatusCode.OK)
+                {
+                    //register in BD
+                    try
+                    {
+                        connection = new SqlConnection(connectionString);
+                        sql = "INSERT INTO VCards VALUES (@phone_number, @external_entity_id)";
+                        connection.Open();
+
+                        command = new SqlCommand(sql, connection);
+
+                        command.Parameters.AddWithValue("@phone_number", vCard.Phone_number);
+                        command.Parameters.AddWithValue("@external_entity_id", vCard.External_entity_id);
+
+                        int numeroRegistos = command.ExecuteNonQuery();
+
+                        connection.Close();
+
+                        if (numeroRegistos > 0)
+                        {
+                            return Ok();
+                        }
+                        return BadRequest();
+
+
+                    }
+                    catch (Exception)
+                    {
+
+                        if (connection.State == System.Data.ConnectionState.Open)
+                        {
+
+                            connection.Close();
+                        }
+                        return InternalServerError();
+                    }
+
+                }
+
+                return BadRequest();
+
+            }
+            catch (Exception)
+            {
+                if (connection.State == System.Data.ConnectionState.Open)
+                {
+                    connection.Close();
+                }
+                return InternalServerError();
+            }
+        }
     }
 }
