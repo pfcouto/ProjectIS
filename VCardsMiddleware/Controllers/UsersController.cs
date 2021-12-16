@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Xml;
@@ -70,6 +71,7 @@ namespace VCardsMiddleware.Controllers
                     }
                     XmlHelper.WriteLog("userCreated", $"An administrator created a user ({user.Name}) in External Entity with id {user.External_entity_id}");
                     if (mqttClient.IsConnected)
+                        Thread.Sleep(500);
                         mqttClient.Disconnect();
                     return Ok();
                 }

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Http;
 using BankOne.Models;
@@ -208,6 +209,7 @@ namespace VCardsMiddleware.Controllers
                             }
                             XmlHelper.WriteLog("vcardCreated", $"A VCard with phone number {vCard.Phone_number} was created for user {vCard.User_id} of External Entity {vCard.External_entity_id}");
                             if (mqttClient.IsConnected)
+                                Thread.Sleep(500);
                                 mqttClient.Disconnect();
                             return Ok();
                         }
