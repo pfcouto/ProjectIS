@@ -40,7 +40,6 @@ namespace AdministratorConsole
         private async void buttonRefreshBalance_Click(object sender, EventArgs e)
         {
             var selectedRowsCount = dataGridViewVCards.SelectedRows.Count;
-            MessageBox.Show(dataGridViewVCards.SelectedRows.Count.ToString());
             if (selectedRowsCount == 0)
             {
                 fetchBalance(true);

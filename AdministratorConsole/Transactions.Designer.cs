@@ -48,6 +48,7 @@ namespace AdministratorConsole
             this.buttonExportXML = new System.Windows.Forms.Button();
             this.buttonFilter = new System.Windows.Forms.Button();
             this.labelCounter = new System.Windows.Forms.Label();
+            this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewTransactions)).BeginInit();
             this.SuspendLayout();
             // 
@@ -284,5 +285,6 @@ namespace AdministratorConsole
         private System.Windows.Forms.Button buttonExportXML;
         private System.Windows.Forms.Button buttonFilter;
         private System.Windows.Forms.Label labelCounter;
+        private System.Windows.Forms.SaveFileDialog saveFileDialog1;
     }
 }

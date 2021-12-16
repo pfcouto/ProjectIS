@@ -54,7 +54,7 @@ namespace AdministratorConsole
             // 
             // buttonVCards
             // 
-            this.buttonVCards.Location = new System.Drawing.Point(243, 73);
+            this.buttonVCards.Location = new System.Drawing.Point(237, 69);
             this.buttonVCards.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.buttonVCards.Name = "buttonVCards";
             this.buttonVCards.Size = new System.Drawing.Size(155, 80);
@@ -65,7 +65,7 @@ namespace AdministratorConsole
             // 
             // buttonExternalEntities
             // 
-            this.buttonExternalEntities.Location = new System.Drawing.Point(49, 204);
+            this.buttonExternalEntities.Location = new System.Drawing.Point(43, 200);
             this.buttonExternalEntities.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.buttonExternalEntities.Name = "buttonExternalEntities";
             this.buttonExternalEntities.Size = new System.Drawing.Size(155, 80);
@@ -77,7 +77,7 @@ namespace AdministratorConsole
             // buttonAdmins
             // 
             this.buttonAdmins.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.buttonAdmins.Location = new System.Drawing.Point(49, 73);
+            this.buttonAdmins.Location = new System.Drawing.Point(43, 69);
             this.buttonAdmins.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.buttonAdmins.Name = "buttonAdmins";
             this.buttonAdmins.Size = new System.Drawing.Size(155, 80);
@@ -88,7 +88,7 @@ namespace AdministratorConsole
             // 
             // buttonOperationsLog
             // 
-            this.buttonOperationsLog.Location = new System.Drawing.Point(621, 156);
+            this.buttonOperationsLog.Location = new System.Drawing.Point(621, 162);
             this.buttonOperationsLog.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.buttonOperationsLog.Name = "buttonOperationsLog";
             this.buttonOperationsLog.Size = new System.Drawing.Size(219, 81);
@@ -114,7 +114,7 @@ namespace AdministratorConsole
             // 
             // buttonUsers
             // 
-            this.buttonUsers.Location = new System.Drawing.Point(243, 204);
+            this.buttonUsers.Location = new System.Drawing.Point(237, 200);
             this.buttonUsers.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.buttonUsers.Name = "buttonUsers";
             this.buttonUsers.Size = new System.Drawing.Size(155, 80);
@@ -125,7 +125,7 @@ namespace AdministratorConsole
             // 
             // buttonTransactions
             // 
-            this.buttonTransactions.Location = new System.Drawing.Point(621, 42);
+            this.buttonTransactions.Location = new System.Drawing.Point(621, 48);
             this.buttonTransactions.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.buttonTransactions.Name = "buttonTransactions";
             this.buttonTransactions.Size = new System.Drawing.Size(219, 81);
@@ -193,7 +193,7 @@ namespace AdministratorConsole
             this.labelVcardsRegistered.AutoSize = true;
             this.labelVcardsRegistered.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelVcardsRegistered.ForeColor = System.Drawing.Color.Green;
-            this.labelVcardsRegistered.Location = new System.Drawing.Point(284, 118);
+            this.labelVcardsRegistered.Location = new System.Drawing.Point(284, 110);
             this.labelVcardsRegistered.Name = "labelVcardsRegistered";
             this.labelVcardsRegistered.Size = new System.Drawing.Size(0, 29);
             this.labelVcardsRegistered.TabIndex = 5;
@@ -203,7 +203,7 @@ namespace AdministratorConsole
             this.labelNumberOfTransactions.AutoSize = true;
             this.labelNumberOfTransactions.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelNumberOfTransactions.ForeColor = System.Drawing.SystemColors.Highlight;
-            this.labelNumberOfTransactions.Location = new System.Drawing.Point(335, 67);
+            this.labelNumberOfTransactions.Location = new System.Drawing.Point(335, 59);
             this.labelNumberOfTransactions.Name = "labelNumberOfTransactions";
             this.labelNumberOfTransactions.Size = new System.Drawing.Size(0, 29);
             this.labelNumberOfTransactions.TabIndex = 4;
@@ -212,7 +212,7 @@ namespace AdministratorConsole
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Arial Rounded MT Bold", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(43, 118);
+            this.label5.Location = new System.Drawing.Point(43, 110);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(242, 28);
             this.label5.TabIndex = 3;
@@ -222,7 +222,7 @@ namespace AdministratorConsole
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Arial Rounded MT Bold", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(44, 67);
+            this.label2.Location = new System.Drawing.Point(44, 59);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(291, 28);
             this.label2.TabIndex = 2;
@@ -233,7 +233,7 @@ namespace AdministratorConsole
             this.labelLastOperation.AutoSize = true;
             this.labelLastOperation.Font = new System.Drawing.Font("Mongolian Baiti", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelLastOperation.ForeColor = System.Drawing.Color.DarkBlue;
-            this.labelLastOperation.Location = new System.Drawing.Point(45, 226);
+            this.labelLastOperation.Location = new System.Drawing.Point(45, 218);
             this.labelLastOperation.Name = "labelLastOperation";
             this.labelLastOperation.Size = new System.Drawing.Size(310, 21);
             this.labelLastOperation.TabIndex = 1;
@@ -243,7 +243,7 @@ namespace AdministratorConsole
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Arial Rounded MT Bold", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(44, 188);
+            this.label1.Location = new System.Drawing.Point(44, 180);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(183, 28);
             this.label1.TabIndex = 0;

@@ -103,7 +103,7 @@ namespace AdministratorConsole
                 byte[] qosLevels = { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE };
                 mqttClient.Subscribe(topics, qosLevels);
             }
-            catch (MqttClientException exception)
+            catch (Exception)
             {
             }
         }

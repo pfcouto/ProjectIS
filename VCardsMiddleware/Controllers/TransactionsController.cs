@@ -70,26 +70,21 @@ namespace VCardsMiddleware.Controllers
                     }
                 }
 
-                //if (externalEntityId >= 0)
-                //{
-                //    if (!string.IsNullOrEmpty(type) || (!string.IsNullOrEmpty(dateFrom) && !string.IsNullOrEmpty(dateTo)))
-                //    {
-                //        endpointIncrement += "&externalEntityId=" + externalEntityId;
-                //    }
-                //    else
-                //    {
-                //        endpointIncrement += "externalEntityId=" + externalEntityId;
-                //    }
-
-                //}
-
                 while (reader.Read())
                 {
                     endpoint = (string)reader["endpoint"];
                     endpoint += "api/transactions" + endpointIncrement;
 
-                    HttpResponseMessage response = await client.GetAsync(endpoint);
+                    HttpResponseMessage response;
 
+                    try
+                    {
+                        response = await client.GetAsync(endpoint);
+                    }
+                    catch (Exception)
+                    {
+                        continue;
+                    }
                     if (response.StatusCode == HttpStatusCode.OK)
                     {
                         string responseBody = await response.Content.ReadAsStringAsync();
@@ -197,6 +192,13 @@ namespace VCardsMiddleware.Controllers
                 }
 
                 endpointSource = (string)readerEntitySource["endpoint"];
+
+                if (readerEntitySource.GetDecimal(3) < transaction.Value)
+                {
+                    readerEntitySource.Close();
+                    connection.Close();
+                    return Content((HttpStatusCode)422, "Transaction value greater than max debit of the source external entity");
+                }
 
                 readerEntitySource.Close();
 

@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Net;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -59,6 +60,12 @@ namespace AdministratorConsole
         private async void buttonAddEntity_Click(object sender, EventArgs e)
         {
             decimal max_debit;
+            
+            if (!(new Regex(@"^http://[a-z]{1,20}:[0-9]{1,5}/$").IsMatch(textBoxEndpoint.Text)))
+            {
+                MessageBox.Show("Invalid endpoint format (eg: http://localhost:60000/)");
+                return;
+            }
 
             if (!decimal.TryParse(textBoxMaxDebit.Text, out max_debit))
             {

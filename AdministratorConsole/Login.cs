@@ -47,5 +47,10 @@ namespace AdministratorConsole
                 }
             }
         }
+
+        private void Login_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }
