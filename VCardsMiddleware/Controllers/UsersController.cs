@@ -60,19 +60,26 @@ namespace VCardsMiddleware.Controllers
 
                 if (response.StatusCode == HttpStatusCode.OK)
                 {
-                    MqttClient mqttClient = new MqttClient("127.0.0.1");
-
-                    mqttClient.Connect(Guid.NewGuid().ToString());
-
-                    if (mqttClient.IsConnected)
-                    {
-                        byte[] generalMsg = Encoding.UTF8.GetBytes($"User {user.Name} created in External Entity {user.External_entity_id}");
-                        mqttClient.Publish("operations", generalMsg);
-                    }
                     XmlHelper.WriteLog("userCreated", $"An administrator created a user ({user.Name}) in External Entity with id {user.External_entity_id}");
-                    if (mqttClient.IsConnected)
-                        Thread.Sleep(500);
+                    try
+                    {
+                        MqttClient mqttClient = new MqttClient("127.0.0.1");
+
+                        mqttClient.Connect(Guid.NewGuid().ToString());
+
+                        if (mqttClient.IsConnected)
+                        {
+                            byte[] generalMsg = Encoding.UTF8.GetBytes($"User {user.Name} created in External Entity {user.External_entity_id}");
+                            mqttClient.Publish("operations", generalMsg);
+                        }
+                        
+                        if (mqttClient.IsConnected)
+                            Thread.Sleep(500);
                         mqttClient.Disconnect();
+                    }
+                    catch (Exception)
+                    {
+                    }
                     return Ok();
                 }
 

@@ -250,22 +250,30 @@ namespace VCardsMiddleware.Controllers
                     }
                 }
 
-                MqttClient mqttClient = new MqttClient("127.0.0.1");
-
-                mqttClient.Connect(Guid.NewGuid().ToString());
-
-                if (mqttClient.IsConnected)
-                {
-                    byte[] generalMsg = Encoding.UTF8.GetBytes($"Transaction of {transaction.Value}€ from {transaction.VCard} to {transaction.Payment_reference}");
-                    mqttClient.Publish("operations", generalMsg);
-                    byte[] destinyMsg = Encoding.UTF8.GetBytes($"You received a transaction of {transaction.Value}€ from {transaction.VCard}");
-                    mqttClient.Publish(transaction.Payment_reference, destinyMsg);
-                }
-                 
                 XmlHelper.WriteLog("transaction", $"Transaction with success between vcard {transaction.VCard} and {transaction.Payment_reference}");
-                if (mqttClient.IsConnected)
-                    Thread.Sleep(500);
+
+                try
+                {
+                    MqttClient mqttClient = new MqttClient("127.0.0.1");
+
+                    mqttClient.Connect(Guid.NewGuid().ToString());
+
+                    if (mqttClient.IsConnected)
+                    {
+                        byte[] generalMsg = Encoding.UTF8.GetBytes($"Transaction of {transaction.Value}€ from {transaction.VCard} to {transaction.Payment_reference}");
+                        mqttClient.Publish("operations", generalMsg);
+                        byte[] destinyMsg = Encoding.UTF8.GetBytes($"You received a transaction of {transaction.Value}€ from {transaction.VCard}");
+                        mqttClient.Publish(transaction.Payment_reference, destinyMsg);
+                    }
+
+                    if (mqttClient.IsConnected)
+                        Thread.Sleep(500);
                     mqttClient.Disconnect();
+                }
+                catch (Exception )
+                {
+                }
+
                 return Ok(transaction);
             }
             catch (Exception e)

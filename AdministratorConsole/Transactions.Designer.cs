@@ -29,6 +29,7 @@ namespace AdministratorConsole
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Transactions));
             this.comboBoxExternalEntity = new System.Windows.Forms.ComboBox();
             this.comboBoxType = new System.Windows.Forms.ComboBox();
             this.dateTimePickerOrigin = new System.Windows.Forms.DateTimePicker();
@@ -55,36 +56,32 @@ namespace AdministratorConsole
             // comboBoxExternalEntity
             // 
             this.comboBoxExternalEntity.FormattingEnabled = true;
-            this.comboBoxExternalEntity.Location = new System.Drawing.Point(72, 49);
-            this.comboBoxExternalEntity.Margin = new System.Windows.Forms.Padding(4);
+            this.comboBoxExternalEntity.Location = new System.Drawing.Point(54, 40);
             this.comboBoxExternalEntity.Name = "comboBoxExternalEntity";
-            this.comboBoxExternalEntity.Size = new System.Drawing.Size(160, 24);
+            this.comboBoxExternalEntity.Size = new System.Drawing.Size(121, 21);
             this.comboBoxExternalEntity.TabIndex = 0;
             // 
             // comboBoxType
             // 
             this.comboBoxType.FormattingEnabled = true;
-            this.comboBoxType.Location = new System.Drawing.Point(276, 48);
-            this.comboBoxType.Margin = new System.Windows.Forms.Padding(4);
+            this.comboBoxType.Location = new System.Drawing.Point(207, 39);
             this.comboBoxType.Name = "comboBoxType";
-            this.comboBoxType.Size = new System.Drawing.Size(80, 24);
+            this.comboBoxType.Size = new System.Drawing.Size(61, 21);
             this.comboBoxType.TabIndex = 1;
             // 
             // dateTimePickerOrigin
             // 
-            this.dateTimePickerOrigin.Location = new System.Drawing.Point(416, 50);
-            this.dateTimePickerOrigin.Margin = new System.Windows.Forms.Padding(4);
+            this.dateTimePickerOrigin.Location = new System.Drawing.Point(312, 41);
             this.dateTimePickerOrigin.Name = "dateTimePickerOrigin";
-            this.dateTimePickerOrigin.Size = new System.Drawing.Size(265, 22);
+            this.dateTimePickerOrigin.Size = new System.Drawing.Size(200, 20);
             this.dateTimePickerOrigin.TabIndex = 2;
             this.dateTimePickerOrigin.Value = new System.DateTime(2021, 12, 9, 17, 38, 19, 0);
             // 
             // dateTimePickerTo
             // 
-            this.dateTimePickerTo.Location = new System.Drawing.Point(733, 50);
-            this.dateTimePickerTo.Margin = new System.Windows.Forms.Padding(4);
+            this.dateTimePickerTo.Location = new System.Drawing.Point(550, 41);
             this.dateTimePickerTo.Name = "dateTimePickerTo";
-            this.dateTimePickerTo.Size = new System.Drawing.Size(265, 22);
+            this.dateTimePickerTo.Size = new System.Drawing.Size(200, 20);
             this.dateTimePickerTo.TabIndex = 3;
             // 
             // dataGridViewTransactions
@@ -100,13 +97,12 @@ namespace AdministratorConsole
             this.VCardDestiny,
             this.Date,
             this.Value});
-            this.dataGridViewTransactions.Location = new System.Drawing.Point(72, 107);
-            this.dataGridViewTransactions.Margin = new System.Windows.Forms.Padding(4);
+            this.dataGridViewTransactions.Location = new System.Drawing.Point(54, 87);
             this.dataGridViewTransactions.Name = "dataGridViewTransactions";
             this.dataGridViewTransactions.ReadOnly = true;
             this.dataGridViewTransactions.RowHeadersWidth = 51;
             this.dataGridViewTransactions.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridViewTransactions.Size = new System.Drawing.Size(1108, 391);
+            this.dataGridViewTransactions.Size = new System.Drawing.Size(831, 318);
             this.dataGridViewTransactions.TabIndex = 4;
             // 
             // Id
@@ -154,49 +150,44 @@ namespace AdministratorConsole
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(68, 30);
-            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label1.Location = new System.Drawing.Point(51, 24);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(98, 17);
+            this.label1.Size = new System.Drawing.Size(74, 13);
             this.label1.TabIndex = 5;
             this.label1.Text = "External Entity";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(272, 28);
-            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label2.Location = new System.Drawing.Point(204, 23);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(40, 17);
+            this.label2.Size = new System.Drawing.Size(31, 13);
             this.label2.TabIndex = 6;
             this.label2.Text = "Type";
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(412, 31);
-            this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label3.Location = new System.Drawing.Point(309, 25);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(40, 17);
+            this.label3.Size = new System.Drawing.Size(30, 13);
             this.label3.TabIndex = 7;
             this.label3.Text = "From";
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(729, 31);
-            this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label4.Location = new System.Drawing.Point(547, 25);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(25, 17);
+            this.label4.Size = new System.Drawing.Size(20, 13);
             this.label4.TabIndex = 8;
             this.label4.Text = "To";
             // 
             // buttonExportExcel
             // 
-            this.buttonExportExcel.Location = new System.Drawing.Point(811, 530);
-            this.buttonExportExcel.Margin = new System.Windows.Forms.Padding(4);
+            this.buttonExportExcel.Location = new System.Drawing.Point(608, 431);
             this.buttonExportExcel.Name = "buttonExportExcel";
-            this.buttonExportExcel.Size = new System.Drawing.Size(155, 48);
+            this.buttonExportExcel.Size = new System.Drawing.Size(116, 39);
             this.buttonExportExcel.TabIndex = 9;
             this.buttonExportExcel.Text = "Export to Excel";
             this.buttonExportExcel.UseVisualStyleBackColor = true;
@@ -204,10 +195,9 @@ namespace AdministratorConsole
             // 
             // buttonExportXML
             // 
-            this.buttonExportXML.Location = new System.Drawing.Point(1025, 530);
-            this.buttonExportXML.Margin = new System.Windows.Forms.Padding(4);
+            this.buttonExportXML.Location = new System.Drawing.Point(769, 431);
             this.buttonExportXML.Name = "buttonExportXML";
-            this.buttonExportXML.Size = new System.Drawing.Size(155, 48);
+            this.buttonExportXML.Size = new System.Drawing.Size(116, 39);
             this.buttonExportXML.TabIndex = 10;
             this.buttonExportXML.Text = "Export to XML";
             this.buttonExportXML.UseVisualStyleBackColor = true;
@@ -215,10 +205,9 @@ namespace AdministratorConsole
             // 
             // buttonFilter
             // 
-            this.buttonFilter.Location = new System.Drawing.Point(1061, 37);
-            this.buttonFilter.Margin = new System.Windows.Forms.Padding(4);
+            this.buttonFilter.Location = new System.Drawing.Point(796, 30);
             this.buttonFilter.Name = "buttonFilter";
-            this.buttonFilter.Size = new System.Drawing.Size(119, 46);
+            this.buttonFilter.Size = new System.Drawing.Size(89, 37);
             this.buttonFilter.TabIndex = 11;
             this.buttonFilter.Text = "Filter";
             this.buttonFilter.UseVisualStyleBackColor = true;
@@ -227,17 +216,16 @@ namespace AdministratorConsole
             // labelCounter
             // 
             this.labelCounter.AutoSize = true;
-            this.labelCounter.Location = new System.Drawing.Point(68, 502);
-            this.labelCounter.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.labelCounter.Location = new System.Drawing.Point(51, 408);
             this.labelCounter.Name = "labelCounter";
-            this.labelCounter.Size = new System.Drawing.Size(0, 17);
+            this.labelCounter.Size = new System.Drawing.Size(0, 13);
             this.labelCounter.TabIndex = 12;
             // 
             // Transactions
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1241, 602);
+            this.ClientSize = new System.Drawing.Size(932, 496);
             this.Controls.Add(this.labelCounter);
             this.Controls.Add(this.buttonFilter);
             this.Controls.Add(this.buttonExportXML);
@@ -251,9 +239,9 @@ namespace AdministratorConsole
             this.Controls.Add(this.dateTimePickerOrigin);
             this.Controls.Add(this.comboBoxType);
             this.Controls.Add(this.comboBoxExternalEntity);
-            this.Margin = new System.Windows.Forms.Padding(4);
-            this.MaximumSize = new System.Drawing.Size(1259, 649);
-            this.MinimumSize = new System.Drawing.Size(1259, 649);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximumSize = new System.Drawing.Size(948, 535);
+            this.MinimumSize = new System.Drawing.Size(948, 535);
             this.Name = "Transactions";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Transactions";

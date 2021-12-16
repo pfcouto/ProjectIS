@@ -175,9 +175,9 @@ namespace BankOne.Controllers
                 }
                 command.Parameters.AddWithValue("@phone_number", user.Phone_number);
 
-                if (user.Photo == null)
+                if (string.IsNullOrEmpty(user.Photo))
                 {
-                    command.Parameters.AddWithValue("@photo_url", null);
+                    command.Parameters.AddWithValue("@photo_url", DBNull.Value);
                 }
                 else
                 {
@@ -192,12 +192,29 @@ namespace BankOne.Controllers
 
                 int numeroRegistos = command.ExecuteNonQuery();
 
-                connection.Close();
 
                 if (numeroRegistos > 0)
                 {
+                    sql = "SELECT Id FROM Users WHERE phone_number = @phone_number";
+                    command = new SqlCommand(sql, connection);
+                    command.Parameters.AddWithValue("@phone_number", user.Phone_number);
+                    SqlDataReader readerID = command.ExecuteReader();
+                    readerID.Read();
+                    int id = (int)readerID[0];
+                    readerID.Close();
+
+                    // Assign default categories to user
+
+                    sql = "INSERT INTO Categories SELECT name,type,@user_id from DefaultCategories";
+                    command = new SqlCommand(sql,connection);
+                    command.Parameters.AddWithValue("@user_id", id);
+
+                    command.ExecuteNonQuery();
+
+                    connection.Close();
                     return Ok();
                 }
+                connection.Close();
                 return BadRequest();
 
 

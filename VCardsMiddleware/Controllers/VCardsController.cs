@@ -198,19 +198,27 @@ namespace VCardsMiddleware.Controllers
 
                         if (numeroRegistos > 0)
                         {
-                            MqttClient mqttClient = new MqttClient("127.0.0.1");
-
-                            mqttClient.Connect(Guid.NewGuid().ToString());
-
-                            if (mqttClient.IsConnected)
-                            {
-                                byte[] generalMsg = Encoding.UTF8.GetBytes($"VCard with phone number {vCard.Phone_number} was created for user {vCard.User_id}");
-                                mqttClient.Publish("operations", generalMsg);
-                            }
                             XmlHelper.WriteLog("vcardCreated", $"A VCard with phone number {vCard.Phone_number} was created for user {vCard.User_id} of External Entity {vCard.External_entity_id}");
-                            if (mqttClient.IsConnected)
-                                Thread.Sleep(500);
+                            try
+                            {
+                                MqttClient mqttClient = new MqttClient("127.0.0.1");
+
+                                mqttClient.Connect(Guid.NewGuid().ToString());
+
+                                if (mqttClient.IsConnected)
+                                {
+                                    byte[] generalMsg = Encoding.UTF8.GetBytes($"VCard with phone number {vCard.Phone_number} was created for user {vCard.User_id}");
+                                    mqttClient.Publish("operations", generalMsg);
+                                }
+                                
+                                if (mqttClient.IsConnected)
+                                    Thread.Sleep(500);
                                 mqttClient.Disconnect();
+                            }
+                            catch (Exception )
+                            {
+                            }
+                            
                             return Ok();
                         }
                         return BadRequest();

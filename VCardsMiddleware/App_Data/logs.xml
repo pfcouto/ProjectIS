@@ -1,20 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <logs>
-  <log type="userCreated">(15/12/2021 23:32:11) An administrator created a user (Jorge Manuel) in External Entity with id 13</log>
-  <log type="vcardCreated">(15/12/2021 23:34:24) A VCard was created for user 4 of External Entity 2</log>
-  <log type="transaction">(15/12/2021 23:52:11) Transaction with success between vcard 910000001 and 920000001</log>
-  <log type="transaction">(16/12/2021 01:46:36) Transaction with success between vcard 910000001 and 920000001</log>
-  <log type="transaction">(16/12/2021 01:56:35) Transaction with success between vcard 910000001 and 920000001</log>
-  <log type="transaction">(16/12/2021 01:57:30) Transaction with success between vcard 910000001 and 920000001</log>
-  <log type="transaction">(16/12/2021 01:57:40) Transaction with success between vcard 910000001 and 920000001</log>
-  <log type="transaction">(16/12/2021 01:57:43) Transaction with success between vcard 910000001 and 920000001</log>
-  <log type="transaction">(16/12/2021 01:58:35) Transaction with success between vcard 910000001 and 920000001</log>
-  <log type="transaction">(16/12/2021 02:02:19) Transaction with success between vcard 910000001 and 920000001</log>
-  <log type="transaction">(16/12/2021 02:02:59) Transaction with success between vcard 910000001 and 920000001</log>
-  <log type="vcardCreated">(16/12/2021 02:05:27) A VCard with phone number 920000002 was created for user 4 of External Entity 13</log>
-  <log type="userCreated">(16/12/2021 02:06:19) An administrator created a user (kika) in External Entity with id 2</log>
-  <log type="transaction">(16/12/2021 02:36:35) Transaction with success between vcard 910000001 and 920000001</log>
-  <log type="transaction">(16/12/2021 02:37:21) Transaction with success between vcard 910000001 and 920000001</log>
-  <log type="transaction">(16/12/2021 02:44:13) Transaction with success between vcard 910000002 and 910000001</log>
-  <log type="transaction">(16/12/2021 15:44:56) Transaction with success between vcard 910000001 and 910000002</log>
+  <log type="userCreated">(16/12/2021 19:11:24) An administrator created a user (Americo) in External Entity with id 24</log>
+  <log type="userCreated">(16/12/2021 19:25:31) An administrator created a user (Fernando) in External Entity with id 25</log>
+  <log type="vcardCreated">(16/12/2021 19:32:41) A VCard with phone number 919000001 was created for user 22 of External Entity 24</log>
+  <log type="vcardCreated">(16/12/2021 19:34:35) A VCard with phone number 919000002 was created for user 17 of External Entity 25</log>
+  <log type="transaction">(16/12/2021 19:39:00) Transaction with success between vcard 919000001 and 919000002</log>
 </logs>
