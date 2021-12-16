@@ -29,6 +29,7 @@ namespace AdministratorConsole
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Users));
             this.buttonCreateUser = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.buttonChoosePicture = new System.Windows.Forms.Button();
@@ -133,6 +134,7 @@ namespace AdministratorConsole
             // 
             // pictureBoxPhoto
             // 
+            this.pictureBoxPhoto.InitialImage = ((System.Drawing.Image)(resources.GetObject("pictureBoxPhoto.InitialImage")));
             this.pictureBoxPhoto.Location = new System.Drawing.Point(351, 33);
             this.pictureBoxPhoto.Name = "pictureBoxPhoto";
             this.pictureBoxPhoto.Size = new System.Drawing.Size(130, 130);
@@ -226,7 +228,7 @@ namespace AdministratorConsole
             // openFileDialog1
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
-            this.openFileDialog1.Filter = "\"Image Files(*.jpg; *.jpeg; *.gif; *.bmp)|*.jpg; *.jpeg; *.gif; *.bmp\"";
+            this.openFileDialog1.Filter = "\"Files|*.jpg;*.jpeg;\"";
             // 
             // Users
             // 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -26,6 +27,8 @@ namespace AdministratorConsole
 
         private async void Users_Load(object sender, EventArgs e)
         {
+            pictureBoxPhoto.Image = pictureBoxPhoto.InitialImage;
+
             var response = await RestHelper.GetExternalEntities();
             if (response.Item1 == HttpStatusCode.OK)
             {
@@ -98,19 +101,30 @@ namespace AdministratorConsole
 
             byte[] byteArray = null;
 
-            using (var ms = new MemoryStream())
+            if (pictureImage != null)
             {
-                pictureImage.Save(ms, pictureImage.RawFormat);
-                byteArray = ms.ToArray();
+                using (var ms = new MemoryStream())
+                {
+                    pictureImage.Save(ms, ImageFormat.Jpeg);
+                    byteArray = ms.ToArray();
+                }
             }
-
             string base64Image = byteArray == null ? null : Convert.ToBase64String(byteArray);
+
 
             var response = await RestHelper.CreateUser(Convert.ToInt32(comboBoxExternalEntity.SelectedValue.ToString()), textBoxName.Text, textBoxEmail.Text, textBoxPhoneNumber.Text, textBoxPassword.Text, textBoxConfirmationCode.Text, base64Image);
 
             if (response == HttpStatusCode.OK)
             {
                 MessageBox.Show("User created with success");
+                textBoxConfirmationCode.Text = "";
+                textBoxEmail.Text = "";
+                textBoxPassword.Text = "";
+                textBoxName.Text = "";
+                textBoxPhoneNumber.Text = "";
+                textBoxPicture.Text = "";
+                pictureBoxPhoto.Image = pictureBoxPhoto.InitialImage;
+                pictureImage = null;
             }
             else
             {
@@ -124,7 +138,7 @@ namespace AdministratorConsole
             {
                 string selectedFile = openFileDialog1.FileName;
                 textBoxPicture.Text = selectedFile;
-                pictureImage = Bitmap.FromFile(selectedFile);
+                pictureImage = Image.FromFile(selectedFile);
                 pictureBoxPhoto.Image = pictureImage;
             }
         }
