@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Newtonsoft.Json;
@@ -260,6 +261,7 @@ namespace VCardsMiddleware.Controllers
                  
                 XmlHelper.WriteLog("transaction", $"Transaction with success between vcard {transaction.VCard} and {transaction.Payment_reference}");
                 if (mqttClient.IsConnected)
+                    Thread.Sleep(500);
                     mqttClient.Disconnect();
                 return Ok(transaction);
             }
