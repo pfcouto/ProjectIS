@@ -29,7 +29,7 @@ namespace AdministratorConsole
                     string imagePath = Application.StartupPath + @"\..\.." + (externalEntity.Status == '1' ?  @"\assets\green.png" : @"\assets\red.png");
                     string imageBase64 = ImageHandler.ImageToBase64String(imagePath);
                     Bitmap btmImage = ImageHandler.Base64StringToImage(imageBase64);
-                    dataGridViewEntities.BeginInvoke((MethodInvoker)delegate { dataGridViewEntities.Rows.Add(externalEntity.Id, externalEntity.Name, externalEntity.Endpoint, btmImage); });  
+                    dataGridViewEntities.BeginInvoke((MethodInvoker)delegate { dataGridViewEntities.Rows.Add(externalEntity.Id, externalEntity.Name, externalEntity.Max_debit, externalEntity.Endpoint, btmImage); });  
                 }
             } else
             {
@@ -58,14 +58,22 @@ namespace AdministratorConsole
 
         private async void buttonAddEntity_Click(object sender, EventArgs e)
         {
-            var response = await RestHelper.CreateExternalEntity(textBoxName.Text, textBoxEndpoint.Text);
+            decimal max_debit;
+
+            if (!decimal.TryParse(textBoxMaxDebit.Text, out max_debit))
+            {
+                MessageBox.Show("Invalid max debit value");
+                return;
+            }
+            
+            var response = await RestHelper.CreateExternalEntity(textBoxName.Text, textBoxEndpoint.Text, max_debit.ToString().Replace(',', '.'));
 
             if (response.Item1 == HttpStatusCode.OK)
             {
                 string imagePath = Application.StartupPath + @"\..\.." + (response.Item2.Status == '1' ?  @"\assets\green.png" : @"\assets\red.png");
                 string imageBase64 = ImageHandler.ImageToBase64String(imagePath);
                 Bitmap btmImage = ImageHandler.Base64StringToImage(imageBase64);
-                dataGridViewEntities.BeginInvoke((MethodInvoker)delegate { dataGridViewEntities.Rows.Add(response.Item2.Id, response.Item2.Name, response.Item2.Endpoint, btmImage); });
+                dataGridViewEntities.BeginInvoke((MethodInvoker)delegate { dataGridViewEntities.Rows.Add(response.Item2.Id, response.Item2.Name, response.Item2.Max_debit, response.Item2.Endpoint, btmImage); });
                 MessageBox.Show("External entity created with success");
             } else if (response.Item1 == HttpStatusCode.BadRequest)
             {
@@ -74,6 +82,12 @@ namespace AdministratorConsole
             {
                 MessageBox.Show("An error occurred while creating a new external entity");
             }
+        }
+
+        private void buttonConfigurations_Click(object sender, EventArgs e)
+        {
+            var frm = new ExternalEntityConfig(dataGridViewEntities.SelectedRows[0]);
+            frm.Show();
         }
     }
 }

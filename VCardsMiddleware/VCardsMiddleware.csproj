@@ -43,6 +43,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="M2Mqtt.Net, Version=4.3.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\M2Mqtt.4.3.0.0\lib\net45\M2Mqtt.Net.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Owin, Version=4.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Owin.4.2.0\lib\net45\Microsoft.Owin.dll</HintPath>
@@ -118,6 +121,7 @@
       <DependentUpon>VCardsMiddlewareBD.mdf</DependentUpon>
     </Content>
     <Content Include="Global.asax" />
+    <Content Include="App_Data\logs.xml" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -128,12 +132,14 @@
     <Compile Include="AuthenticationStartup.cs" />
     <Compile Include="Controllers\AdminsController.cs" />
     <Compile Include="Controllers\ExternalEntitiesController.cs" />
+    <Compile Include="Controllers\LogsController.cs" />
     <Compile Include="Controllers\TransactionsController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Controllers\VCardsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\ExternalEntityPatch.cs" />
     <Compile Include="Models\TransactionPost.cs" />
     <Compile Include="Models\Transaction.cs" />
     <Compile Include="Models\User.cs" />
@@ -148,6 +154,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="XmlHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

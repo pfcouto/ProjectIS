@@ -10,6 +10,7 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml;
 
 namespace AdministratorConsole
 {
@@ -100,6 +101,24 @@ namespace AdministratorConsole
             return (response.StatusCode, externalEntities);
         }
 
+        public static async Task<HttpStatusCode> ChangeEntityMaxDebit(int id, string max_debit)
+        {
+            try
+            {
+                var payload = "{\"Max_debit\": \"" + max_debit + "\"}";
+                var request = new HttpRequestMessage(new HttpMethod("PATCH"), BaseUrl + "api/externalentities/" + id);
+                request.Content = new StringContent(payload, Encoding.UTF8, "application/json");
+                HttpResponseMessage response = await client.SendAsync(request);
+                string responseBody = await response.Content.ReadAsStringAsync();
+
+                return response.StatusCode;
+            }
+            catch (HttpRequestException)
+            {
+                return HttpStatusCode.InternalServerError;
+            }
+        }
+
         public static async Task<(HttpStatusCode, string, string)> GetAdminInfo()
         {
             try
@@ -171,11 +190,11 @@ namespace AdministratorConsole
             }
         }
 
-        public static async Task<(HttpStatusCode, ExternalEntity)> CreateExternalEntity(string name, string endpoint)
+        public static async Task<(HttpStatusCode, ExternalEntity)> CreateExternalEntity(string name, string endpoint, string max_debit)
         {
             try
             {
-                var payload = "{\"Name\": \"" + name + "\",\"Endpoint\": \"" + endpoint + "\"}";
+                var payload = "{\"Name\": \"" + name + "\",\"Endpoint\": \"" + endpoint + "\",\"Max_debit\": \"" + max_debit + "\"}";
                 HttpContent content = new StringContent(payload, Encoding.UTF8, "application/json");
                 HttpResponseMessage response = await client.PostAsync(BaseUrl + "api/externalentities", content);
                 string responseBody = await response.Content.ReadAsStringAsync();
@@ -207,19 +226,6 @@ namespace AdministratorConsole
 
             return (response.StatusCode, users);
         }
-
-        //public static async Task<(HttpStatusCode, VCardExternalEntity)> GetUserByEmail(string email)
-        //{
-        //    HttpResponseMessage response = await client.GetAsync(BaseUrl + "api/users/" + email);
-        //    string responseBody = await response.Content.ReadAsStringAsync();
-
-        //    VCardExternalEntity user = null;
-
-        //    if (response.StatusCode == HttpStatusCode.OK)
-        //        user = JsonConvert.DeserializeObject<VCardExternalEntity>(responseBody);
-
-        //    return (response.StatusCode, user);
-        //}
 
         public static async Task<HttpStatusCode> CreateUser(int externalEntityId, string name, string email, string phoneNumber, string password, string confirmationCode)
         {
@@ -303,5 +309,35 @@ namespace AdministratorConsole
             return (response.StatusCode, 0);
         }
 
+        public static async Task<(HttpStatusCode, List<string>)> GetLogs()
+        {
+            try
+            {
+                HttpResponseMessage response = await client.GetAsync(BaseUrl + "api/logs");
+                string responseBody = await response.Content.ReadAsStringAsync();
+
+                responseBody = responseBody.Replace("\\\"", "\"").Trim('"');
+
+                List<string> logList = new List<string>();
+
+                if (response.StatusCode == HttpStatusCode.OK)
+                {
+                    XmlDocument doc = new XmlDocument();
+
+                    doc.LoadXml(responseBody);
+
+                    foreach (XmlNode node in doc.SelectNodes("/logs/log"))
+                    {
+                        logList.Add(node.InnerText);
+                    }
+                }
+
+                return (response.StatusCode, logList);
+            }
+            catch (HttpRequestException)
+            {
+                return (HttpStatusCode.InternalServerError, null);
+            }
+        }
     }
 }

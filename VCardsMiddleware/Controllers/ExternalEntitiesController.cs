@@ -36,7 +36,8 @@ namespace VCardsMiddleware.Controllers
                         Id = (int)reader["Id"],
                         Name = (string)reader["name"],
                         Endpoint = (string)reader["endpoint"],
-                        Status = await GetEndpointStatus((string)reader["endpoint"])
+                        Status = await GetEndpointStatus((string)reader["endpoint"]),
+                        Max_debit = reader.GetDecimal(3),
                     };
                     externalEntities.Add(externalEntity);
                 }
@@ -64,18 +65,24 @@ namespace VCardsMiddleware.Controllers
                 return BadRequest();
             }
 
+            if (externalEntity.Max_debit <= 0)
+            {
+                return Content((HttpStatusCode)422, "Invalid max debit (must be greater than 0)");
+            }
+
             SqlConnection connection = null;
 
             try
             {
                 connection = new SqlConnection(connectionString);
-                string sql = "INSERT INTO ExternalEntities VALUES (@name, @endpoint)";
+                string sql = "INSERT INTO ExternalEntities VALUES (@name, @endpoint, @max_debit)";
                 connection.Open();
 
                 SqlCommand command = new SqlCommand(sql, connection);
 
                 command.Parameters.AddWithValue("@name", externalEntity.Name);
                 command.Parameters.AddWithValue("@endpoint", externalEntity.Endpoint);
+                command.Parameters.AddWithValue("@max_debit", externalEntity.Max_debit);
 
                 int numeroRegistos = command.ExecuteNonQuery();
 
@@ -112,6 +119,65 @@ namespace VCardsMiddleware.Controllers
             }
         }
 
+        [Route("api/externalentities/{id:int}")]
+        public IHttpActionResult PatchExternalEntity(int id, [FromBody] ExternalEntityPatch externalEntityPatch)
+        {
+
+            SqlConnection connection = null;
+
+            try
+            {
+                connection = new SqlConnection(connectionString);
+
+
+                string sql = "UPDATE ExternalEntities SET max_debit=@max_debit WHERE id=@id";
+
+                connection.Open();
+                SqlCommand commandSearch = new SqlCommand("SELECT * FROM ExternalEntities WHERE id = @id", connection);
+                commandSearch.Parameters.AddWithValue("@id", id);
+
+                SqlCommand command = new SqlCommand(sql, connection);
+                SqlDataReader reader = commandSearch.ExecuteReader();
+
+                if (!reader.Read())
+                {
+                    reader.Close();
+                    connection.Close();
+                    return NotFound();
+                }
+
+                command.Parameters.AddWithValue("@id", id);
+                command.Parameters.AddWithValue("@max_debit", externalEntityPatch.Max_debit);
+
+                reader.Close();
+
+                int numeroRegistos = command.ExecuteNonQuery();
+
+                connection.Close();
+
+                if (numeroRegistos > 0)
+                {
+                    return Ok();
+                }
+                else
+                {
+                    return NotFound();
+                }
+
+            }
+            catch (Exception)
+            {
+                if (connection.State == System.Data.ConnectionState.Open)
+                {
+
+                    connection.Close();
+                }
+
+                return InternalServerError();
+            }
+
+        }
+
         private async Task<char> GetEndpointStatus(string endpoint)
         {
             char status = '0';
@@ -129,6 +195,8 @@ namespace VCardsMiddleware.Controllers
             }
             return status;
         }
+
+        [Route("api/externalentities/{id:int}")]
         public IHttpActionResult Delete(int id)
         {
 

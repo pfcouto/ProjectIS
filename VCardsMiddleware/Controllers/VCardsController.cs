@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
 using BankOne.Models;
+using uPLibrary.Networking.M2Mqtt;
 using VCardsMiddleware.Models;
 
 namespace VCardsMiddleware.Controllers
@@ -196,6 +197,18 @@ namespace VCardsMiddleware.Controllers
 
                         if (numeroRegistos > 0)
                         {
+                            MqttClient mqttClient = new MqttClient("127.0.0.1");
+
+                            mqttClient.Connect(Guid.NewGuid().ToString());
+
+                            if (mqttClient.IsConnected)
+                            {
+                                byte[] generalMsg = Encoding.UTF8.GetBytes($"VCard with phone number {vCard.Phone_number} was created for user {vCard.User_id}");
+                                mqttClient.Publish("operations", generalMsg);
+                            }
+                            XmlHelper.WriteLog("vcardCreated", $"A VCard with phone number {vCard.Phone_number} was created for user {vCard.User_id} of External Entity {vCard.External_entity_id}");
+                            if (mqttClient.IsConnected)
+                                mqttClient.Disconnect();
                             return Ok();
                         }
                         return BadRequest();
@@ -204,12 +217,11 @@ namespace VCardsMiddleware.Controllers
                     }
                     catch (Exception)
                     {
-
                         if (connection.State == System.Data.ConnectionState.Open)
                         {
-
                             connection.Close();
                         }
+                        XmlHelper.WriteLog("vcardCreated", $"Failed to create a VCard for user {vCard.User_id} of External Entity {vCard.External_entity_id}");
                         return InternalServerError();
                     }
 

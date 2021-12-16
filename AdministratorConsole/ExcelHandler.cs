@@ -56,9 +56,6 @@ namespace AdministratorConsole
             excelWorksheet = null;
             execlWorkbook = null;
             GC.Collect();
-
-
         }
-
     }
 }

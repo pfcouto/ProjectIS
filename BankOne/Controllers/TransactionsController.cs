@@ -56,6 +56,8 @@ namespace BankOne.Controllers
 
                 }
 
+                sqlString += " ORDER BY date DESC";
+                
                 command.CommandText = sqlString;
 
                 SqlDataReader reader = command.ExecuteReader();
@@ -271,15 +273,18 @@ namespace BankOne.Controllers
 
                 readerUser.Close();
 
-                if (balance < transaction.Value)
+                if (transaction.Type == 'D')
                 {
-                    connection.Close();
-                    return Content((HttpStatusCode)422, "Insufficient funds");
-                }
-                else if (max_debit < transaction.Value)
-                {
-                    connection.Close();
-                    return Content((HttpStatusCode)422, "Value greater than the max debit of the selected vcard");
+                    if (balance < transaction.Value)
+                    {
+                        connection.Close();
+                        return Content((HttpStatusCode)422, "Insufficient funds");
+                    }
+                    else if (max_debit < transaction.Value)
+                    {
+                        connection.Close();
+                        return Content((HttpStatusCode)422, "Value greater than the max debit of the selected vcard");
+                    }
                 }
 
                 if (transaction.Category_id != 0)

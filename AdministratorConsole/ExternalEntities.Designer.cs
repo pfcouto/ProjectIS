@@ -38,8 +38,12 @@ namespace AdministratorConsole
             this.textBoxEndpoint = new System.Windows.Forms.TextBox();
             this.buttonAddEntity = new System.Windows.Forms.Button();
             this.buttonRemoveEntity = new System.Windows.Forms.Button();
+            this.buttonConfigurations = new System.Windows.Forms.Button();
+            this.label4 = new System.Windows.Forms.Label();
+            this.textBoxMaxDebit = new System.Windows.Forms.TextBox();
             this.Id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.NameColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.MaxDebit = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Endpoint = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Status = new System.Windows.Forms.DataGridViewImageColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewEntities)).BeginInit();
@@ -63,6 +67,7 @@ namespace AdministratorConsole
             this.dataGridViewEntities.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Id,
             this.NameColumn,
+            this.MaxDebit,
             this.Endpoint,
             this.Status});
             this.dataGridViewEntities.Location = new System.Drawing.Point(55, 75);
@@ -108,9 +113,9 @@ namespace AdministratorConsole
             // 
             // buttonAddEntity
             // 
-            this.buttonAddEntity.Location = new System.Drawing.Point(561, 342);
+            this.buttonAddEntity.Location = new System.Drawing.Point(549, 386);
             this.buttonAddEntity.Name = "buttonAddEntity";
-            this.buttonAddEntity.Size = new System.Drawing.Size(177, 70);
+            this.buttonAddEntity.Size = new System.Drawing.Size(201, 39);
             this.buttonAddEntity.TabIndex = 6;
             this.buttonAddEntity.Text = "Add External Entity";
             this.buttonAddEntity.UseVisualStyleBackColor = true;
@@ -126,6 +131,32 @@ namespace AdministratorConsole
             this.buttonRemoveEntity.UseVisualStyleBackColor = true;
             this.buttonRemoveEntity.Click += new System.EventHandler(this.buttonRemoveEntity_Click);
             // 
+            // buttonConfigurations
+            // 
+            this.buttonConfigurations.Location = new System.Drawing.Point(445, 38);
+            this.buttonConfigurations.Name = "buttonConfigurations";
+            this.buttonConfigurations.Size = new System.Drawing.Size(110, 29);
+            this.buttonConfigurations.TabIndex = 8;
+            this.buttonConfigurations.Text = "Configurations";
+            this.buttonConfigurations.UseVisualStyleBackColor = true;
+            this.buttonConfigurations.Click += new System.EventHandler(this.buttonConfigurations_Click);
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(546, 322);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(70, 17);
+            this.label4.TabIndex = 9;
+            this.label4.Text = "Max Debit";
+            // 
+            // textBoxMaxDebit
+            // 
+            this.textBoxMaxDebit.Location = new System.Drawing.Point(549, 342);
+            this.textBoxMaxDebit.Name = "textBoxMaxDebit";
+            this.textBoxMaxDebit.Size = new System.Drawing.Size(201, 22);
+            this.textBoxMaxDebit.TabIndex = 10;
+            // 
             // Id
             // 
             this.Id.HeaderText = "Id";
@@ -139,6 +170,13 @@ namespace AdministratorConsole
             this.NameColumn.MinimumWidth = 6;
             this.NameColumn.Name = "NameColumn";
             this.NameColumn.ReadOnly = true;
+            // 
+            // MaxDebit
+            // 
+            this.MaxDebit.HeaderText = "Max Debit";
+            this.MaxDebit.MinimumWidth = 6;
+            this.MaxDebit.Name = "MaxDebit";
+            this.MaxDebit.ReadOnly = true;
             // 
             // Endpoint
             // 
@@ -161,6 +199,9 @@ namespace AdministratorConsole
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.textBoxMaxDebit);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.buttonConfigurations);
             this.Controls.Add(this.buttonRemoveEntity);
             this.Controls.Add(this.buttonAddEntity);
             this.Controls.Add(this.textBoxEndpoint);
@@ -192,8 +233,12 @@ namespace AdministratorConsole
         private System.Windows.Forms.TextBox textBoxEndpoint;
         private System.Windows.Forms.Button buttonAddEntity;
         private System.Windows.Forms.Button buttonRemoveEntity;
+        private System.Windows.Forms.Button buttonConfigurations;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.TextBox textBoxMaxDebit;
         private System.Windows.Forms.DataGridViewTextBoxColumn Id;
         private System.Windows.Forms.DataGridViewTextBoxColumn NameColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn MaxDebit;
         private System.Windows.Forms.DataGridViewTextBoxColumn Endpoint;
         private System.Windows.Forms.DataGridViewImageColumn Status;
     }

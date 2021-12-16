@@ -29,12 +29,13 @@ namespace AdministratorConsole
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(VCards));
             this.dataGridViewVCards = new System.Windows.Forms.DataGridView();
             this.PhoneNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ExternalEntity = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Balance = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label1 = new System.Windows.Forms.Label();
             this.buttonRefreshBalance = new System.Windows.Forms.Button();
-            this.Balance = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewVCards)).BeginInit();
             this.SuspendLayout();
             // 
@@ -48,60 +49,69 @@ namespace AdministratorConsole
             this.PhoneNumber,
             this.ExternalEntity,
             this.Balance});
-            this.dataGridViewVCards.Location = new System.Drawing.Point(32, 56);
+            this.dataGridViewVCards.Location = new System.Drawing.Point(43, 69);
+            this.dataGridViewVCards.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.dataGridViewVCards.Name = "dataGridViewVCards";
             this.dataGridViewVCards.ReadOnly = true;
+            this.dataGridViewVCards.RowHeadersWidth = 51;
             this.dataGridViewVCards.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridViewVCards.Size = new System.Drawing.Size(729, 187);
+            this.dataGridViewVCards.Size = new System.Drawing.Size(972, 380);
             this.dataGridViewVCards.TabIndex = 0;
             // 
             // PhoneNumber
             // 
             this.PhoneNumber.HeaderText = "Phone Number";
+            this.PhoneNumber.MinimumWidth = 6;
             this.PhoneNumber.Name = "PhoneNumber";
             this.PhoneNumber.ReadOnly = true;
             // 
             // ExternalEntity
             // 
             this.ExternalEntity.HeaderText = "External Entity Code";
+            this.ExternalEntity.MinimumWidth = 6;
             this.ExternalEntity.Name = "ExternalEntity";
             this.ExternalEntity.ReadOnly = true;
+            // 
+            // Balance
+            // 
+            this.Balance.HeaderText = "Balance";
+            this.Balance.MinimumWidth = 6;
+            this.Balance.Name = "Balance";
+            this.Balance.ReadOnly = true;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(29, 27);
+            this.label1.Location = new System.Drawing.Point(39, 33);
+            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(41, 13);
+            this.label1.Size = new System.Drawing.Size(54, 17);
             this.label1.TabIndex = 1;
             this.label1.Text = "VCards";
             // 
             // buttonRefreshBalance
             // 
-            this.buttonRefreshBalance.Location = new System.Drawing.Point(635, 249);
+            this.buttonRefreshBalance.Location = new System.Drawing.Point(847, 457);
+            this.buttonRefreshBalance.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.buttonRefreshBalance.Name = "buttonRefreshBalance";
-            this.buttonRefreshBalance.Size = new System.Drawing.Size(126, 38);
+            this.buttonRefreshBalance.Size = new System.Drawing.Size(168, 47);
             this.buttonRefreshBalance.TabIndex = 2;
             this.buttonRefreshBalance.Text = "Refresh Balance";
             this.buttonRefreshBalance.UseVisualStyleBackColor = true;
             this.buttonRefreshBalance.Click += new System.EventHandler(this.buttonRefreshBalance_Click);
             // 
-            // Balance
-            // 
-            this.Balance.HeaderText = "Balance";
-            this.Balance.Name = "Balance";
-            this.Balance.ReadOnly = true;
-            // 
             // VCards
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(1064, 544);
             this.Controls.Add(this.buttonRefreshBalance);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.dataGridViewVCards);
-            this.MaximumSize = new System.Drawing.Size(816, 489);
-            this.MinimumSize = new System.Drawing.Size(816, 489);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.MaximumSize = new System.Drawing.Size(1082, 591);
+            this.MinimumSize = new System.Drawing.Size(1082, 591);
             this.Name = "VCards";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "VCards";

@@ -11,5 +11,6 @@ namespace VCardsMiddleware.Models
         public string Name { get; set; }
         public string Endpoint { get; set; }
         public char Status { get; set; }
+        public decimal Max_debit { get; set; }
     }
 }

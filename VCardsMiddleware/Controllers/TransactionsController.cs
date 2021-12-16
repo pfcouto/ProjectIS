@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Newtonsoft.Json;
+using uPLibrary.Networking.M2Mqtt;
 using VCardsMiddleware.Models;
 
 namespace VCardsMiddleware.Controllers
@@ -221,7 +222,7 @@ namespace VCardsMiddleware.Controllers
                     if (responseSource.StatusCode != HttpStatusCode.OK)
                     {
                         connection.Close();
-                        return Content((HttpStatusCode)responseSource.StatusCode, "An error occurred in the external entity associated with the transaction creator vcard: " + responseSourceMessage);
+                        return Content((HttpStatusCode)responseSource.StatusCode, "An error occurred in the external entity associated with the transaction creator vcard: " + responseSourceMessage.Trim('"'));
                     }
 
                     TransactionPost transactionPair = new TransactionPost()
@@ -241,10 +242,25 @@ namespace VCardsMiddleware.Controllers
                     if (responseDestiny.StatusCode != HttpStatusCode.OK)
                     {
                         connection.Close();
-                        return Content((HttpStatusCode)responseDestiny.StatusCode, "An error occurred in the external entity associated with the transaction receiver vcard: " + responseDestinyMessage);
+                        return Content((HttpStatusCode)responseDestiny.StatusCode, "An error occurred in the external entity associated with the transaction receiver vcard: " + responseDestinyMessage.Trim('"'));
                     }
                 }
 
+                MqttClient mqttClient = new MqttClient("127.0.0.1");
+
+                mqttClient.Connect(Guid.NewGuid().ToString());
+
+                if (mqttClient.IsConnected)
+                {
+                    byte[] generalMsg = Encoding.UTF8.GetBytes($"Transaction of {transaction.Value}€ from {transaction.VCard} to {transaction.Payment_reference}");
+                    mqttClient.Publish("operations", generalMsg);
+                    byte[] destinyMsg = Encoding.UTF8.GetBytes($"You received a transaction of {transaction.Value}€ from {transaction.VCard}");
+                    mqttClient.Publish(transaction.Payment_reference, destinyMsg);
+                }
+                 
+                XmlHelper.WriteLog("transaction", $"Transaction with success between vcard {transaction.VCard} and {transaction.Payment_reference}");
+                if (mqttClient.IsConnected)
+                    mqttClient.Disconnect();
                 return Ok(transaction);
             }
             catch (Exception e)
@@ -253,6 +269,7 @@ namespace VCardsMiddleware.Controllers
                 {
                     connection.Close();
                 }
+                XmlHelper.WriteLog("transaction", $"Transaction between vcard {transaction.VCard} and {transaction.Payment_reference} failed");
                 return InternalServerError(e);
             }
         }
