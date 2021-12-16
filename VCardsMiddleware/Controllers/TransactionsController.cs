@@ -70,33 +70,34 @@ namespace VCardsMiddleware.Controllers
                     }
                 }
 
-                if (externalEntityId >= 0)
-                {
-                    if (!string.IsNullOrEmpty(type) || (!string.IsNullOrEmpty(dateFrom) && !string.IsNullOrEmpty(dateTo)))
-                    {
-                        endpointIncrement += "&externalEntityId=" + externalEntityId;
-                    }
-                    else
-                    {
-                        endpointIncrement += "externalEntityId=" + externalEntityId;
-                    }
+                //if (externalEntityId >= 0)
+                //{
+                //    if (!string.IsNullOrEmpty(type) || (!string.IsNullOrEmpty(dateFrom) && !string.IsNullOrEmpty(dateTo)))
+                //    {
+                //        endpointIncrement += "&externalEntityId=" + externalEntityId;
+                //    }
+                //    else
+                //    {
+                //        endpointIncrement += "externalEntityId=" + externalEntityId;
+                //    }
 
-                }
+                //}
 
                 while (reader.Read())
                 {
                     endpoint = (string)reader["endpoint"];
                     endpoint += "api/transactions" + endpointIncrement;
 
-
                     HttpResponseMessage response = await client.GetAsync(endpoint);
-                    string responseBody = await response.Content.ReadAsStringAsync();
 
                     if (response.StatusCode == HttpStatusCode.OK)
                     {
+                        string responseBody = await response.Content.ReadAsStringAsync();
+
                         transactions = JsonConvert.DeserializeObject<List<Transaction>>(responseBody);
+                        fullTransactions.AddRange(transactions);
+
                     }
-                    fullTransactions.AddRange(transactions);
                 }
 
                 return Ok(fullTransactions);
