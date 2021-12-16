@@ -207,19 +207,7 @@ namespace AdministratorConsole
 
             return (response.StatusCode, users);
         }
-
-        //public static async Task<(HttpStatusCode, VCardExternalEntity)> GetUserByEmail(string email)
-        //{
-        //    HttpResponseMessage response = await client.GetAsync(BaseUrl + "api/users/" + email);
-        //    string responseBody = await response.Content.ReadAsStringAsync();
-
-        //    VCardExternalEntity user = null;
-
-        //    if (response.StatusCode == HttpStatusCode.OK)
-        //        user = JsonConvert.DeserializeObject<VCardExternalEntity>(responseBody);
-
-        //    return (response.StatusCode, user);
-        //}
+        
 
         public static async Task<HttpStatusCode> CreateUser(int externalEntityId, string name, string email, string phoneNumber, string password, string confirmationCode, string base64Picture)
         {

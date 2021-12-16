@@ -81,7 +81,7 @@ namespace AdministratorConsole
             else
             {
                 MessageBox.Show("Some error occured while fetching transactions");
-                labelCounter.Text = response.Item2.Count + " Transaction(s)";
+                labelCounter.Text = 0 + " Transaction(s)";
                 dataGridViewTransactions.Rows.Clear();
             }
         }

@@ -28,6 +28,8 @@ namespace AdministratorConsole
                 {
                     dataGridViewVCards.BeginInvoke((MethodInvoker)delegate { dataGridViewVCards.Rows.Add(user.PhoneNumber, user.ExternalEntityId, null); });
                 }
+
+                totalVCards.Text = response.Item2.Count + " VCard(s)";
             }
             else
             {
@@ -38,13 +40,14 @@ namespace AdministratorConsole
         private async void buttonRefreshBalance_Click(object sender, EventArgs e)
         {
             var selectedRowsCount = dataGridViewVCards.SelectedRows.Count;
-            if (selectedRowsCount < 1)
+            MessageBox.Show(dataGridViewVCards.SelectedRows.Count.ToString());
+            if (selectedRowsCount == 0)
             {
-                fetchBalance(false);
+                fetchBalance(true);
             }
             else
             {
-                fetchBalance(true);
+                fetchBalance(false);
             }
         }
 

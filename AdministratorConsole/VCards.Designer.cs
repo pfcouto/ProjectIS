@@ -32,9 +32,10 @@ namespace AdministratorConsole
             this.dataGridViewVCards = new System.Windows.Forms.DataGridView();
             this.PhoneNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ExternalEntity = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Balance = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label1 = new System.Windows.Forms.Label();
             this.buttonRefreshBalance = new System.Windows.Forms.Button();
-            this.Balance = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.totalVCards = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewVCards)).BeginInit();
             this.SuspendLayout();
             // 
@@ -52,7 +53,7 @@ namespace AdministratorConsole
             this.dataGridViewVCards.Name = "dataGridViewVCards";
             this.dataGridViewVCards.ReadOnly = true;
             this.dataGridViewVCards.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridViewVCards.Size = new System.Drawing.Size(729, 187);
+            this.dataGridViewVCards.Size = new System.Drawing.Size(729, 251);
             this.dataGridViewVCards.TabIndex = 0;
             // 
             // PhoneNumber
@@ -67,6 +68,12 @@ namespace AdministratorConsole
             this.ExternalEntity.Name = "ExternalEntity";
             this.ExternalEntity.ReadOnly = true;
             // 
+            // Balance
+            // 
+            this.Balance.HeaderText = "Balance";
+            this.Balance.Name = "Balance";
+            this.Balance.ReadOnly = true;
+            // 
             // label1
             // 
             this.label1.AutoSize = true;
@@ -78,7 +85,7 @@ namespace AdministratorConsole
             // 
             // buttonRefreshBalance
             // 
-            this.buttonRefreshBalance.Location = new System.Drawing.Point(635, 249);
+            this.buttonRefreshBalance.Location = new System.Drawing.Point(635, 313);
             this.buttonRefreshBalance.Name = "buttonRefreshBalance";
             this.buttonRefreshBalance.Size = new System.Drawing.Size(126, 38);
             this.buttonRefreshBalance.TabIndex = 2;
@@ -86,22 +93,25 @@ namespace AdministratorConsole
             this.buttonRefreshBalance.UseVisualStyleBackColor = true;
             this.buttonRefreshBalance.Click += new System.EventHandler(this.buttonRefreshBalance_Click);
             // 
-            // Balance
+            // totalVCards
             // 
-            this.Balance.HeaderText = "Balance";
-            this.Balance.Name = "Balance";
-            this.Balance.ReadOnly = true;
+            this.totalVCards.AutoSize = true;
+            this.totalVCards.Location = new System.Drawing.Point(29, 313);
+            this.totalVCards.Name = "totalVCards";
+            this.totalVCards.Size = new System.Drawing.Size(0, 13);
+            this.totalVCards.TabIndex = 3;
             // 
             // VCards
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(800, 386);
+            this.Controls.Add(this.totalVCards);
             this.Controls.Add(this.buttonRefreshBalance);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.dataGridViewVCards);
-            this.MaximumSize = new System.Drawing.Size(816, 489);
-            this.MinimumSize = new System.Drawing.Size(816, 489);
+            this.MaximumSize = new System.Drawing.Size(816, 425);
+            this.MinimumSize = new System.Drawing.Size(816, 425);
             this.Name = "VCards";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "VCards";
@@ -120,5 +130,6 @@ namespace AdministratorConsole
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button buttonRefreshBalance;
         private System.Windows.Forms.DataGridViewTextBoxColumn Balance;
+        private System.Windows.Forms.Label totalVCards;
     }
 }
