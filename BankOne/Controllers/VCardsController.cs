@@ -46,13 +46,13 @@ namespace BankOne.Controllers
                 reader.Close();
                 conn.Close();
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 if (conn.State == System.Data.ConnectionState.Open)
                 {
                     conn.Close();
                 }
-                return InternalServerError(e);
+                return InternalServerError();
             }
 
             return Ok(vCards);
@@ -138,13 +138,13 @@ namespace BankOne.Controllers
                 reader.Close();
                 conn.Close();
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 if (conn.State == System.Data.ConnectionState.Open)
                 {
                     conn.Close();
                 }
-                return BadRequest(e.Message);
+                return BadRequest();
             }
 
             return Ok(vCards);
@@ -195,7 +195,7 @@ namespace BankOne.Controllers
                 }
 
                 connection.Close();
-                
+
 
                 connection = new SqlConnection(connectionString);
                 connection.Open();
@@ -219,13 +219,13 @@ namespace BankOne.Controllers
                 return BadRequest();
 
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 if (connection.State == System.Data.ConnectionState.Open)
                 {
                     connection.Close();
                 }
-                return InternalServerError(e);
+                return InternalServerError();
             }
         }
 
@@ -278,14 +278,14 @@ namespace BankOne.Controllers
 
 
             }
-            catch (Exception e)
+            catch (Exception)
             {
 
                 if (connection.State == System.Data.ConnectionState.Open)
                 {
                     connection.Close();
                 }
-                return InternalServerError(e);
+                return InternalServerError();
             }
 
         }
@@ -337,14 +337,14 @@ namespace BankOne.Controllers
 
 
             }
-            catch (Exception e)
+            catch (Exception)
             {
 
                 if (connection.State == System.Data.ConnectionState.Open)
                 {
                     connection.Close();
                 }
-                return InternalServerError(e);
+                return InternalServerError();
             }
 
         }
@@ -396,14 +396,14 @@ namespace BankOne.Controllers
 
 
             }
-            catch (Exception e)
+            catch (Exception)
             {
 
                 if (connection.State == System.Data.ConnectionState.Open)
                 {
                     connection.Close();
                 }
-                return InternalServerError(e);
+                return InternalServerError();
             }
 
         }
@@ -434,34 +434,38 @@ namespace BankOne.Controllers
                 return NotFound();
 
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 if (connection.State == System.Data.ConnectionState.Open)
                 {
                     connection.Close();
                 }
-                return InternalServerError(e);
+                return InternalServerError();
             }
         }
 
-        [Route("api/vcards/{phoneNumber}/balance")]
-        public IHttpActionResult GetVCardBalance(string phoneNumber)
+        [Route("api/vcards/{phoneNumber}/balanceEarningPercentage")]
+        public IHttpActionResult GetVCardBalanceEarningPercentage(string phoneNumber)
         {
             SqlConnection conn = null;
-            decimal balance;
+            BalanceEarningPercentage be = null;
+
 
             try
             {
                 conn = new SqlConnection(connectionString);
                 conn.Open();
 
-                SqlCommand command = new SqlCommand("SELECT balance FROM VCards WHERE phone_number = @phone_number", conn);
+                SqlCommand command = new SqlCommand("SELECT balance,earning_percentage FROM VCards WHERE phone_number = @phone_number", conn);
                 command.Parameters.AddWithValue("@phone_number", phoneNumber);
                 SqlDataReader reader = command.ExecuteReader();
-
                 if (reader.Read())
                 {
-                    balance = reader.GetDecimal(0);
+                    be = new BalanceEarningPercentage()
+                    {
+                        Balance = reader.GetDecimal(0),
+                        EarningPercentage = reader.GetDecimal(1)
+                    };
                 }
                 else
                 {
@@ -481,7 +485,7 @@ namespace BankOne.Controllers
                 return BadRequest();
             }
 
-            return Ok(balance);
+            return Ok(be);
         }
     }
 }

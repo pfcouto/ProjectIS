@@ -139,6 +139,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\BalanceEarningPercentage.cs" />
     <Compile Include="Models\ExternalEntityPatch.cs" />
     <Compile Include="Models\TransactionPost.cs" />
     <Compile Include="Models\Transaction.cs" />

@@ -443,24 +443,28 @@ namespace BankTwo.Controllers
             }
         }
 
-        [Route("api/vcards/{phoneNumber}/balance")]
-        public IHttpActionResult GetVCardBalance(string phoneNumber)
+        [Route("api/vcards/{phoneNumber}/balanceEarningPercentage")]
+        public IHttpActionResult GetVCardBalanceEarningPercentage(string phoneNumber)
         {
             SqlConnection conn = null;
-            decimal balance;
+            BalanceEarningPercentage be = null;
+
 
             try
             {
                 conn = new SqlConnection(connectionString);
                 conn.Open();
 
-                SqlCommand command = new SqlCommand("SELECT balance FROM VCards WHERE phone_number = @phone_number", conn);
+                SqlCommand command = new SqlCommand("SELECT balance,earning_percentage FROM VCards WHERE phone_number = @phone_number", conn);
                 command.Parameters.AddWithValue("@phone_number", phoneNumber);
                 SqlDataReader reader = command.ExecuteReader();
-
                 if (reader.Read())
                 {
-                    balance = reader.GetDecimal(0);
+                    be = new BalanceEarningPercentage()
+                    {
+                        Balance = reader.GetDecimal(0),
+                        EarningPercentage = reader.GetDecimal(1)
+                    };
                 }
                 else
                 {
@@ -480,7 +484,7 @@ namespace BankTwo.Controllers
                 return BadRequest();
             }
 
-            return Ok(balance);
+            return Ok(be);
         }
     }
 }

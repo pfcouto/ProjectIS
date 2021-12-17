@@ -10,6 +10,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Http;
 using BankOne.Models;
+using Newtonsoft.Json;
 using uPLibrary.Networking.M2Mqtt;
 using VCardsMiddleware.Models;
 
@@ -65,13 +66,12 @@ namespace VCardsMiddleware.Controllers
 
 
         [Authorize(Roles = "admin")]
-        [Route("api/VCards/{phoneNumber}/balance")]
+        [Route("api/vcards/{phoneNumber}/balanceEarningPercentage")]
         public async Task<IHttpActionResult> GetBalance(string phoneNumber)
         {
             SqlConnection conn = null;
             decimal balance = 0;
             string endpoint = null;
-
 
             try
             {
@@ -126,9 +126,9 @@ namespace VCardsMiddleware.Controllers
             }
 
 
-            //request balance from entity
+            //request to entity
             HttpClient client = new HttpClient();
-            HttpResponseMessage response = await client.GetAsync(endpoint + "api/vcards/" + phoneNumber + "/balance");
+            HttpResponseMessage response = await client.GetAsync(endpoint + "api/vcards/" + phoneNumber + "/balanceEarningPercentage");
 
             if (response.StatusCode != HttpStatusCode.OK)
             {
@@ -137,9 +137,89 @@ namespace VCardsMiddleware.Controllers
 
             var content = await response.Content.ReadAsStringAsync();
 
-            //return Ok(content);
-            return Ok(Decimal.Parse(content, NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture));
+            BalanceEarningPercentage be = JsonConvert.DeserializeObject<BalanceEarningPercentage>(content);
+
+            return Ok(be);
         }
+
+        [Authorize(Roles = "admin")]
+        [Route("api/vcards/{phoneNumber}/earningPercentage")]
+        public async Task<IHttpActionResult> PatchEarningBalance(string phoneNumber, [FromBody] string earningPercentage)
+        {
+            SqlConnection conn = null;
+            decimal balance = 0;
+            string endpoint = null;
+
+            try
+            {
+                conn = new SqlConnection(connectionString);
+                conn.Open();
+
+                SqlCommand command = new SqlCommand("SELECT * FROM VCards WHERE phone_number = @phoneNumber", conn);
+                command.Parameters.AddWithValue("@phoneNumber", phoneNumber);
+                SqlDataReader reader = command.ExecuteReader();
+                int id;
+                if (reader.Read())
+                {
+                    id = (int)reader["external_entity_id"];
+                }
+                else
+                {
+                    throw new Exception();
+                }
+
+                reader.Close();
+
+
+                //get endpoint
+                conn = new SqlConnection(connectionString);
+                conn.Open();
+
+                command = new SqlCommand("SELECT endpoint FROM ExternalEntities WHERE Id = @Id", conn);
+                command.Parameters.AddWithValue("@Id", id);
+                reader = command.ExecuteReader();
+                if (reader.Read())
+                {
+                    endpoint = (string)reader["endpoint"];
+                }
+                else
+                {
+                    throw new Exception();
+                }
+
+                reader.Close();
+
+
+                conn.Close();
+            }
+            catch (Exception)
+            {
+                if (conn.State == System.Data.ConnectionState.Open)
+                {
+                    conn.Close();
+                }
+
+                return InternalServerError();
+            }
+
+
+            //request to entity
+            HttpClient client = new HttpClient();
+
+            endpoint += "api/vcards/" + phoneNumber + "/earningPercentage";
+
+            var request = new HttpRequestMessage(new HttpMethod("PATCH"), endpoint);
+            request.Content = new StringContent( earningPercentage , Encoding.UTF8, "application/json");
+            HttpResponseMessage response = await client.SendAsync(request);
+
+            if (response.StatusCode != HttpStatusCode.OK)
+            {
+                return InternalServerError();
+            }
+
+            return Ok();
+        }
+
 
         public async Task<IHttpActionResult> PostVCard([FromBody] VCardUserPassword vCard)
         {
@@ -210,15 +290,15 @@ namespace VCardsMiddleware.Controllers
                                     byte[] generalMsg = Encoding.UTF8.GetBytes($"VCard with phone number {vCard.Phone_number} was created for user {vCard.User_id}");
                                     mqttClient.Publish("operations", generalMsg);
                                 }
-                                
+
                                 if (mqttClient.IsConnected)
                                     Thread.Sleep(500);
                                 mqttClient.Disconnect();
                             }
-                            catch (Exception )
+                            catch (Exception)
                             {
                             }
-                            
+
                             return Ok();
                         }
                         return BadRequest();

@@ -226,7 +226,7 @@ namespace AdministratorConsole
 
             return (response.StatusCode, users);
         }
-        
+
 
         public static async Task<HttpStatusCode> CreateUser(int externalEntityId, string name, string email, string phoneNumber, string password, string confirmationCode, string base64Picture)
         {
@@ -297,17 +297,19 @@ namespace AdministratorConsole
             return (response.StatusCode, transactions);
         }
 
-        public static async Task<(HttpStatusCode, Decimal)> GetBalanceOfVCard(string phoneNumber)
+        public static async Task<(HttpStatusCode, BalanceEarningPercentage)> GetBalanceEarningPercentageOfVCard(string phoneNumber)
         {
-            string endpoint = BaseUrl + "api/vcards/" + phoneNumber + "/balance";
+            string endpoint = BaseUrl + "api/vcards/" + phoneNumber + "/balanceEarningPercentage";
 
             HttpResponseMessage response = await client.GetAsync(endpoint);
             if (response.StatusCode == HttpStatusCode.OK)
             {
                 string responseBody = await response.Content.ReadAsStringAsync();
-                return (response.StatusCode, Decimal.Parse(responseBody, NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture));
+                BalanceEarningPercentage be = JsonConvert.DeserializeObject<BalanceEarningPercentage>(responseBody);
+                return (response.StatusCode, be);
+                //return (response.StatusCode, Decimal.Parse(responseBody, NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture));
             }
-            return (response.StatusCode, 0);
+            return (response.StatusCode, null);
         }
 
         public static async Task<(HttpStatusCode, List<string>)> GetLogs()
@@ -339,6 +341,17 @@ namespace AdministratorConsole
             {
                 return (HttpStatusCode.InternalServerError, null);
             }
+        }
+
+        public static async Task<HttpStatusCode> PatchEarningPercentage(string phoneNumber, decimal value)
+        {
+            string endpoint = BaseUrl + "api/vcards/" + phoneNumber + "/earningPercentage";
+
+            var request = new HttpRequestMessage(new HttpMethod("PATCH"), endpoint);
+            request.Content = new StringContent(value.ToString("0.00", CultureInfo.InvariantCulture), Encoding.UTF8, "application/json");
+            HttpResponseMessage response = await client.SendAsync(request);
+            return response.StatusCode;
+
         }
     }
 }

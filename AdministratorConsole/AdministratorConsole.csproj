@@ -91,6 +91,7 @@
     <Compile Include="Users.Designer.cs">
       <DependentUpon>Users.cs</DependentUpon>
     </Compile>
+    <Compile Include="BalanceEarningPercentage.cs" />
     <Compile Include="VCardExternalEntity.cs" />
     <Compile Include="Dashboard.cs">
       <SubType>Form</SubType>
