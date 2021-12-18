@@ -1,0 +1,42 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>RESTful Web Service - VCards Platform</title>
+    <meta charset="utf-8" />
+</head>
+<body>
+    <div id="main">
+        <h1>Welcome to VCards Documentation</h1>
+        <br />
+        <br />
+        <h3>Please use the bellow links to access the endpoints documentation</h3>
+        <a href="http://localhost:50148/swagger">
+            <button>
+                <h4>Middleware</h4>
+            </button></a>
+        <br />
+        <br />
+
+    </div>
+    <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.1.4.min.js"></script>
+    <script>
+        var uri = 'http://localhost:50148/api/externalEntities';
+        $(document).ready(function () {
+            $.get(uri)
+                .done(function (data) {
+                    //alert(data);
+                    console.log(data);
+                    $.each(data,
+                        function (key, item) {
+                            $('<a href="' + item.Endpoint + '/swagger"><button><h4>' + item.Name + '</h4></button></a><br /><br />').appendTo($('#main'));
+                        });
+                })
+                .fail(function (jqxhr, textStatus, error) {
+                    var err = textStatus + ", " + error;
+                    alert("Request failed: " + err);
+                });
+        });
+
+    </script>
+</body>
+</html>

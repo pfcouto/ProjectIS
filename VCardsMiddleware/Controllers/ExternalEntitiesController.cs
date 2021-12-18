@@ -14,7 +14,6 @@ namespace VCardsMiddleware.Controllers
     {
         string connectionString = Properties.Settings.Default.DBConnString;
         
-        [Authorize(Roles = "admin")]
         public async Task<IHttpActionResult> GetAll()
         {
             List<ExternalEntity> externalEntities = new List<ExternalEntity>();
